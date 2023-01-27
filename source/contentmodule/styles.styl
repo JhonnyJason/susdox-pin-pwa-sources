@@ -1,0 +1,52 @@
+// content styles
+#content
+    display grid
+    grid-template-columns: 1fr
+    grid-template-rows: 60% 15% 25%
+    position relative
+    background-color transparent    
+    width 100%
+    height 100%
+    box-sizing: border-box
+    padding 20px
+
+    #logo-area
+        display flex
+        width 100%
+        height 100%
+        align-items: center
+
+        #susdox-logo
+            border solid 1px cd-darkblue
+            height 200px
+            width 200px
+            margin auto
+            background-image: url("/img/sustsol_logo.png")
+            background-size: contain
+            background-repeat no-repeat
+            background-position center
+    #link-area
+        display flex
+        width 100%
+        height 100%
+        align-items: center
+        a
+            width 100%
+            text-align center
+            text-decoration: underline
+            font-size: 15pt
+            color #3366CC
+
+    #button-area
+        display flex
+        width 100%
+        height 100%
+        align-items: center
+
+        #add-code-button
+            background-color: cd-turquoise
+            color white
+            border-radius: 10px
+            padding 20px
+            font-size 17pt
+            margin auto
