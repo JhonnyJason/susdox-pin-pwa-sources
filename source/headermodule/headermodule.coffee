@@ -5,7 +5,16 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
+import * as content from "./contentmodule.js"
+
+############################################################
 export initialize = ->
     log "initialize"
-    #Implement or Remove :-)
+    susdoxLogo.addEventListener("click", susdoxLogoClicked)
+    return
+
+############################################################
+susdoxLogoClicked = ->
+    log "susdoxLogoClicked"
+    content.setToDefault()
     return

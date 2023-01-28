@@ -46,6 +46,16 @@ loginButtonClicked = (evnt) ->
 
 
 ############################################################
+export setToDefault = ->
+    log "setToDefault"
+    content.classList.remove("login")
+    content.classList.remove("logging-in")
+    ## TODO remove rest
+    # content.classList.remove("")
+    
+    return
+
+############################################################
 export setToUserPage = ->
     log "setToUserPage"
     ## TODO implement
