@@ -7,5 +7,26 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 export initialize = ->
     log "initialize"
-    #Implement or Remove :-)
+    addCodeButton.addEventListener("click", addCodeButtonClicked)
+    loginButton.addEventListener("click", loginButtonClicked)
+
+    return
+
+############################################################
+addCodeButtonClicked = (evnt) ->
+    log "addCodeButtonClicked"
+    content.classList.add("login")
+    return
+
+############################################################
+loginButtonClicked = (evnt) ->
+    log "loginButtonClicked"
+    content.classList.remove("login")
+    return
+
+
+############################################################
+export setToUserPage = ->
+    log "setToUserPage"
+    ## TODO implement
     return

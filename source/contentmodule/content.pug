@@ -1,8 +1,11 @@
 //- content structure
-#content
+#content.login
     #logo-area
         #susdox-logo
+        #login-frame: include ../loginframemodule/loginframe.pug
+
     #link-area
         a#susdox-link(href="https://www.bilder-befunde.at" target="_blank") www.bilder-befunde.at
     #button-area 
         #add-code-button.click-button=content.addCodeButtonText
+        #login-button.click-button=content.loginButtonText

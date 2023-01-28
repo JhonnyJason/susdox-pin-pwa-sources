@@ -1,0 +1,32 @@
+// loginframe styles
+#loginframe-container
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%, -50%)
+    width 100%
+    label
+        display block
+        font-size: 12pt
+        color alpha(cd-darkblue, 0.8)
+    label:nth-child(3)
+        margin-top 10px
+    input
+        display: block
+        box-sizing: border-box
+        text-overflow: ellipsis;
+        padding: 7px
+        box-sizing: border-box
+        color cd-darkblue
+        background-color white
+        border solid 1px cd-darkblue
+        width 100%
+        text-align: center
+
+    input:focus
+        padding: 7px
+        background-color white
+
+#loginframe-container.error 
+    input
+        border solid 1px red

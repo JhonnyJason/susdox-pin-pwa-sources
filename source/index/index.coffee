@@ -7,7 +7,7 @@ global.allModules = Modules
 ############################################################
 appStartup = ->
     ## which modules shall be kickstarted?
-    # Modules.appcoremodule.startUp()
+    Modules.appcoremodule.startUp()
     return
 
 ############################################################

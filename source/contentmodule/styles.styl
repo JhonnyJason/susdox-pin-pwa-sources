@@ -2,7 +2,7 @@
 #content
     display grid
     grid-template-columns: 1fr
-    grid-template-rows: 60% 15% 25%
+    grid-template-rows: 65% 10% 25%
     position relative
     background-color transparent    
     width 100%
@@ -10,21 +10,6 @@
     box-sizing: border-box
     padding 20px
 
-    #logo-area
-        display flex
-        width 100%
-        height 100%
-        align-items: center
-
-        #susdox-logo
-            border solid 1px cd-darkblue
-            height 200px
-            width 200px
-            margin auto
-            background-image: url("/img/sustsol_logo.png")
-            background-size: contain
-            background-repeat no-repeat
-            background-position center
     #link-area
         display flex
         width 100%
@@ -37,16 +22,78 @@
             font-size: 15pt
             color #3366CC
 
-    #button-area
+
+
+    #logo-area
+        position relative
         display flex
         width 100%
         height 100%
         align-items: center
+        // border solid 1px cd-darkblue
+        overflow: hidden
 
-        #add-code-button
-            background-color: cd-turquoise
-            color white
-            border-radius: 10px
-            padding 20px
-            font-size 17pt
-            margin auto
+    #logo-area > *
+        position absolute
+        top 50%
+        left 50%
+        height 220px
+        width 220px
+        transition transform 0.3s
+
+    #susdox-logo        
+        transform translate(-50%, -50%)
+        background-image: url("/img/sustsol_logo.png")
+        background-size: contain
+        background-repeat no-repeat
+        background-position center
+
+    #login-frame  
+        transform translate(-50%, 65vh)
+
+
+
+    #button-area
+        position: relative
+        display flex
+        width 100%
+        height 100%
+        align-items: center
+        overflow hidden
+
+    #button-area > *
+        position absolute
+        top 50%
+        left 50%
+        background-color: cd-turquoise
+        color white
+        border-radius: 10px
+        width 220px
+        box-sizing: border-box
+        padding 20px
+        font-size 15pt
+        text-align: center
+        transition transform 0.3s
+
+    #add-code-button  
+        transform translate(-50%, -50%)
+
+    #login-button  
+        transform translate(-50%, 25vh)
+
+
+
+
+#content.login
+
+    #add-code-button  
+        transform translate(-50%, -25vh)
+
+    #login-button  
+        transform translate(-50%, -50%)
+
+    #susdox-logo        
+        transform translate(-50%, -65vh)
+
+    #login-frame  
+        transform translate(-50%, -50%)
