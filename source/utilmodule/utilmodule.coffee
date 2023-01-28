@@ -195,5 +195,4 @@ export isBase32String = (string) -> base32Regex.test(string)
 
 ############################################################
 export waitMS = (timeMS) ->
-    return new Promise (resolve, reject) ->
-        setTimeout(resolve, timeMS)
+    return new Promise (resolve, reject) -> setTimeout(resolve, timeMS)
