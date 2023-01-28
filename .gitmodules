@@ -4,3 +4,6 @@
 [submodule "source/statemodule"]
 	path = source/statemodule
 	url = git@github.com:JhonnyJason/pwa-sources-statemodule.git
+[submodule "source/preloadermodule"]
+	path = source/preloadermodule
+	url = git@github.com:JhonnyJason/pwa-sources-preloadermodule.git

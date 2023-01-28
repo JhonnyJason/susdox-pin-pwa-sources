@@ -6,6 +6,7 @@ import * as footermodule from "./footermodule.js"
 import * as headermodule from "./headermodule.js"
 import * as loginframemodule from "./loginframemodule.js"
 import * as statemodule from "./statemodule.js"
+import * as utilmodule from "./utilmodule.js"
 
 Modules = {
     appcoremodule,
@@ -16,6 +17,7 @@ Modules = {
     headermodule,
     loginframemodule,
     statemodule,
+    utilmodule,
 }
 
 export default Modules

@@ -8,7 +8,6 @@
     width 100%
     height 100%
     box-sizing: border-box
-    padding 20px
 
     #link-area
         display flex
@@ -60,6 +59,14 @@
         height 100%
         align-items: center
         overflow hidden
+        
+        #login-preloader
+            display none
+            background-color transparent
+            color cd-turquoise
+            width: 50px
+            height 50px
+            padding 0
 
     #button-area > *
         position absolute
@@ -81,6 +88,8 @@
     #login-button  
         transform translate(-50%, 25vh)
 
+    #login-preloader  
+        transform translate(-50%, -50%)
 
 
 
@@ -97,3 +106,21 @@
 
     #login-frame  
         transform translate(-50%, -50%)
+
+#content.logging-in
+
+    #add-code-button  
+        transform translate(-50%, -25vh)
+
+    #login-button  
+        transform translate(-50%, -50%) scale(0)
+
+    #login-preloader  
+        display block !important
+
+    #susdox-logo        
+        transform translate(-50%, -65vh)
+
+    #login-frame  
+        transform translate(-50%, -50%)
+

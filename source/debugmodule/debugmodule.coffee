@@ -6,6 +6,7 @@ export modulesToDebug =
     # configmodule: true
     # statemodule: true
     # errorfeedbackmodule: true
+    loginframemodule: true
     # utilmodule: true
 
 addModulesToDebug(modulesToDebug)
