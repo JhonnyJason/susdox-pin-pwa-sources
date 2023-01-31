@@ -15,4 +15,4 @@ include ../preloadermodule/preloader-mixins.pug
         #add-code-button.click-button=content.addCodeButtonText
         #login-button.click-button=content.loginButtonText
         #login-preloader: +preloader("squares", "squares")
-        #code-button.click-button: include ../codedisplaymodule/codedisplay.pug
+        #code-button(): include ../codedisplaymodule/codedisplay.pug
