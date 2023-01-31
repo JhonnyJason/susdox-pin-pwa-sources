@@ -1,0 +1,42 @@
+// codebutton styles
+#codedisplay-container > *
+    position absolute
+    top 50%
+    left 50%
+    background-color: cd-turquoise
+    color white
+    border-radius: 10px
+    box-sizing: border-box
+    width 100%
+    font-size 15pt
+    text-align: center
+    transition all 0.3s
+
+
+#codedisplay-container
+    position relative
+    width 100%
+    padding 0
+
+    #show-code-label  
+        padding 20px
+        transform translate(-50%, -50%)
+        z-index 2
+        
+    #code-display
+        padding 30px
+        transform translate(-50%, -50%) scale(1,0)
+        color cd-turquoise
+        z-index 1
+        transition transform 0.3s
+
+#codedisplay-container.show-code
+    // padding 10px
+    
+    #show-code-label  
+        z-index 1
+        
+    #code-display
+        transform translate(-50%, -50%) scale(1,1)
+        color white
+        z-index 2

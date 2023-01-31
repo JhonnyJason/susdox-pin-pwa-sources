@@ -3,8 +3,11 @@ include ../preloadermodule/preloader-mixins.pug
 //- content structure
 #content
     #logo-area
+        #arrow-left.click-button: svg: use(href="#svg-chevron-left-icon") 
+        #arrow-right.click-button: svg: use(href="#svg-chevron-right-icon") 
         #susdox-logo
         #login-frame: include ../loginframemodule/loginframe.pug
+        #radiologist-logo-frame: include ../radiologistframemodule/radiologistframe.pug
 
     #link-area
         a#susdox-link(href="https://www.bilder-befunde.at" target="_blank") www.bilder-befunde.at
@@ -12,3 +15,4 @@ include ../preloadermodule/preloader-mixins.pug
         #add-code-button.click-button=content.addCodeButtonText
         #login-button.click-button=content.loginButtonText
         #login-preloader: +preloader("squares", "squares")
+        #code-button.click-button: include ../codedisplaymodule/codedisplay.pug
