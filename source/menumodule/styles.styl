@@ -1,0 +1,71 @@
+menu-icon-size = 25px
+
+#menu
+    width 260px
+    height 100% 
+    box-sizing: border-box   
+    padding 15px
+    position absolute
+    top 0
+    right 0
+    background-color white
+    transition transform 0.3s
+    transform translateX(102%)
+
+    .menu-group
+        padding 0
+    .menu-entry
+        padding 8px 15px 
+        display flex
+        align-items: center
+        @extends .click-button
+    .menu-entry:hover
+        background-color alpha(cd-darkblue, 0.2)
+    .menu-icon
+        width: menu-icon-size
+        height: menu-icon-size
+
+    .menu-label
+        line-height: 150%
+        font-size: 20px
+        margin-left 15px
+        // funny specific issue here...
+        position relative
+        top 1px
+
+#menu-version
+    color cd-darkblue
+    opacity 0.6
+    pointer-events: none
+    #to-update-icon
+        display none
+    #up-to-date-icon
+        display: block
+    #to-version-icon
+        width menu-icon-size * 0.7
+        height menu-icon-size * 0.7
+        margin 0 5px
+        display: none
+    #new-version
+        display: none
+
+#menu-version.to-update
+    color white
+    opacity 1
+    pointer-events: all
+    background-color alpha(#ff8e1a, 0.9)
+    border-radius 3px
+
+    #to-update-icon
+        display block
+    #up-to-date-icon
+        display: none
+    #to-version-icon
+        display: block
+    #new-version
+        margin-left: 0
+        display: block
+
+.menu-on
+    #menu
+        transform translateX(0)

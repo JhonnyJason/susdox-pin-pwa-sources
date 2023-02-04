@@ -9,6 +9,7 @@ import * as utl from "./utilmodule.js"
 import * as loginFrame from "./loginframemodule.js"
 import * as radiologistFrame from "./radiologistframemodule.js"
 import * as codeDisplay from "./codedisplaymodule.js"
+import * as menuModule from "./menumodule.js"
 
 ############################################################
 export initialize = ->
@@ -21,6 +22,14 @@ export initialize = ->
 
     codeButton.addEventListener("click", codeButtonClicked)
 
+    menuFrame.addEventListener("click", menuFrameClicked)
+    return
+
+
+############################################################
+menuFrameClicked = (evnt) ->
+    log "menuFrameClicked"
+    menuModule.setMenuOff()
     return
 
 ############################################################
@@ -79,7 +88,10 @@ export setToDefault = ->
     content.classList.remove("logging-in")
     content.classList.remove("logged-in")
     
+    menuModule.setMenuOff()
+
     codeDisplay.reset()
+    
     ## TODO remove rest
     # content.classList.remove("")
     
@@ -92,6 +104,10 @@ export setToUserPage = ->
     content.classList.remove("logging-in")
     content.classList.add("logged-in")
     
+    ## actually unnecessary here but for completeness sake ;-)
+    menuModule.setMenuOff()
+
+    ## TODO
     sampleCode = "234  567 89a"
     codeDisplay.setCode(sampleCode)
 

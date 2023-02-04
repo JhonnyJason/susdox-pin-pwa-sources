@@ -12,6 +12,8 @@ header-burger-size = 30px
     height 100%
     box-sizing: border-box
     padding 15px
+    position: relative
+    z-index: 99
 
     #susdox-logo
         background-image: url("/img/icon.png")
@@ -24,6 +26,18 @@ header-burger-size = 30px
         height: header-burger-size
         width: header-burger-size
 
+    #menu-close-button
+        // user-select: none
+        height: header-burger-size
+        width: header-burger-size
+        display: none
+
+.menu-on
+    #header
+        #menu-button
+            display none
+        #menu-close-button
+            display: block
     // #menu-button > *
     //     user-select: none
     //     pointer-events: none
