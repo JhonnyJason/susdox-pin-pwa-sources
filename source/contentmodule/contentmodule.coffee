@@ -6,7 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as utl from "./utilmodule.js"
-import * as loginFrame from "./loginframemodule.js"
+import * as credentialsframe from "./credentialsframemodule.js"
 import * as radiologistFrame from "./radiologistframemodule.js"
 import * as codeDisplay from "./codedisplaymodule.js"
 import * as menuModule from "./menumodule.js"
@@ -15,7 +15,7 @@ import * as menuModule from "./menumodule.js"
 export initialize = ->
     log "initialize"
     addCodeButton.addEventListener("click", addCodeButtonClicked)
-    loginButton.addEventListener("click", loginButtonClicked)
+    acceptButton.addEventListener("click", acceptButtonClicked)
 
     arrowLeft.addEventListener("click", arrowLeftClicked)
     arrowRight.addEventListener("click", arrowRightClicked)
@@ -35,16 +35,18 @@ menuFrameClicked = (evnt) ->
 ############################################################
 addCodeButtonClicked = (evnt) ->
     log "addCodeButtonClicked"
-    content.classList.add("login")
+    content.classList.add("setting-credentials")
     return
 
 ############################################################
-loginButtonClicked = (evnt) ->
-    log "loginButtonClicked"
-    content.classList.add("logging-in")
-    try
-        await utl.waitMS(5000)
-        # loginFrame.resetAllErrorFeedback()
+acceptButtonClicked = (evnt) ->
+    log "acceptButtonClicked"
+    try 
+        credentialsframe.extractCredentials()
+        setToUserPage()
+        
+        # await utl.waitMS(5000)
+        # credentialsframe.resetAllErrorFeedback()
        
         # loginBody = await extractCodeFormBody()
         # olog {loginBody}
@@ -56,9 +58,7 @@ loginButtonClicked = (evnt) ->
         # if !response.ok then errorFeedback("codePatient", ""+response.status)
         # else location.href = loginRedirectURL
 
-        setToUserPage()
-    catch err then return loginFrame.errorFeedback("codePatient", "Other: " + err.message)
-    finally content.classList.remove("logging-in")
+    catch err then return credentialsframe.errorFeedback("codePatient", "Other: " + err.message)
     return
 
 ############################################################
@@ -84,14 +84,12 @@ codeButtonClicked = (evnt) ->
 ############################################################
 export setToDefault = ->
     log "setToDefault"
-    content.classList.remove("login")
-    content.classList.remove("logging-in")
-    content.classList.remove("logged-in")
+    content.classList.remove("preload")
+    content.classList.remove("setting-credentials")
+    content.classList.remove("credentials-set")
     
     menuModule.setMenuOff()
 
-    codeDisplay.reset()
-    
     ## TODO remove rest
     # content.classList.remove("")
     
@@ -100,16 +98,12 @@ export setToDefault = ->
 ############################################################
 export setToUserPage = ->
     log "setToUserPage"
-    content.classList.remove("login")
-    content.classList.remove("logging-in")
-    content.classList.add("logged-in")
+    content.classList.remove("preload")
+    content.classList.remove("setting-credentials")
+    content.classList.add("credentials-set")
     
     ## actually unnecessary here but for completeness sake ;-)
     menuModule.setMenuOff()
-
-    ## TODO
-    sampleCode = "234  567 89a"
-    codeDisplay.setCode(sampleCode)
 
     ## TODO adjust rest
     # content.classList.remove("")

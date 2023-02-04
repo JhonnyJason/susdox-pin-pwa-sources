@@ -1,10 +1,11 @@
 ############################################################
 #region debug
 import { createLogFunctions } from "thingy-debug"
-{log, olog} = createLogFunctions("loginframemodule")
+{log, olog} = createLogFunctions("credentialsframemodule")
 #endregion
 
 ############################################################
+import * as data from "./datamodule.js"
 import * as utl from "./utilmodule.js"
 
 ############################################################
@@ -73,6 +74,27 @@ loginCodeInputKeyUpped = (evt) ->
     loginCodeInput.value = newValue
     return
 
+
+############################################################
+export extractCredentials = ->
+    log "extractCredentials"
+    value = loginCodeInput.value
+    code = value.replaceAll(" ", "")
+    dateOfBirth = loginBirthdayInput.value
+
+    olog {code, dateOfBirth}
+
+    if code.length != 9 then throw new Error("Fehler im Code!")
+    if !utl.isBase32String(code) then throw new Error("Fehler im Code!")
+    if !dateOfBirth then throw new Error("Kein Geburtsdatum gewählt!")
+
+    uuid = ""
+    credentials = { uuid, code, dateOfBirth }
+    data.setUserCredentials(credentials)
+    
+    loginCodeInput.value = ""
+    loginBirthdayInput.value = ""
+    return
 
 ############################################################
 export resetAllErrorFeedback = ->

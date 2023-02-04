@@ -5,10 +5,34 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
+import * as app from "./appcoremodule.js"
+
+############################################################
 export initialize = ->
     log "initialize"
-    #Implement or Remove :-)
+    menuMoreInfo.addEventListener("click", moreInfoClicked)
+    menuLogout.addEventListener("click", logoutClicked)
+    menuVersion.addEventListener("click", menuVersionClicked)
     return
+
+############################################################
+#region event Listeners
+moreInfoClicked = (evnt) ->
+    log "moreInfoClicked"
+    app.moreInfo()
+    return
+
+logoutClicked = (evnt) ->
+    log "logoutClicked"
+    app.logout()
+    return
+
+menuVersionClicked = (evnt) ->
+    log "menuVersionClicked"
+    app.upgrade()
+    return
+
+#endregion
 
 ############################################################
 export setMenuOff = ->

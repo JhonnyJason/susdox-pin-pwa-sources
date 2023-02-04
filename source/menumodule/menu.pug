@@ -1,13 +1,13 @@
 //- menu structure
 nav#menu
     .menu-group 
-        a.menu-entry 
+        a.menu-entry#menu-more-info
             .menu-icon: svg: use(href="#svg-info-icon")
             .menu-label=content.menuMoreInfoLabel
-    .menu-group 
-        a.menu-entry 
+        a.menu-entry#menu-logout
             .menu-icon: svg: use(href="#svg-logout-icon")
             .menu-label=content.menuLogoutLabel
+    //- .menu-group 
     .menu-group 
         a#menu-version.menu-entry.to-update
             #up-to-date-icon.menu-icon: svg: use(href="#svg-check-mark-icon")

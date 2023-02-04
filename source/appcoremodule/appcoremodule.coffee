@@ -7,10 +7,9 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 import * as S from "./statemodule.js"
 import * as content from "./contentmodule.js"
+import * as data from "./datamodule.js"
 
 ############################################################
-loggedIn = false
-credentialsPickUp = false
 
 ############################################################
 export initialize = ->
@@ -22,81 +21,56 @@ export initialize = ->
 #region internal Functions
 
 ############################################################
-checkCookies = ->
-    log "checkCookies"
-    allCookies = document.cookie
-    log "allCookies where: "+allCookies
-
-    cookies = allCookies.split(";")
-    
-    passwordExists = false
-    usernameExists = false
-    
-    for cookie in cookies
-        c = cookie.trim()
-        if c.indexOf("password=") == 0 
-            passwordExists = true
-            S.save("passwordCookie", c)
-
-        if c.indexOf("username=") == 0
-            usernameExists = true
-            S.save("usernameCookie", c)
-
-    if passwordExists and usernameExists 
-        loggedIn = true
-        return
-
-    passwordCookie = S.load("passwordCookie")
-    usernameCookie = S.load("usernameCookie")
-    ## TODO 
-    log "We did not find both username and password in the cookies..."
-    log "Reconstructing cookies from our store would contain:"
-    olog {
-        passwordCookie,
-        usernameCookie
-    }
-    return
+getTokenFromURL = ->
+    log "getTokenFromURL"
+    urlParams = window.location.search
+    ## TODO uncomment for production - for now we always want to act as if we have a URL param
+    # if !urlParams then return
+    # log "We had some URL Params:"
+    # olog {urlParams}
+    ## TODO extract one-time key from url params
+    token = "a34b549f7bc29e6beaa1f0e59c2531d6318145d784e034e7a2878ff50763de90"
+    return token
 
 ############################################################
-checkURLParams = ->
-    log "checkURLParams"
-    paramString = window.location.search
-    if !paramString then return
-    log "We had some URL Params:"
-    olog {paramString}
-    return
-
-############################################################
-pickUpCredentials = ->
+pickUpCredentials = (token) ->
     log "pickUpCredentials"
     ## TODO
-    return
+    uuid = "bf8603c5-7435-44d4-b1d0-22a5f67441c8"
+    code = "23456789a"
+    dateOfBirth = ""
+    return { uuid, code, dateOfBirth }
 
 #endregion
+
+############################################################
+export moreInfo = ->
+    log "moreInfo"
+    ##TODO
+    return
+
+export logout = ->
+    log "logout"
+    data.removeData()
+    content.setToDefault()
+    return
+
+export upgrade = ->
+    log "upgrade"
+    ##TODO
+    return
 
 ############################################################
 export startUp = ->
     log "startUp"
 
-    ## Check if we are already logged..
-    checkCookies()
-    if loggedIn
-        log "We are logged in already ;-)"
-        content.setToUserPage()
-        return
-
-    log "We were not logged in!"
-
     ## Check if we got some parameters to login automatically
-    checkURLParams()
-    if credentialsPickUp
-        credentials = await pickUpCredentials()
+    token = getTokenFromURL()
+    if token? 
+        credentials = await pickUpCredentials(token)
         log "We could pick up some credentials ;-)"
         olog {credentials}
-        try await autoLogin(credentials)
-        catch err 
-            log "error: we could not autoLogin! \n"+err.message
-            return
+        data.setUserCredentials(credentials)
         content.setToUserPage()        
         return
 

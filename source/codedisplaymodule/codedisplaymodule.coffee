@@ -5,6 +5,7 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
+import * as S from "./statemodule.js"
 import {copyToClipboard} from "./utilmodule.js"
 
 ############################################################
@@ -19,7 +20,15 @@ codeDisplay = document.getElementById("code-display")
 ############################################################
 export initialize = ->
     log "initialize"
-    #Implement or Remove :-)
+    S.addOnChangeListener("userCredentials", userCredentialsChanged)
+    userCredentialsChanged()
+    return
+
+############################################################
+userCredentialsChanged = ->
+    credentials = S.load("userCredentials")
+    if credentials? and credentials.code? then setCode(credentials.code)
+    else setCode("")
     return
 
 ############################################################
@@ -30,8 +39,13 @@ reveal = ->
 
 ############################################################
 export setCode = (code) ->
-    currentCode = code
-    codeDisplay.textContent = code
+    currentCode = code.replaceAll(" ", "")
+    codeTokens = []
+    codeTokens[0] = currentCode.slice(0,3)
+    codeTokens[1] = currentCode.slice(3,6)
+    codeTokens[2] = currentCode.slice(6,9)
+
+    codeDisplay.textContent = codeTokens.join("  ")
     return
 
 export reset = ->

@@ -1,4 +1,6 @@
 // content styles
+#content.preload
+    display none
 #content
     display grid
     grid-template-columns: 1fr
@@ -70,7 +72,7 @@
         background-repeat no-repeat
         background-position center
 
-    #login-frame  
+    #credentials-frame  
         transform translate(-50%, 65vh)
 
     #radiologist-logo-frame
@@ -113,7 +115,7 @@
     #add-code-button  
         transform translate(-50%, -50%)
 
-    #login-button  
+    #accept-button  
         transform translate(-50%, 35vh)
 
     #code-button  
@@ -124,12 +126,12 @@
         padding 0
 
 
-#content.login
+#content.setting-credentials
 
     // Button Area
     #add-code-button  
         transform translate(-50%, -52vh)
-    #login-button  
+    #accept-button  
         transform translate(-50%, -50%)
     #code-button  
         transform translate(-50%, 35vh)
@@ -137,41 +139,41 @@
     // Logo Area Content
     #susdox-logo        
         transform translate(-50%, -97vh)
-    #login-frame  
+    #credentials-frame  
         transform translate(-50%, -50%)
     #radiologist-logo-frame  
         transform translate(-50%, 65vh)
 
-#content.logging-in
+// #content.logging-in
 
-    // Button Area
-    #login-preloader  
-        display block !important
+//     // Button Area
+//     #login-preloader  
+//         display block !important
 
-    #add-code-button  
-        transform translate(-50%, -52vh)
-    #login-button  
-        transform translate(-50%, -50%) scale(0)
-        opacity 0
-    #code-button  
-        transform translate(-50%, 35vh)
+//     #add-code-button  
+//         transform translate(-50%, -52vh)
+//     #accept-button  
+//         transform translate(-50%, -50%) scale(0)
+//         opacity 0
+//     #code-button  
+//         transform translate(-50%, 35vh)
     
     
-    // Logo Area Content
-    #susdox-logo        
-        transform translate(-50%, -97vh)
-    #login-frame  
-        transform translate(-50%, -50%)
-    #radiologist-logo-frame  
-        transform translate(-50%, 65vh)
+//     // Logo Area Content
+//     #susdox-logo        
+//         transform translate(-50%, -97vh)
+//     #credentials-frame  
+//         transform translate(-50%, -50%)
+//     #radiologist-logo-frame  
+//         transform translate(-50%, 65vh)
 
 
-#content.logged-in
+#content.credentials-set
 
     // Button Area
     #add-code-button  
         transform translate(-50%, -87vh)
-    #login-button  
+    #accept-button  
         transform translate(-50%, -52vh) scale(0)
         opacity 0
     #code-button
@@ -186,7 +188,7 @@
     // Logo Area Content
     #susdox-logo        
         transform translate(-50%, -162vh)
-    #login-frame  
+    #credentials-frame  
         transform translate(-50%, -97vh)
     #radiologist-logo-frame  
         transform translate(-50%, -50%)
