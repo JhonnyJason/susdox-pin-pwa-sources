@@ -6,6 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as app from "./appcoremodule.js"
+import * as modal from "./usermodalmodule.js"
 
 ############################################################
 export initialize = ->
@@ -24,7 +25,10 @@ moreInfoClicked = (evnt) ->
 
 logoutClicked = (evnt) ->
     log "logoutClicked"
-    app.logout()
+    try
+        await modal.userLogoutConfirm()
+        app.logout()
+    catch err then log "User rejected logout!"
     return
 
 menuVersionClicked = (evnt) ->
