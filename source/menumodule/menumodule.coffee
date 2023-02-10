@@ -9,6 +9,11 @@ import * as app from "./appcoremodule.js"
 import * as modal from "./usermodalmodule.js"
 
 ############################################################
+menuMoreInfo = document.getElementById("menu-more-info")
+menuLogout = document.getElementById("menu-logout")
+menuVersion = document.getElementById("menu-version")
+
+############################################################
 export initialize = ->
     log "initialize"
     menuMoreInfo.addEventListener("click", moreInfoClicked)

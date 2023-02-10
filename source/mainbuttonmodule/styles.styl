@@ -1,0 +1,58 @@
+// mainbutton styles
+#mainbutton-wrapper
+    position: relative
+    display flex
+    width 100%
+    height 100%
+    align-items: center
+    overflow hidden
+    
+#mainbutton-wrapper > *
+    position absolute
+    top 50%
+    left 50%
+    background-color: cd-turquoise
+    color white
+    border-radius: 10px
+    width 220px
+    box-sizing: border-box
+    padding 20px
+    font-size 15pt
+    text-align: center
+    transition all 0.3s
+
+
+#code-button  
+    background-color: transparent
+    border-radius: 0
+    box-sizing: border-box
+    padding 0
+
+
+#add-code-button  
+    transform translate(-50%, -50%)
+
+#accept-button  
+#code-button  
+    transform translate(-50%, 35vh)
+
+
+.setting-credentials
+
+    #add-code-button  
+        transform translate(-50%, -52vh)
+    #accept-button  
+        transform translate(-50%, -50%)
+    #code-button  
+        transform translate(-50%, 35vh)
+    
+
+
+#content.credentials-set
+
+    #add-code-button  
+    #accept-button  
+        transform translate(-50%, -52vh)
+
+    #code-button
+        transform translate(-50%, -50%)

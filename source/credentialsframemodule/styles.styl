@@ -1,23 +1,19 @@
 // credentialsframe styles
-.logging-in
-    #credentialsframe-container
-        pointer-events: none
-        filter grayscale(100%)
-        opacity 0.7
-        
-
 #credentialsframe-container
     position absolute
     top 50%
     left 50%
     transform translate(-50%, -50%)
-    width 100%
+    width 90%
+    max-height 90% 
+
     label
         display block
         font-size: 12pt
         color alpha(cd-darkblue, 0.7)
     label:nth-child(3)
         margin-top 10px
+
     input
         display: block
         box-sizing: border-box

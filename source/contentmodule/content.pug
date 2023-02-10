@@ -2,19 +2,10 @@ include ../preloadermodule/preloader-mixins.pug
 
 //- content structure
 #content.preload
-    #center-preloader: +preloader("squares", "squares")
-    #menu-frame
-        include ../menumodule/menu.pug
-    #logo-area
-        #arrow-left.click-button: svg: use(href="#svg-chevron-left-icon") 
-        #arrow-right.click-button: svg: use(href="#svg-chevron-right-icon") 
-        #susdox-logo
-        #credentials-frame: include ../credentialsframemodule/credentialsframe.pug
-        #radiologist-logo-frame: include ../radiologistframemodule/radiologistframe.pug
+    #menu-frame: include ../menumodule/menu.pug
 
-    #link-area
-        a#susdox-link(href="https://www.bilder-befunde.at" target="_blank") www.bilder-befunde.at
-    #button-area 
-        #add-code-button.click-button=content.addCodeButtonText
-        #accept-button.click-button=content.acceptButtonText
-        #code-button(): include ../codedisplaymodule/codedisplay.pug
+    #center-preloader: +preloader("squares", "squares")
+
+    #cube-area: include ../cubemodule/cube.pug
+    #link-area: include ../centerlinkmodule/centerlink.pug
+    #button-area: include ../mainbuttonmodule/mainbutton.pug

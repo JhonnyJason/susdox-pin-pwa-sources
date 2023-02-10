@@ -1,5 +1,5 @@
 // content styles
-
+/*===================================================================*/
 #center-preloader
     display: none
     height 60px
@@ -8,13 +8,22 @@
     top 50%
     left 50%
     transform: translate(-50%,-50%)
+    color cd-turquoise
 
 #content.preload
-    display none
     #center-preloader
+        // display block
+        display none
+    #cube-area
         display block
+        // display none
+    // #link-area
+    //     display none
+    // #button-area
+    //     display none
 
 
+/*===================================================================*/
 #content
     display grid
     grid-template-columns: 1fr
@@ -34,178 +43,21 @@
         opacity: 0
         transition opacity 0.3s
 
-    #link-area
-        display flex
-        width 100%
-        height 100%
-        align-items: center
-        a
-            width 100%
-            text-align center
-            text-decoration: underline
-            font-size: 15pt
-            color #3366CC
-
-
-
-    #logo-area
+    #cube-area
         position relative
-        display flex
         width 100%
         height 100%
-        align-items: center
-        // border solid 1px cd-darkblue
         overflow: hidden
 
-    #logo-area > *
-        position absolute
-        top 50%
-        left 50%
-        height 220px
-        width 220px
-        transition transform 0.3s
-
-    #arrow-left
-        left 0
-        transform translate(-200%, -50%)
-        height 40px
-        width 40px
-        transition transform 0.3s
-
-    #arrow-right
-        left auto
-        transform translate(200%, -50%)
-        right 0
-        height 40px
-        width 40px
-
-    #susdox-logo        
-        transform translate(-50%, -50%)
-        background-image: url("/img/sustsol_logo.png")
-        background-size: contain
-        background-repeat no-repeat
-        background-position center
-
-    #credentials-frame  
-        transform translate(-50%, 65vh)
-
-    #radiologist-logo-frame
-        transform translate(-50%, 130vh)
-
-
-    #button-area
-        position: relative
-        display flex
+    #link-area
         width 100%
         height 100%
-        align-items: center
-        overflow hidden
-        
-        #login-preloader
-            display none
-            background-color transparent
-            color cd-turquoise
-            width: 50px
-            height 50px
-            padding 0
+        overflow: hidden
 
-    #button-area > *
-        position absolute
-        top 50%
-        left 50%
-        background-color: cd-turquoise
-        color white
-        border-radius: 10px
-        width 220px
-        box-sizing: border-box
-        padding 20px
-        font-size 15pt
-        text-align: center
-        transition all 0.3s
-
-    #login-preloader  
-        transform translate(-50%, -50%)
-
-    #add-code-button  
-        transform translate(-50%, -50%)
-
-    #accept-button  
-        transform translate(-50%, 35vh)
-
-    #code-button  
-        transform translate(-50%, 70vh)
-        background-color: transparent
-        border-radius: 0
-        box-sizing: border-box
-        padding 0
-
-
-#content.setting-credentials
-
-    // Button Area
-    #add-code-button  
-        transform translate(-50%, -52vh)
-    #accept-button  
-        transform translate(-50%, -50%)
-    #code-button  
-        transform translate(-50%, 35vh)
-    
-    // Logo Area Content
-    #susdox-logo        
-        transform translate(-50%, -97vh)
-    #credentials-frame  
-        transform translate(-50%, -50%)
-    #radiologist-logo-frame  
-        transform translate(-50%, 65vh)
-
-// #content.logging-in
-
-//     // Button Area
-//     #login-preloader  
-//         display block !important
-
-//     #add-code-button  
-//         transform translate(-50%, -52vh)
-//     #accept-button  
-//         transform translate(-50%, -50%) scale(0)
-//         opacity 0
-//     #code-button  
-//         transform translate(-50%, 35vh)
-    
-    
-//     // Logo Area Content
-//     #susdox-logo        
-//         transform translate(-50%, -97vh)
-//     #credentials-frame  
-//         transform translate(-50%, -50%)
-//     #radiologist-logo-frame  
-//         transform translate(-50%, 65vh)
-
-
-#content.credentials-set
-
-    // Button Area
-    #add-code-button  
-        transform translate(-50%, -87vh)
-    #accept-button  
-        transform translate(-50%, -52vh) scale(0)
-        opacity 0
-    #code-button
-        transform translate(-50%, -50%)
-        
-    // Logo Area Arrows
-    #arrow-left
-        transform translate(0, -50%)
-    #arrow-right
-        transform translate(0, -50%)
-
-    // Logo Area Content
-    #susdox-logo        
-        transform translate(-50%, -162vh)
-    #credentials-frame  
-        transform translate(-50%, -97vh)
-    #radiologist-logo-frame  
-        transform translate(-50%, -50%)
+    #button-area
+        width 100%
+        height 100%
+        overflow: hidden
 
 
 .menu-on

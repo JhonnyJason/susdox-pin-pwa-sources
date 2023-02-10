@@ -71,10 +71,10 @@ export startUp = ->
         log "We could pick up some credentials ;-)"
         olog {credentials}
         data.setUserCredentials(credentials)
-        # content.setToUserPage()        
+        content.setToUserPage()        
         return
 
-    # content.setToDefault()
+    content.setToDefault()
     return
 
 
