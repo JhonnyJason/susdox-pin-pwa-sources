@@ -7,7 +7,7 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 import * as utl from "./utilmodule.js"
 import * as credentialsframe from "./credentialsframemodule.js"
-import * as radiologistFrame from "./radiologistframemodule.js"
+import * as radiologistImages from "./radiologistimagemodule.js"
 import * as codeDisplay from "./codedisplaymodule.js"
 import * as menuModule from "./menumodule.js"
 

@@ -1,13 +1,15 @@
+include ../preloadermodule/preloader-mixins.pug
+
 //- cube structure
 #arrow-left.click-button: svg: use(href="#svg-chevron-left-icon") 
 #arrow-right.click-button: svg: use(href="#svg-chevron-right-icon") 
 
 #cube-frame 
     #cube
-        #cube-front.side.front: #susdox-logo
-        #cube-bottom.side.bottom: include ../credentialsframemodule/credentialsframe.pug
-        #cube-right.side.right 3
-        #cube-left.side.left 4
-        #cube-top.side.top 5
-        #cube-back.side.back: include ../radiologistframemodule/radiologistframe.pug
+        #cube-front.side: #susdox-logo
+        #cube-bottom.side: include ../credentialsframemodule/credentialsframe.pug
+        #cube-right.side 3
+        #cube-left.side 4
+        #cube-top.side 5
+        #cube-back.side: +preloader("images-preloader", "squares")
         

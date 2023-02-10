@@ -57,20 +57,20 @@
         position: absolute;
         background-color white
 
-    .front  
+    #cube-front
         transform: rotateY(0deg) translateZ(110px)
-    .back
+    #cube-back
         transform: rotateX(180deg) translateZ(110px)
-    .right
+    #cube-right
         transform: rotateY(90deg) translateZ(110px)
-    .left
+    #cube-left
         transform: rotateY(-90deg) translateZ(110px)
-    .top
+    #cube-top
         transform: rotateX(90deg) translateZ(110px)
-    .bottom
+    #cube-bottom
         transform: rotateX(-90deg) translateZ(110px)
 
-    #susdox-logo  
+    #susdox-logo
         background-image: url("/img/sustsol_logo.png")
         background-size: contain
         background-repeat no-repeat
@@ -81,6 +81,39 @@
         top 5%
         left 5%
 
+    #images-preloader
+        display none
+        height: 60px
+        width 60px
+        color cd-turquoise
+        position: absolute
+        top 50%
+        left 50%
+        transform translate(-50%, -50%) rotateZ(45deg)
+
+    #cube-right
+    #cube-front
+    #cube-left
+    #cube-back
+        img
+            width 90%
+            height 90%
+            object-fit: contain
+            position relative
+            top 5%
+            left 5%
+            // -webkit-touch-callout: none
+            // -webkit-user-select: none
+            // -khtml-user-select: none
+            // -moz-user-select: none    
+            // -ms-user-select: none      
+            // user-select: none
+
+    #cube-right
+    #cube-front
+    #cube-left
+        img
+            transform rotateZ(180deg)
 
 /*===================================================================*/
 .setting-credentials
@@ -89,13 +122,25 @@
         transform scale(0.84) rotateX(90deg)
 
 /*===================================================================*/
-.credentials-set
+.credentials-set.position-0
 
+    #images-preloader
+        display block !important
 
-    // #cube
-    //     transform rotateX(-45deg) scale(0.84)
     #cube
         transform scale(0.84) rotateX(180deg)
+
+.credentials-set.position-1
+    #cube
+        transform scale(0.84) rotateX(180deg) rotateY(90deg)
+
+.credentials-set.position-2
+    #cube
+        transform scale(0.84) rotateX(180deg) rotateY(180deg)
+
+.credentials-set.position-3
+    #cube
+        transform scale(0.84) rotateX(180deg) rotateY(270deg )
 
 // @keyframes rotate-all
 //     0% { transform: rotateY(    0deg ); }

@@ -11,7 +11,7 @@ import * as footermodule from "./footermodule.js"
 import * as headermodule from "./headermodule.js"
 import * as mainbuttonmodule from "./mainbuttonmodule.js"
 import * as menumodule from "./menumodule.js"
-import * as radiologistframemodule from "./radiologistframemodule.js"
+import * as radiologistimagemodule from "./radiologistimagemodule.js"
 import * as statemodule from "./statemodule.js"
 import * as usermodalmodule from "./usermodalmodule.js"
 import * as utilmodule from "./utilmodule.js"
@@ -30,7 +30,7 @@ Modules = {
     headermodule,
     mainbuttonmodule,
     menumodule,
-    radiologistframemodule,
+    radiologistimagemodule,
     statemodule,
     usermodalmodule,
     utilmodule,
