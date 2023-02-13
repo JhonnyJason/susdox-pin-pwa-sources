@@ -91,8 +91,16 @@ touchStarted = (evnt) ->
     return
 
 ############################################################
-touchEnded = -> touching = false
-mouseUpped = -> touching = false
+touchEnded = -> 
+    if touching then snapBack()
+    touching = false
+    return
+
+mouseUpped = -> 
+    if touching then snapBack()
+    touching = false
+    return
+
 
 ############################################################
 mouseMoved = (evnt) ->
@@ -173,6 +181,13 @@ arrowRightClicked = (evnt) ->
 ############################################################
 #region rotation Functions
 
+snapBack = ->
+    content.classList.remove("no-transition")
+    cubeElement.removeAttribute("style")
+    content.classList.add("position-#{cubePosition}")
+    return
+
+############################################################
 addRotationTilt = (tilt) ->
     log "addRotationTilt"
     switch cubePosition
@@ -192,8 +207,8 @@ addRotationTilt = (tilt) ->
 
 ############################################################
 rotateLeft = ->
-    cubeElement.removeAttribute("style")
     content.classList.remove("no-transition")
+    cubeElement.removeAttribute("style")
     content.classList.remove("position-#{cubePosition}")
     cubePosition++
     content.classList.add("position-#{cubePosition}")
