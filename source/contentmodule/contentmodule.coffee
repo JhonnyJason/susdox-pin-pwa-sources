@@ -20,7 +20,6 @@ export initialize = ->
     menuFrame.addEventListener("click", menuFrameClicked)
     return
 
-
 ############################################################
 menuFrameClicked = (evnt) ->
     log "menuFrameClicked"

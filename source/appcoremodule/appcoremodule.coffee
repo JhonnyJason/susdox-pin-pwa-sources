@@ -8,13 +8,16 @@ import { createLogFunctions } from "thingy-debug"
 import * as S from "./statemodule.js"
 import * as content from "./contentmodule.js"
 import * as data from "./datamodule.js"
+import * as cubeModule from "./cubemodule.js"
+import * as radiologistImages from "./radiologistimagemodule.js"
 
 ############################################################
+loggedIn = false
 
 ############################################################
 export initialize = ->
     log "initialize"
-    #Implement or Remove :-)
+    S.addOnChangeListener("userCredentials", userCredentialsChanged)
     return
 
 ############################################################
@@ -51,6 +54,8 @@ export moreInfo = ->
 
 export logout = ->
     log "logout"
+    cubeModule.reset()
+    radiologistImages.reset()
     data.removeData()
     content.setToDefault()
     return
@@ -60,6 +65,20 @@ export upgrade = ->
     ##TODO
     return
 
+userCredentialsChanged = ->
+    log "userCredentialsChanged"
+    credentials = S.load("userCredentials")
+    olog credentials
+    if credentials and Object.keys(credentials).length > 0 then login()
+    return
+
+############################################################
+login = ->
+    log "login"
+    content.setToUserPage()
+    radiologistImages.loadImages()
+    return
+    
 ############################################################
 export startUp = ->
     log "startUp"
@@ -71,7 +90,7 @@ export startUp = ->
         log "We could pick up some credentials ;-)"
         olog {credentials}
         data.setUserCredentials(credentials)
-        content.setToUserPage()        
+        login()
         return
 
     content.setToDefault()

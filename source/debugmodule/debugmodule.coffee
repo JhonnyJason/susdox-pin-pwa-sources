@@ -5,12 +5,14 @@ export modulesToDebug =
     
     appcoremodule: true
     # configmodule: true
+    # credentialsframemodule: true
+    cubemodule: true
     datamodule: true
-    menumodule: true
-    # statemodule: true
     # errorfeedbackmodule: true
-    credentialsframemodule: true
-    usermodalmodule: true
+    # menumodule: true
+    radiologistimagemodule: true
+    # statemodule: true
+    # usermodalmodule: true
     # utilmodule: true
 
 addModulesToDebug(modulesToDebug)

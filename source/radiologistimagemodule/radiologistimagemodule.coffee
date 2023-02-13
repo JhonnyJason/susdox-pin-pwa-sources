@@ -8,7 +8,7 @@ import { createLogFunctions } from "thingy-debug"
 import *  as cubeModule from "./cubemodule.js"
 
 ############################################################
-imageIndex = 0 
+imageIndex = 0
 cubePosition = 0
 
 ############################################################
@@ -18,66 +18,79 @@ allImages = [
     "/img/sustsol_logo.png"
 ]
 
-imageSetter = [
-    cubeModule.setBackElement
-    cubeModule.setLeftElement
-    cubeModule.setFrontElement
-    cubeModule.setRightElement
-]
+############################################################
+allImageElements = []
 
 ############################################################
 export initialize = ->
     log "initialize"
     ## TODO get images via service worker
 
-    if allImages? then setPosition(0, 0)
+    if allImages?
+        allImageElements = new Array(allImages.length) 
+        setPosition(0)
     return
 
 
 ############################################################
-setPosition = (idx, pos) ->
+setPosition = (idx) ->
     imageIndex = (idx + allImages.length) % allImages.length 
-    cubePosition = (pos + 4) % 4
 
-    prevImage = createImage(idx - 1)
-    centerImage = createImage(idx)
-    nextImage = createImage(idx + 1)
+    leftImage = getImageElement(idx - 1)
+    frontImage = getImageElement(idx)
+    rightImage = getImageElement(idx + 1)
+    
 
-    setImageToPos(prevImage, pos - 1)
-    setImageToPos(centerImage, pos)
-    setImageToPos(nextImage, pos + 1)
-
-    cubeModule.setHorizontalPosition(pos)
+    cubeModule.setCurrentRightElement(rightImage)
+    cubeModule.setCurrentBackElement(frontImage)
+    cubeModule.setCurrentLeftElement(leftImage)
     return
 
 ############################################################
-createImage = (idx) ->
+getImageElement = (idx) ->
     idx = (idx + allImages.length) % allImages.length
+    if allImageElements[idx]? then return allImageElements[idx]
+    else allImageElements[idx] = createImageElement(idx)
+    return allImageElements[idx]
+
+createImageElement = (idx) ->
+    log "createImageElement"
+    idx = (idx + allImages.length) % allImages.length
+    log "idx: #{idx}"
+    olog allImages
+    
     image = document.createElement("img")
     image.src = allImages[idx]
+    image.setAttribute("draggable", false)
     return image
 
 ############################################################
-setImageToPos = (image, pos) ->
-    pos = (pos + 4) % 4
-    imageSetter[pos](image)
-    return
-
-############################################################
-shift = (direction) ->
-    newImageIndex = imageIndex + direction
-    newCubePosition = cubePosition + direction
-    setPosition(newImageIndex, newCubePosition)
-    return
+shift = (direction) -> setPosition(imageIndex + direction)
 
 ############################################################
 export shiftLeft = ->
+    log "shiftLeft"
     direction = 1
     shift(direction)
     return
 
 ############################################################
 export shiftRight = ->
+    log "shiftRight"
     direction = -1
     shift(direction)
+    return
+
+############################################################
+export reset = ->
+    log "reset"
+    ## TOOD remove all images
+    return
+
+export loadImages = ->
+    log "loadImages"
+    ## TODO load images
+    if allImages?
+        allImageElements = new Array(allImages.length) 
+        setPosition(0)
     return

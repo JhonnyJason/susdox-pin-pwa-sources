@@ -74,7 +74,6 @@ loginCodeInputKeyUpped = (evt) ->
     loginCodeInput.value = newValue
     return
 
-
 ############################################################
 export extractCredentials = ->
     log "extractCredentials"
