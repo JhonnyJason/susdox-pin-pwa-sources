@@ -10,9 +10,7 @@ import * as content from "./contentmodule.js"
 import * as data from "./datamodule.js"
 import * as cubeModule from "./cubemodule.js"
 import * as radiologistImages from "./radiologistimagemodule.js"
-
-############################################################
-loggedIn = false
+import * as sci from "./scimodule.js"
 
 ############################################################
 export initialize = ->
@@ -27,22 +25,20 @@ export initialize = ->
 getTokenFromURL = ->
     log "getTokenFromURL"
     urlParams = window.location.search
-    ## TODO uncomment for production - for now we always want to act as if we have a URL param
-    # if !urlParams then return
+    olog {urlParams}
+    if !urlParams then return null
+    urlParams = new URLSearchParams(urlParams)
+
     # log "We had some URL Params:"
     # olog {urlParams}
     ## TODO extract one-time key from url params
-    token = "a34b549f7bc29e6beaa1f0e59c2531d6318145d784e034e7a2878ff50763de90"
-    return token
+    # token = "a34b549f7bc29e6beaa1f0e59c2531d6318145d784e034e7a2878ff50763de90"
+    return urlParams.get("token")
 
 ############################################################
 pickUpCredentials = (token) ->
     log "pickUpCredentials"
-    ## TODO
-    uuid = "bf8603c5-7435-44d4-b1d0-22a5f67441c8"
-    code = "23456789a"
-    dateOfBirth = ""
-    return { uuid, code, dateOfBirth }
+    return await sci.getCredentials(token)
 
 #endregion
 
@@ -57,7 +53,7 @@ export logout = ->
     cubeModule.reset()
     radiologistImages.reset()
     data.removeData()
-    content.setToDefault()
+    content.setToLoginPage()
     return
 
 export upgrade = ->
@@ -75,8 +71,13 @@ userCredentialsChanged = ->
 ############################################################
 login = ->
     log "login"
-    content.setToUserPage()
+    credentials = S.load("userCredentials")
     radiologistImages.loadImages()
+    content.setToUserPage()
+    
+    ## Check for updates
+    imageURLs = await sci.getImages(credentials.uuid)
+    data.setRadiologistImages(imageURLs)
     return
     
 ############################################################
@@ -86,14 +87,19 @@ export startUp = ->
     ## Check if we got some parameters to login automatically
     token = getTokenFromURL()
     if token? 
-        credentials = await pickUpCredentials(token)
-        log "We could pick up some credentials ;-)"
-        olog {credentials}
-        data.setUserCredentials(credentials)
-        login()
-        return
+        try
+            credentials = await pickUpCredentials(token)
+            log "We could pick up some credentials ;-)"
+            olog {credentials}
+            data.removeData()
+            data.setUserCredentials(credentials)
+            return
+        catch err then log err
 
-    content.setToDefault()
+
+    credentials = S.load("userCredentials")
+    if credentials and Object.keys(credentials).length > 0 then login()
+    else content.setToDefault()
     return
 
 

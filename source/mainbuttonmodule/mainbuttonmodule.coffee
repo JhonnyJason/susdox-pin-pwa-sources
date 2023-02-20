@@ -27,14 +27,15 @@ export initialize = ->
 ############################################################
 addCodeButtonClicked = (evnt) ->
     log "addCodeButtonClicked"
-    content.classList.add("setting-credentials")
+    contentModule.setToLoginPage()
     return
 
 ############################################################
 acceptButtonClicked = (evnt) ->
     log "acceptButtonClicked"
     try 
-        credentialsframe.extractCredentials()
+        credentialsframe.resetAllErrorFeedback()
+        await credentialsframe.extractCredentials()
         contentModule.setToUserPage()
         
         # await utl.waitMS(5000)
@@ -50,7 +51,7 @@ acceptButtonClicked = (evnt) ->
         # if !response.ok then errorFeedback("codePatient", ""+response.status)
         # else location.href = loginRedirectURL
 
-    catch err then return credentialsframe.errorFeedback("codePatient", "Other: " + err.message)
+    catch err then credentialsframe.errorFeedback(err)
     return
 
 ############################################################

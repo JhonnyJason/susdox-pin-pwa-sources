@@ -10,9 +10,13 @@ import * as credentialsframe from "./credentialsframemodule.js"
 import * as radiologistImages from "./radiologistimagemodule.js"
 import * as codeDisplay from "./codedisplaymodule.js"
 import * as menuModule from "./menumodule.js"
+import * as cubeModule from "./cubemodule.js"
 
 ############################################################
 menuFrame = document.getElementById("menu-frame")
+
+############################################################
+currentState = "default"
 
 ############################################################
 export initialize = ->
@@ -27,31 +31,45 @@ menuFrameClicked = (evnt) ->
     return
 
 ############################################################
+export susdoxLogoClicked = ->
+    if currentState == "login" then setToDefault()
+    if currentState == "logged-in" then radiologistImages.setSustSolLogo()
+
+############################################################
 export setToDefault = ->
     log "setToDefault"
+    currentState = "default"
+
     content.classList.remove("preload")
     content.classList.remove("setting-credentials")
     content.classList.remove("credentials-set")
     
     menuModule.setMenuOff()
-
-    ## TODO remove rest
-    # content.classList.remove("")
     
+    return
+
+############################################################
+export setToLoginPage = ->
+    log "setToDefault"
+    currentState = "login"
+
+    content.classList.remove("preload")
+    content.classList.remove("credentials-set")
+    content.classList.add("setting-credentials")
+    
+    menuModule.setMenuOff()
     return
 
 ############################################################
 export setToUserPage = ->
     log "setToUserPage"
+    currentState = "logged-in"
+
     content.classList.remove("preload")
     content.classList.remove("setting-credentials")
     content.classList.add("credentials-set")
     
-    ## actually unnecessary here but for completeness sake ;-)
-    menuModule.setMenuOff()
+    cubeModule.allowTouch()
 
-    ## TODO adjust rest
-    # content.classList.remove("")
-    # content.classList.add("")
-    
+    menuModule.setMenuOff()    
     return

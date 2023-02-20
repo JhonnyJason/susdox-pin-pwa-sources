@@ -7,10 +7,29 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 import * as data from "./datamodule.js"
 import * as utl from "./utilmodule.js"
+import * as sci from "./scimodule.js"
+
+import { NetworkError, InputError } from "./errormodule.js"
+
+############################################################
+#region DOM Cache
+
+credentialsframeContainer = document.getElementById("credentialsframe-container")
 
 ############################################################
 loginCodeInput = document.getElementById("login-code-input")
 loginBirthdayInput = document.getElementById("login-birthday-input")
+
+############################################################
+networkErrorFeedback = document.getElementById("network-error-feedback")
+inputErrorFeedback = document.getElementById("input-error-feedback")
+errorFeedback = document.getElementById("error-feedback")
+loginPreloader = document.getElementById("login-preloader")
+
+############################################################
+userFeedback = document.getElementById("user-feedback")
+
+#endregion
 
 ############################################################
 export initialize = ->
@@ -19,11 +38,10 @@ export initialize = ->
     loginCodeInput.addEventListener("keyup", loginCodeInputKeyUpped)
     return
 
-
 ############################################################
 loginCodeInputKeyDowned = (evt) ->
     # log "svnPartKeyUpped"
-    value = loginCodeInput.value
+    value = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
     codeLength = value.length
     
     # 46 is delete
@@ -34,11 +52,11 @@ loginCodeInputKeyDowned = (evt) ->
     if evt.keyCode == 27 then return
     
     # We we donot allow the input to grow furtherly
-    if codeLength == 13
+    if codeLength == 9
         evt.preventDefault()
         return false
     
-    if codeLength > 13 then loginCodeInput.value = ""
+    if codeLength > 9 then loginCodeInput.value = value.slice(0,9)
 
     # okay = utl.isAlphanumericString(evt.key)
     okay = utl.isBase32String(evt.key)
@@ -55,7 +73,7 @@ loginCodeInputKeyUpped = (evt) ->
     codeLength = value.length
 
     codeTokens = []
-    rawCode = value.replaceAll(" ", "")
+    rawCode = value.replaceAll(" ", "").toLowerCase()
     rLen = rawCode.length
     
     log "rawCode #{rawCode}"
@@ -83,28 +101,35 @@ export extractCredentials = ->
 
     olog {code, dateOfBirth}
 
-    if code.length != 9 then throw new Error("Fehler im Code!")
-    if !utl.isBase32String(code) then throw new Error("Fehler im Code!")
-    if !dateOfBirth then throw new Error("Kein Geburtsdatum gewählt!")
+    if code.length != 9 then throw new InputError("Fehler im Code!")
+    if !utl.isBase32String(code) then throw new InputError("Fehler im Code!")
+    if !dateOfBirth then throw new InputError("Kein Geburtsdatum gewählt!")
 
-    uuid = ""
+    userFeedback.innerHTML = loginPreloader.innerHTML
+    uuid = await sci.getUUID(dateOfBirth, code)
     credentials = { uuid, code, dateOfBirth }
     data.setUserCredentials(credentials)
-    
     loginCodeInput.value = ""
     loginBirthdayInput.value = ""
+    userFeedback.innerHTML = ""
     return
 
 ############################################################
 export resetAllErrorFeedback = ->
     log "resetAllErrorFeedback"
+    userFeedback.innerHTML = ""
+    credentialsframeContainer.classList.remove("error")
     return
 
 ############################################################
-export errorFeedback = (type, reason) ->
+export errorFeedback = (error) ->
     log "errorFeedback"
-    olog {
-        type, 
-        reason
-    }
+
+    if error instanceof NetworkError
+        credentialsframeContainer.classList.add("error")
+        userFeedback.innerHTML = networkErrorFeedback.innerHTML
+    if error instanceof InputError 
+        credentialsframeContainer.classList.add("error")
+        userFeedback.innerHTML = inputErrorFeedback.innerHTML
+
     return

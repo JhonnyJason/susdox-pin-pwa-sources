@@ -199,7 +199,7 @@ export waitMS = (timeMS) ->
 
 ############################################################
 export copyToClipboard = (text) ->
-    try 
+    try
         await navigator.clipboard.writeText(text)
         log "Clipboard API succeeded"
         if msgBox? then msgBox.info("Copied: "+text)

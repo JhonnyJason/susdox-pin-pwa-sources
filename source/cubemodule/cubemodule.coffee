@@ -50,6 +50,9 @@ touching = false
 # touchStartX = 0
 screenWidth = 0 
 
+############################################################
+noTouch = true
+
 #endregion
 
 
@@ -59,6 +62,7 @@ export initialize = ->
     arrowLeft.addEventListener("click", arrowLeftClicked)
     arrowRight.addEventListener("click", arrowRightClicked)
     cube.addEventListener("transitionend", cubeTransitionEnded)
+    cube.addEventListener("transitioncancel", cubeTransitionEnded)
 
     cubeArea.addEventListener("touchstart", touchStarted)
     document.addEventListener("touchend", touchEnded)
@@ -77,6 +81,8 @@ export initialize = ->
 ############################################################
 mouseDowned = (evnt) ->
     log "mouseDowned"
+    return if noTouch
+
     # touchStartX = evnt.clientX
     # log touchStartX
     touching = true
@@ -84,6 +90,8 @@ mouseDowned = (evnt) ->
 
 touchStarted = (evnt) ->
     log "touchStarted"
+    return if noTouch
+
     return unless evnt.touches.length == 1
     # touchStartX = evnt.touches[0].clientX
     # log touchStartX
@@ -92,11 +100,15 @@ touchStarted = (evnt) ->
 
 ############################################################
 touchEnded = -> 
+    return if noTouch
+
     if touching then snapBack()
     touching = false
     return
 
 mouseUpped = -> 
+    return if noTouch
+
     if touching then snapBack()
     touching = false
     return
@@ -104,6 +116,8 @@ mouseUpped = ->
 
 ############################################################
 mouseMoved = (evnt) ->
+    return if noTouch
+
     # log "mouaseMoved"
     return if transitioning
     return unless touching 
@@ -124,6 +138,8 @@ mouseMoved = (evnt) ->
 
 
 touchMoved = (evnt) ->
+    return if noTouch
+
     # log "touchMoved"
     return if transitioning
     return unless touching
@@ -158,10 +174,10 @@ cubeTransitionEnded = (evnt) ->
 arrowLeftClicked = (evnt) ->
     log "arrowLeftClicked"
     return if transitioning
-    codeDisplay.reset()
-    actionAfterRotation = radiologistImages.shiftLeft
     transitioning =  true
     touching = false
+    codeDisplay.reset()
+    actionAfterRotation = radiologistImages.shiftLeft
     rotateLeft()
     return    
 
@@ -169,10 +185,10 @@ arrowLeftClicked = (evnt) ->
 arrowRightClicked = (evnt) ->
     log "arrowRightClicked"
     return if transitioning
-    codeDisplay.reset()
-    actionAfterRotation = radiologistImages.shiftRight    
     transitioning = true
     touching = false
+    codeDisplay.reset()
+    actionAfterRotation = radiologistImages.shiftRight    
     rotateRight()
     return
 
@@ -260,6 +276,7 @@ export setCurrentRightElement = (el) ->
 ############################################################
 export reset = ->
     log "reset"
+    noTouch = true
     positionClass = "position-#{cubePosition}"
     cubePosition = 0
 
@@ -273,12 +290,28 @@ export reset = ->
     finishReset = ->
         content.classList.remove("no-transition")
         content.classList.remove(positionClass)
-        setCurrentBackElement("")
+        setCurrentBackElement(imagesPreloader)
         setCurrentLeftElement("")
         setCurrentRightElement("")
 
     transitioning = true
     actionAfterRotation = finishReset
     return
+############################################################
+export allowTouch = -> noTouch = false
+
+############################################################
+export rotateToSustSolLeft = ->
+    if transitioning then throw new Error("transitioning")
+    transitioning = true
+    touching = false
+    codeDisplay.reset()
+    actionAfterRotation = radiologistImages.sustSolRotateCompleted    
+    # cubePosition = 0
+    rotateRight()
+    return
+
+############################################################
+export isInTransition = -> transitioning
 
 #endregion

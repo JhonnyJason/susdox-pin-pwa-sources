@@ -4,13 +4,15 @@ import { addModulesToDebug } from "thingy-debug"
 export modulesToDebug = 
     
     appcoremodule: true
+    centerlinkmodule: true
     # configmodule: true
     # credentialsframemodule: true
-    cubemodule: true
-    datamodule: true
+    # cubemodule: true
+    # datamodule: true
     # errorfeedbackmodule: true
     # menumodule: true
-    radiologistimagemodule: true
+    # radiologistimagemodule: true
+    scimodule: true
     # statemodule: true
     # usermodalmodule: true
     # utilmodule: true

@@ -9,12 +9,14 @@ import * as S from "./statemodule.js"
 
 ############################################################
 userCredentials = null
+radiologistImages = null
 
 ############################################################
 export initialize = ->
     log "initialize"
     userCredentials = S.load("userCredentials")
-    olog { userCredentials }
+    radiologistImages = S.load("radiologistImages")
+    olog { userCredentials, radiologistImages }
     return
 
 ############################################################
@@ -24,12 +26,22 @@ export setUserCredentials = (credentials) ->
     S.save("userCredentials", userCredentials)
     return
 
+export setRadiologistImages = (imageURLs) ->
+    log "setRadiologistImages"
+    radiologistImages = imageURLs
+    S.save("radiologistImages", radiologistImages)
+    return
+
+############################################################
 export removeData = ->
     log "removeData"
     S.remove("userCredentials")
-    ##TODO check what else to remove
+    S.remove("radiologistImages")
+
     userCredentials = S.load("userCredentials")
-    olog { userCredentials }
+    radiologistImages = S.load("radiologistImages")
+    olog { userCredentials, radiologistImages }
     return
+
 
 

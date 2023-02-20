@@ -19,8 +19,7 @@ export initialize = ->
 ############################################################
 susdoxLogoClicked = ->
     log "susdoxLogoClicked"
-    #TODO: check what makes sense to do here
-    # content.setToDefault()
+    content.susdoxLogoClicked()
     return
 
 menuButtonClicked = ->
