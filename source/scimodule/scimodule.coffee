@@ -40,17 +40,18 @@ postData = (url, data) ->
 ############################################################
 getData = (url, data) ->
     method = "GET"
+    mode = 'cors'
 
     # urlencoded body
     formData = new URLSearchParams()
     formData.append(lbl, d) for lbl,d of data
     url += "/?"+formData.toString()
 
-    # options = { method, mode, redirect, credentials, headers, body }
+    options = { method, mode }
 
     try 
         await utl.waitMS(1200)
-        response = await fetch(url)
+        response = await fetch(url, options)
         if !response.ok then throw new Error("Response not ok - status: #{response.status}! body: #{await response.text()}")
         return response.json()
     catch err then throw new NetworkError(err.message)
