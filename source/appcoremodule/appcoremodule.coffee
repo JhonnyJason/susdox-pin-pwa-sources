@@ -77,7 +77,7 @@ login = ->
     content.setToUserPage()
     
     ## Check for updates
-    imagesURLs = []
+    imageURLs = []
     try
         imageURLs = await sci.getImages(credentials.uuid)
     catch err then log err
