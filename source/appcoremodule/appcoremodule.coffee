@@ -76,7 +76,10 @@ login = ->
     content.setToUserPage()
     
     ## Check for updates
-    imageURLs = await sci.getImages(credentials.uuid)
+    imagesURLs = []
+    try
+        imageURLs = await sci.getImages(credentials.uuid)
+    catch err then log err
     data.setRadiologistImages(imageURLs)
     return
     
