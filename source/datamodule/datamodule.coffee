@@ -31,8 +31,8 @@ export setRadiologistImages = (imageURLs) ->
     return unless typeof imageURLs == "object"
 
     if Array.isArray(imageURLs) then radiologistImages = imageURLs
-    else radiologistImages Object.values(imageURLs)
-    
+    else radiologistImages = Object.values(imageURLs)
+
     S.save("radiologistImages", radiologistImages)
     return
 
