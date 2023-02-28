@@ -25,6 +25,7 @@ export initialize = ->
 getTokenFromURL = ->
     log "getTokenFromURL"
     urlParams = window.location.search
+    window.history.replaceState({}, document.title, "/")
     olog {urlParams}
     if !urlParams then return null
     urlParams = new URLSearchParams(urlParams)
