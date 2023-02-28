@@ -31,10 +31,10 @@ postData = (url, data) ->
     options = { method, mode, headers, body }
 
     try 
-        await utl.waitMS(1200)
+        # await utl.waitMS(1200)
         response = await fetch(url, options)
         if !response.ok then throw new Error("Response not ok - status: #{response.status}! body: #{await response.text()}")
-        return response.json()
+        return await response.json()
     catch err then throw new NetworkError(err.message)
 
 ############################################################
@@ -50,10 +50,10 @@ getData = (url, data) ->
     options = { method, mode }
 
     try 
-        await utl.waitMS(1200)
+        # await utl.waitMS(1200)
         response = await fetch(url, options)
         if !response.ok then throw new Error("Response not ok - status: #{response.status}! body: #{await response.text()}")
-        return response.json()
+        return await response.json()
     catch err then throw new NetworkError(err.message)
 
 ############################################################
@@ -83,7 +83,7 @@ export getUUID = (dateOfBirth, code) ->
 ############################################################
 export getImages = (uuid) ->
     log "getImages"
-    return postData(imagesEndpointURL, { uuid })
+    return getData(imagesEndpointURL, { uuid })
     
     # try await postData(imagesEndpointURL, { uuid })
     # catch err then log err
