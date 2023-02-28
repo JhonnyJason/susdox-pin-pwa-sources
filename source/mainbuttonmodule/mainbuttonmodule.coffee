@@ -33,6 +33,7 @@ addCodeButtonClicked = (evnt) ->
 ############################################################
 acceptButtonClicked = (evnt) ->
     log "acceptButtonClicked"
+    acceptButton.disabled = true
     try 
         credentialsframe.resetAllErrorFeedback()
         await credentialsframe.extractCredentials()
@@ -52,10 +53,13 @@ acceptButtonClicked = (evnt) ->
         # else location.href = loginRedirectURL
 
     catch err then credentialsframe.errorFeedback(err)
+    finally 
+        acceptButton.disabled = false
     return
 
 ############################################################
 codeButtonClicked = (evnt) ->
-    codeDisplay.revealOrCopy()
+    # codeDisplay.revealOrCopy()
+    codeDisplay.revealOrHide()
     return
 

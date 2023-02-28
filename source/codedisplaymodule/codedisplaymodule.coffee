@@ -57,3 +57,8 @@ export revealOrCopy = ->
     if !isRevealed then reveal()
     else copyToClipboard(currentCode)
     return
+
+export revealOrHide = ->
+    if !isRevealed then reveal()
+    else reset()
+    return
