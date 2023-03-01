@@ -9,7 +9,7 @@ import * as data from "./datamodule.js"
 import * as utl from "./utilmodule.js"
 import * as sci from "./scimodule.js"
 
-import { NetworkError, InputError } from "./errormodule.js"
+import { NetworkError, InputError, InvalidUserError } from "./errormodule.js"
 
 ############################################################
 #region DOM Cache
@@ -21,6 +21,7 @@ loginCodeInput = document.getElementById("login-code-input")
 loginBirthdayInput = document.getElementById("login-birthday-input")
 
 ############################################################
+invalidUserErrorFeedback = document.getElementById("invalid-user-error-feedback")
 networkErrorFeedback = document.getElementById("network-error-feedback")
 inputErrorFeedback = document.getElementById("input-error-feedback")
 errorFeedback = document.getElementById("error-feedback")
@@ -135,5 +136,8 @@ export errorFeedback = (error) ->
     if error instanceof InputError 
         credentialsframeContainer.classList.add("error")
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
+    if error instanceof InvalidUserError
+        credentialsframeContainer.classList.add("error")
+        userFeedback.innerHTML = invalidUserErrorFeedback.innerHTML
 
     return

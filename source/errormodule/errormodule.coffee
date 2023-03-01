@@ -12,3 +12,10 @@ export class InputError extends Error
         message = "Input Error: #{details}"
         super(message)
         @name = "InputError"
+
+############################################################
+export class InvalidUserError extends Error
+    constructor: (details) ->
+        message = "Invalid User Error: #{details}"
+        super(message)
+        @name = "InvalidUserError"

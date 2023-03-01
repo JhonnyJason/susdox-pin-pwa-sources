@@ -29,8 +29,9 @@ susdoxLinkClicked = (evnt) ->
             await doLoginRequest(loginBody)
             return
         catch err then log err
-    window.location = susdoxLink.getAttribute("href")
     return
+    # window.location = susdoxLink.getAttribute("href")
+    # return
 
 ############################################################
 getLoginBody = (credentials) ->
@@ -39,7 +40,8 @@ getLoginBody = (credentials) ->
     { dateOfBirth, code } = credentials
     username = ""+dateOfBirth
 
-    if !utl.isBase32String(code) then throw new Error("Credentials contained invalid code!")
+    if !utl.isAlphanumericString(code) then throw new Error("Credentials contained invalid code!")
+    # if !utl.isBase32String(code) then throw new Error("Credentials contained invalid code!")
 
     isMedic = false
     rememberMe = false

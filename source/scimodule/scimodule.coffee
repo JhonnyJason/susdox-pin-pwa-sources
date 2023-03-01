@@ -6,7 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as utl from "./utilmodule.js"
-import { NetworkError } from "./errormodule.js"
+import { NetworkError, InvalidUserError } from "./errormodule.js"
 import { tokenEndpointURL, imagesEndpointURL } from "./configmodule.js"
 
 ############################################################
@@ -72,7 +72,9 @@ export getCredentials = (token) ->
 ############################################################
 export getUUID = (dateOfBirth, code) ->
     log "getUUID"
-    return getData(tokenEndpointURL, { dateOfBirth, code })
+    response = await getData(tokenEndpointURL, { dateOfBirth, code })
+    if response.error? then throw new InvalidUserError()
+    return response.uuid
     
     # try await postData(tokenEndpointURL, { dateOfBirth, code })
     # catch err then log err
