@@ -105,7 +105,7 @@ export extractCredentials = ->
 
     olog {code, dateOfBirth}
 
-    if code.length != 9 then throw new InputError("Fehler im Code!")
+    if code.length != maxLen then throw new InputError("Fehler im Code!")
     if !utl.isBase32String(code) then throw new InputError("Fehler im Code!")
     if !dateOfBirth then throw new InputError("Kein Geburtsdatum gewählt!")
 
