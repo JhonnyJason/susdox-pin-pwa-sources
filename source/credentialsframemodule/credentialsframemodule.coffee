@@ -32,6 +32,10 @@ userFeedback = document.getElementById("user-feedback")
 #endregion
 
 ############################################################
+maxLen = 6
+# maxLen = 9
+
+############################################################
 export initialize = ->
     log "initialize"
     loginCodeInput.addEventListener("keydown", loginCodeInputKeyDowned)
@@ -52,11 +56,11 @@ loginCodeInputKeyDowned = (evt) ->
     if evt.keyCode == 27 then return
     
     # We we donot allow the input to grow furtherly
-    if codeLength == 9
+    if codeLength == maxLen
         evt.preventDefault()
         return false
     
-    if codeLength > 9 then loginCodeInput.value = value.slice(0,9)
+    if codeLength > maxLen then loginCodeInput.value = value.slice(0,maxLen)
 
     # okay = utl.isAlphanumericString(evt.key)
     okay = utl.isBase32String(evt.key)
@@ -87,7 +91,7 @@ loginCodeInputKeyUpped = (evt) ->
     
     del = evt.keyCode == 46 || evt.keyCode == 8
 
-    if rLen == 3 || rLen == 6 then newValue += "  " unless del
+    if rLen == 3 || (rLen == 6 && maxLen == 9) then newValue += "  " unless del
 
     loginCodeInput.value = newValue
     return
