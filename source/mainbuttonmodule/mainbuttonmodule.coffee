@@ -52,7 +52,9 @@ acceptButtonClicked = (evnt) ->
         # if !response.ok then errorFeedback("codePatient", ""+response.status)
         # else location.href = loginRedirectURL
 
-    catch err then credentialsframe.errorFeedback(err)
+    catch err 
+        log err
+        credentialsframe.errorFeedback(err)
     finally 
         acceptButton.classList.remove("disabled")
     return
