@@ -62,8 +62,8 @@ loginCodeInputKeyDowned = (evt) ->
     
     if codeLength > maxLen then loginCodeInput.value = value.slice(0,maxLen)
 
-    # okay = utl.isAlphanumericString(evt.key)
-    okay = utl.isBase32String(evt.key)
+    okay = utl.isAlphanumericString(evt.key)
+    # okay = utl.isBase32String(evt.key)
 
     if !okay
         evt.preventDefault()
@@ -106,7 +106,7 @@ export extractCredentials = ->
     olog {code, dateOfBirth}
 
     if code.length != maxLen then throw new InputError("Fehler im Code!")
-    if !utl.isBase32String(code) then throw new InputError("Fehler im Code!")
+    # if !utl.isBase32String(code) then throw new InputError("Fehler im Code!")
     if !dateOfBirth then throw new InputError("Kein Geburtsdatum gewählt!")
 
     userFeedback.innerHTML = loginPreloader.innerHTML
