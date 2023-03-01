@@ -6,7 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as tbut from "thingy-byte-utils"
-import libsodium from "libsodium-wrappers"
+import libsodium from "libsodium-wrappers-sumo"
 
 
 ############################################################
