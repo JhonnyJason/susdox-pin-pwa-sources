@@ -29,7 +29,7 @@ susdoxLinkClicked = (evnt) ->
             await doLoginRequest(loginBody)
             return
         catch err then log err
-    window.location = susdoxLink.getAttribute("href")
+    # window.location = susdoxLink.getAttribute("href")
     return
 
 ############################################################
