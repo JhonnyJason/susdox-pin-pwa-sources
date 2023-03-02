@@ -65,10 +65,12 @@ doLoginRequest = (body) ->
 
     userCreds = S.get("userCredentials")
     url = loginURL+"?token=#{loginToken}&UUID=#{userCreds.uuid}"
+    window.location.href = url
+    
+    # try return fetch(login, fetchOptions)
+    # catch err then log err
 
-    try return fetch(login, fetchOptions)
-    catch err then log err
-   
+    #####  acutal login
     # method = "POST"
     # mode = 'cors'
     # redirect =  'follow'
