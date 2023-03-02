@@ -54,7 +54,8 @@ export logout = ->
     cubeModule.reset()
     radiologistImages.reset()
     data.removeData()
-    content.setToLoginPage()
+    # content.setToLoginPage()
+    content.setToDefault()
     return
 
 export upgrade = ->
