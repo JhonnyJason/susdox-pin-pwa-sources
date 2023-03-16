@@ -78,7 +78,7 @@ export getCredentials = (token, dateOfBirth) ->
         msg = "Error in response on getCredentials - token: '#{token}' | dateOfBirth: '#{dateOfBirth}'"
         if response.error == "tokenInvalid" then  throw new InvalidTokenError(msg)
         if response.error == "tokenExpired" then  throw new ExpiredTokenError(msg)
-        if response.error == "validationFail" then  throw new ValidationError(msg)
+        if response.error == "validationFailed" then  throw new ValidationError(msg)
         throw new NetworkError("Unexpected Error! error: '#{response.error}' | #{msg}")
     return response
 
