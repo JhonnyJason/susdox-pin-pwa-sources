@@ -54,6 +54,7 @@ confirmButtonClicked = ->
         
         credentials = await sci.getCredentials(token, dateOfBirth)
         resetAllErrorFeedback()
+        confirmationpopup.classList.remove("shown")
         credentialsPromiseAccept(credentials)
     catch err then errorFeedback(err)
     finally confirmButton.classList.remove("disabled")
