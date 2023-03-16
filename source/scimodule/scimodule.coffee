@@ -6,7 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as utl from "./utilmodule.js"
-import { NetworkError, InvalidUserError } from "./errormodule.js"
+import { NetworkError, InvalidUserError, ValidationError, InvalidTokenError, ExpiredTokenError } from "./errormodule.js"
 import { tokenEndpointURL, imagesEndpointURL } from "./configmodule.js"
 
 ############################################################
@@ -49,18 +49,39 @@ getData = (url, data) ->
 
     options = { method, mode }
 
-    try 
-        # await utl.waitMS(1200)
+
+    try
         response = await fetch(url, options)
-        if !response.ok then throw new Error("Response not ok - status: #{response.status}! body: #{await response.text()}")
         return await response.json()
-    catch err then throw new NetworkError(err.message)
+    catch err
+        baseMsg = "Error! GET API request could not receive a JSON response!"
+        
+        try 
+            bodyText = "Body:  #{await response.text()}"
+            statusText = "HTTP-Status: #{response.status}"
+        catch err2
+            details = "No response could be retrieved! details: #{err.message}"
+            errorMsg = "#{baseMsg} #{details}" 
+            throw new NetworkError(errorMsg)
+
+        details = "#{statusText} #{bodyText}"
+        errorMsg = "#{baseMsg} #{details}"
+        throw new NetworkError(errorMsg)
+    return
+
 
 ############################################################
-export getCredentials = (token) ->
+export getCredentials = (token, dateOfBirth) ->
     log "getCredentials"
-    return getData(tokenEndpointURL, { token })
-  
+    response = await getData(tokenEndpointURL, { token, dateOfBirth })
+    if response.error?
+        msg = "Error in response on getCredentials - token: '#{token}' | dateOfBirth: '#{dateOfBirth}'"
+        if response.error == "tokenInvalid" then  throw new InvalidTokenError(msg)
+        if response.error == "tokenExpired" then  throw new ExpiredTokenError(msg)
+        if response.error == "validationFail" then  throw new ValidationError(msg)
+        throw new NetworkError("Unexpected Error! error: '#{response.error}' | #{msg}")
+    return response
+
     # try await postData(tokenEndpointURL, { token })
     # catch err then log err
 

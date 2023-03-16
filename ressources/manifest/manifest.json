@@ -1,6 +1,6 @@
 {
-    "name": "New Website",
-    "short_name": "N",
+    "name": "SusDoX PIN",
+    "short_name": "PIN",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -14,6 +14,7 @@
         }
     ],
     "start_url": "/",
+    "scope": "/",
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "display": "standalone"

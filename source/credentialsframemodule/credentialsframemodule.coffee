@@ -9,6 +9,7 @@ import * as data from "./datamodule.js"
 import * as utl from "./utilmodule.js"
 import * as sci from "./scimodule.js"
 
+############################################################
 import { NetworkError, InputError, InvalidUserError } from "./errormodule.js"
 
 ############################################################
@@ -24,7 +25,6 @@ loginBirthdayInput = document.getElementById("login-birthday-input")
 invalidUserErrorFeedback = document.getElementById("invalid-user-error-feedback")
 networkErrorFeedback = document.getElementById("network-error-feedback")
 inputErrorFeedback = document.getElementById("input-error-feedback")
-errorFeedback = document.getElementById("error-feedback")
 loginPreloader = document.getElementById("login-preloader")
 
 ############################################################
@@ -33,8 +33,8 @@ userFeedback = document.getElementById("user-feedback")
 #endregion
 
 ############################################################
-maxLen = 6
-# maxLen = 9
+# maxLen = 6
+maxLen = 9
 
 ############################################################
 export initialize = ->

@@ -11,6 +11,7 @@ import * as data from "./datamodule.js"
 import * as cubeModule from "./cubemodule.js"
 import * as radiologistImages from "./radiologistimagemodule.js"
 import * as sci from "./scimodule.js"
+import * as confirmPopup from "./confirmationpopupmodule.js"
 
 ############################################################
 export initialize = ->
@@ -25,7 +26,8 @@ export initialize = ->
 getTokenFromURL = ->
     log "getTokenFromURL"
     urlParams = window.location.search
-    window.history.replaceState({}, document.title, "/")
+    # TODO reinstantiate after testing
+    # window.history.replaceState({}, document.title, "/")
     olog {urlParams}
     if !urlParams then return null
     urlParams = new URLSearchParams(urlParams)
@@ -35,11 +37,6 @@ getTokenFromURL = ->
     ## TODO extract one-time key from url params
     # token = "a34b549f7bc29e6beaa1f0e59c2531d6318145d784e034e7a2878ff50763de90"
     return urlParams.get("token")
-
-############################################################
-pickUpCredentials = (token) ->
-    log "pickUpCredentials"
-    return await sci.getCredentials(token)
 
 #endregion
 
@@ -93,8 +90,8 @@ export startUp = ->
     token = getTokenFromURL()
     if token? 
         try
-            credentials = await pickUpCredentials(token)
-            log "We could pick up some credentials ;-)"
+            credentials = await confirmPopup.pickUpConfirmedCredentials(token)
+            # log "We could pick up some credentials ;-)"
             olog {credentials}
             data.removeData()
             data.setUserCredentials(credentials)

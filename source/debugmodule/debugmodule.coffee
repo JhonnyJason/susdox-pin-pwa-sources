@@ -6,6 +6,7 @@ export modulesToDebug =
     appcoremodule: true
     centerlinkmodule: true
     # configmodule: true
+    confirmationpopupmodule: true
     # credentialsframemodule: true
     # cubemodule: true
     # datamodule: true

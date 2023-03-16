@@ -36,22 +36,10 @@ acceptButtonClicked = (evnt) ->
     acceptButton.classList.add("disabled")
     try 
         credentialsframe.resetAllErrorFeedback()
+        # await utl.waitMS(5000)
         await credentialsframe.extractCredentials()
         contentModule.setToUserPage()
         
-        # await utl.waitMS(5000)
-        # credentialsframe.resetAllErrorFeedback()
-       
-        # loginBody = await extractCodeFormBody()
-        # olog {loginBody}
-
-        # if !loginBody.hashedPw and !loginBody.username then return
-
-        # response = await doLoginRequest(loginBody)
-        
-        # if !response.ok then errorFeedback("codePatient", ""+response.status)
-        # else location.href = loginRedirectURL
-
     catch err 
         log err
         credentialsframe.errorFeedback(err)
