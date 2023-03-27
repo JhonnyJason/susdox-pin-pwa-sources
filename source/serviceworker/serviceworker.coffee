@@ -1,25 +1,44 @@
-### Hello! ###
+import { appVersion } from "./configmodule.js"
 
-cacheName = 'sample-cache-name'
-filesToCache = [
-    ##list of files to be cached
+############################################################
+appCacheName = appVersion
+imageCacheName = "images"
+fontCacheName = "font"
+
+############################################################
+appFiles = [
+    "/",
+    "/manifest.json"
 ]
 
-### Start the service worker and cache all of the app's content ###
+############################################################
+fontEndings = ""
+
+############################################################
 self.addEventListener('install', installEventHandler) 
 self.addEventListener('fetch', fetchEventHandler)
 
-#region fetchFromCache
-fetchEventHandler = (event) -> event.respondWith(cacheAnswer(event.request))
+############################################################
+#region Event Handlers
+fetchEventHandler = (event) ->
+    # if event.request.
+    event.respondWith(cacheAnswer(event.request))
+    return
+
+installEventHandler = (event) -> 
+    event.waitUntil(cacheInstall())
+    return
+
+#endregion
+
+############################################################
+#region helper functions
 
 # returns a Promise as it is an asnc function as we await on other stuff ;-)
 cacheAnswer = (request) ->
     try return await caches.match(request)
     catch err then return fetch(request)
-#endregion
 
-#region cacheInstallation
-installEventHandler = (event) -> event.waitUntil(cacheInstall())
 
 # returns a Promise as it is an asnc function as we await on other stuff ;-)
 cacheInstall = ->
@@ -28,4 +47,5 @@ cacheInstall = ->
     cache = await caches.open(cacheName)
     await cache.addAll filesToCache
     return
+
 #endregion    
