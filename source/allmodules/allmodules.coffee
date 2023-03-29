@@ -15,6 +15,7 @@ import * as mainbuttonmodule from "./mainbuttonmodule.js"
 import * as menumodule from "./menumodule.js"
 import * as radiologistimagemodule from "./radiologistimagemodule.js"
 import * as scimodule from "./scimodule.js"
+import * as scrollrolldatepickermodule from "./scrollrolldatepickermodule.js"
 import * as statemodule from "./statemodule.js"
 import * as usermodalmodule from "./usermodalmodule.js"
 import * as utilmodule from "./utilmodule.js"
@@ -37,6 +38,7 @@ Modules = {
     menumodule,
     radiologistimagemodule,
     scimodule,
+    scrollrolldatepickermodule,
     statemodule,
     usermodalmodule,
     utilmodule,

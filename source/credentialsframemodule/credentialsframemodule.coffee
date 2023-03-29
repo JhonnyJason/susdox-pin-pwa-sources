@@ -13,6 +13,9 @@ import * as sci from "./scimodule.js"
 import { NetworkError, InputError, InvalidUserError } from "./errormodule.js"
 
 ############################################################
+import { ScrollRollDatepicker } from "./scrollrolldatepickermodule.js"
+
+############################################################
 #region DOM Cache
 
 credentialsframeContainer = document.getElementById("credentialsframe-container")
@@ -37,10 +40,19 @@ userFeedback = document.getElementById("user-feedback")
 maxLen = 9
 
 ############################################################
+datePicker = null
+
+############################################################
 export initialize = ->
     log "initialize"
     loginCodeInput.addEventListener("keydown", loginCodeInputKeyDowned)
     loginCodeInput.addEventListener("keyup", loginCodeInputKeyUpped)
+    
+    options = 
+        element: "login-birthday-input"
+        height: 32
+    datePicker = new ScrollRollDatepicker(options)
+    datePicker.initialize()
     return
 
 ############################################################

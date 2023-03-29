@@ -12,6 +12,9 @@ import * as utl from "./utilmodule.js"
 import { NetworkError, InputError, ValidationError, ExpiredTokenError, InvalidTokenError } from "./errormodule.js"
 
 ############################################################
+import { ScrollRollDatepicker } from "./scrollrolldatepickermodule.js"
+
+############################################################
 #region DOM Cache
 # confirmationpopupContent = document.getElementById("confirmationpopup-content")
 
@@ -28,6 +31,7 @@ confirmationPreloader = document.getElementById("confirmation-preloader")
 ############################################################
 userFeedback = document.getElementById("confirmationpopup-user-feedback")
 confirmButton = document.getElementById("confirmationpopup-confirm-button")
+
 #endregion
 
 ############################################################
@@ -36,10 +40,19 @@ credentialsPromiseAccept = null
 token = ""
 
 ############################################################
+datePicker = null
+
+############################################################
 export initialize = ->
     log "initialize"
     confirmButton.addEventListener("click", confirmButtonClicked)
     confirmationpopupCloseButton.addEventListener("click", closeButtonClicked)
+    
+    element = "confirmationpopup-birthday-input"
+    datePicker = new ScrollRollDatepicker({element})
+    await datePicker.initialize()
+    
+    olog datePicker
     return
 
 ############################################################
@@ -49,7 +62,8 @@ confirmButtonClicked = ->
     try
         resetAllErrorFeedback()
         userFeedback.innerHTML = confirmationPreloader.innerHTML
-        dateOfBirth = confirmationpopupBirthdayInput.value
+        # dateOfBirth = confirmationpopupBirthdayInput.value
+        dateOfBirth = datePicker.value
         if !dateOfBirth then throw new InputError("No dateOfBirth provided!")
         
         credentials = await sci.getCredentials(token, dateOfBirth)

@@ -11,7 +11,8 @@ include ../preloadermodule/preloader-mixins.pug
     #confirmationpopup-content
         #confirmationpopup-header 
             #confirmationpopup-close-button.click-button: svg: use(href="#svg-cross-icon")
-        label#confirmationpopup-message=content.confirmationpopupMessage
-        input#confirmationpopup-birthday-input(type="date")
-        #confirmationpopup-user-feedback
-        button#confirmationpopup-confirm-button.click-button=content.userconfirmationpopupButtonText
+        #confirmationpopup-form-container
+            label#confirmationpopup-message=content.confirmationpopupMessage
+            input#confirmationpopup-birthday-input(type="date")
+            #confirmationpopup-user-feedback
+            button#confirmationpopup-confirm-button.click-button=content.userconfirmationpopupButtonText
