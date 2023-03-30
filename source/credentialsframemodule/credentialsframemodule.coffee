@@ -155,12 +155,17 @@ export errorFeedback = (error) ->
     if error instanceof NetworkError
         credentialsframeContainer.classList.add("error")
         userFeedback.innerHTML = networkErrorFeedback.innerHTML
+        return
+    
     if error instanceof InputError
         credentialsframeContainer.classList.add("error")
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
+        return
+
     if error instanceof AuthenticationError
         credentialsframeContainer.classList.add("error")
         userFeedback.innerHTML = invalidUserErrorFeedback.innerHTML
+        return
 
     credentialsframeContainer.classList.add("error")
     userFeedback.innerHTML = "Unexptected Error occured!"

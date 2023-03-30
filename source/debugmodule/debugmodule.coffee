@@ -11,9 +11,9 @@ export modulesToDebug =
     # cubemodule: true
     # datamodule: true
     # errorfeedbackmodule: true
-    # mainbuttonmodule: true
+    mainbuttonmodule: true
     # menumodule: true
-    # radiologistimagemodule: true
+    radiologistimagemodule: true
     scimodule: true
     scrollrolldatepickermodule: true
     # statemodule: true

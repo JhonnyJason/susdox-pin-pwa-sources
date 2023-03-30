@@ -53,21 +53,27 @@ getData = (url, data) ->
 
     try
         response = await fetch(url, options)
-        return await response.json()
-    catch err
-        baseMsg = "Error! GET API request could not receive a JSON response!"
+        if response.ok then return await response.text()
         
-        try 
-            bodyText = "Body:  #{await response.text()}"
-            statusText = "HTTP-Status: #{response.status}"
-        catch err2
-            details = "No response could be retrieved! details: #{err.message}"
-            errorMsg = "#{baseMsg} #{details}" 
-            throw new NetworkError(errorMsg)
+        error = new Error("#{await response.text()}")
+        error.status = response.status
+        throw error
+    catch err
+        if err.status == 401 then throw new AuthenticationError(err.message)
+        throw new NetworkError(err.message)
+        # baseMsg = "Error! GET API request could not receive a JSON response!"
+        
+        # try 
+        #     bodyText = "Body:  #{await response.text()}"
+        #     statusText = "HTTP-Status: #{response.status}"
+        # catch err2
+        #     details = "No response could be retrieved! details: #{err.message}"
+        #     errorMsg = "#{baseMsg} #{details}" 
+        #     throw new NetworkError(errorMsg)
 
-        details = "#{statusText} #{bodyText}"
-        errorMsg = "#{baseMsg} #{details}"
-        throw new NetworkError(errorMsg)
+        # details = "#{statusText} #{bodyText}"
+        # errorMsg = "#{baseMsg} #{details}"
+        # throw new NetworkError(errorMsg)
     return
 
 ############################################################

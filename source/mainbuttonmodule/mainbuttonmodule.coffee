@@ -41,7 +41,7 @@ acceptButtonClicked = (evnt) ->
         await credentialsframe.extractCredentials()
         contentModule.setToUserPage()
         
-    catch err 
+    catch err
         log err
         credentialsframe.errorFeedback(err)
     finally 

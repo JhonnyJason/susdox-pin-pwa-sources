@@ -118,20 +118,8 @@ errorFeedback = (error) ->
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
         return
 
-    # if error instanceof InvalidTokenError
-    #     confirmationpopupContent.classList.add("error")
-    #     userFeedback.innerHTML = invalidTokenErrorFeedback.innerHTML
-    #     return
-
-    # if error instanceof ExpiredTokenError
-    #     confirmationpopupContent.classList.add("error")
-    #     userFeedback.innerHTML = expiredTokenErrorFeedback.innerHTML
-    #     return
-
     confirmationpopupContent.classList.add("error")
     userFeedback.innerHTML = "Unexptected Error occured!"
-
-
     return
 
 ############################################################
