@@ -4,9 +4,9 @@ import { addModulesToDebug } from "thingy-debug"
 export modulesToDebug = 
     
     appcoremodule: true
-    # centerlinkmodule: true
+    centerlinkmodule: true
     # configmodule: true
-    confirmationpopupmodule: true
+    # confirmationpopupmodule: true
     # credentialsframemodule: true
     # cubemodule: true
     # datamodule: true

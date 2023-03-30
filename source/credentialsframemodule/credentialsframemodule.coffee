@@ -114,7 +114,8 @@ export extractCredentials = ->
     log "extractCredentials"
     value = loginCodeInput.value
     code = value.replaceAll(" ", "")
-    dateOfBirth = loginBirthdayInput.value
+    # dateOfBirth = loginBirthdayInput.value
+    dateOfBirth = datePicker.value
 
     olog {code, dateOfBirth}
 
@@ -122,14 +123,26 @@ export extractCredentials = ->
     # if !utl.isBase32String(code) then throw new InputError("Fehler im Code!")
     if !dateOfBirth then throw new InputError("Kein Geburtsdatum gewählt!")
 
+    credentials = { code, dateOfBirth }
+    loginBody = utl.loginRequestBody(credentials)
     userFeedback.innerHTML = loginPreloader.innerHTML
-    uuid = await sci.getUUID(dateOfBirth, code)
-    credentials = { uuid, code, dateOfBirth }
-    data.setUserCredentials(credentials)
+        
+    response = await sci.loginRequest(loginBody)
+    if !response.ok then throw new Error("Unexpected StatusCode: #{response.status}\n#{await response.text()}")
+
+    data.setUserCredentials(credentials)    
+    # datePicker.reset()
     loginCodeInput.value = ""
     loginBirthdayInput.value = ""
     userFeedback.innerHTML = ""
     return
+
+############################################################
+export makeAcceptable = ->
+    log "makeAcceptable"
+    if datePicker.isOn then datePicker.acceptCurrentPositions()
+    if datePicker.isOn then return false
+    return true
 
 ############################################################
 export resetAllErrorFeedback = ->

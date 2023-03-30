@@ -34,7 +34,8 @@ addCodeButtonClicked = (evnt) ->
 acceptButtonClicked = (evnt) ->
     log "acceptButtonClicked"
     acceptButton.classList.add("disabled")
-    try 
+    try
+        if !credentialsframe.makeAcceptable() then return
         credentialsframe.resetAllErrorFeedback()
         # await utl.waitMS(5000)
         await credentialsframe.extractCredentials()

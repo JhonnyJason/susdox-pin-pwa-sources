@@ -23,19 +23,17 @@ export initialize = ->
 #region internal Functions
 
 ############################################################
-getTokenFromURL = ->
-    log "getTokenFromURL"
-    urlParams = window.location.search
-    window.history.replaceState({}, document.title, "/")
-    olog {urlParams}
-    if !urlParams then return null
-    urlParams = new URLSearchParams(urlParams)
+getCodeFromURL = ->
+    log "getCodeFromURL"
+    url = new URL(window.location)
+    hash = url.hash
 
-    # log "We had some URL Params:"
-    # olog {urlParams}
-    ## TODO extract one-time key from url params
-    # token = "a34b549f7bc29e6beaa1f0e59c2531d6318145d784e034e7a2878ff50763de90"
-    return urlParams.get("token")
+    window.history.replaceState({}, document.title, "/")
+    if !hash then return null
+    
+    code = hash.replace("#", "")
+    log code
+    return code
 
 #endregion
 
@@ -76,7 +74,7 @@ login = ->
     ## Check for updates
     imageURLs = []
     try
-        imageURLs = await sci.getImages(credentials.uuid)
+        imageURLs = await sci.getImages(credentials)
     catch err then log err
     data.setRadiologistImages(imageURLs)
     return
@@ -86,10 +84,10 @@ export startUp = ->
     log "startUp"
 
     ## Check if we got some parameters to login automatically
-    token = getTokenFromURL()
-    if token? 
+    code = getCodeFromURL()
+    if code? 
         try
-            credentials = await confirmPopup.pickUpConfirmedCredentials(token)
+            credentials = await confirmPopup.pickUpConfirmedCredentials(code)
             # log "We could pick up some credentials ;-)"
             olog {credentials}
             data.removeData()

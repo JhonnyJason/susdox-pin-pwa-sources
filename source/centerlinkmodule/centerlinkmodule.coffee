@@ -7,7 +7,6 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 import * as S from "./statemodule.js"
 import *  as utl from "./utilmodule.js"
-import { loginURL, loginToken } from "./configmodule.js"
 
 ############################################################
 susdoxLink = document.getElementById("susdox-link")
@@ -25,64 +24,13 @@ susdoxLinkClicked = (evnt) ->
     credentials = S.load("userCredentials")
     if credentials? and Object.keys(credentials).length > 0 
         try
-            loginBody = getLoginBody(credentials)
-            await doLoginRequest(loginBody)
+            loginBody = utl.loginRequestBody(credentials)
+            response = await sci.loginWithRedirect(loginBody)
+
+            if !response.ok then throw new Error("Unexpected StatusCode: #{response.status}\n#{await response.text()}")
+            
             return
         catch err then log err
-    window.location = susdoxLink.getAttribute("href")
+    window.open(susdoxLink.getAttribute("href"), "_blank")
     return
 
-############################################################
-getLoginBody = (credentials) ->
-    log "getLoginBody"
-
-    { dateOfBirth, code } = credentials
-    username = ""+dateOfBirth
-
-    if !utl.isAlphanumericString(code) then throw new Error("Credentials contained invalid code!")
-    # if !utl.isBase32String(code) then throw new Error("Credentials contained invalid code!")
-
-    isMedic = false
-    rememberMe = false
-
-    hashedPw = utl.argon2HashPw(code, username)
-
-    return {username, hashedPw, isMedic, rememberMe}
-
-
-############################################################
-doLoginRequest = (body) ->
-    log "doLoginRequest"
-    method = "POST"
-    mode = 'cors'
-    redirect =  'follow'
-    credentials = 'include'
-        
-    headers = { 'Content-Type': 'application/application/x-www-form-urlencoded' }
-
-
-    fetchOptions = { method, mode, redirect, credentials, headers }
-
-    userCreds = S.get("userCredentials")
-    url = loginURL+"?token=#{loginToken}&UUID=#{userCreds.uuid}"
-    window.location.href = url
-    
-    # try return fetch(login, fetchOptions)
-    # catch err then log err
-
-    #####  acutal login
-    # method = "POST"
-    # mode = 'cors'
-    # redirect =  'follow'
-    # credentials = 'include'
-    
-    # # json body
-    # headers = { 'Content-Type': 'application/json' }
-    # body = JSON.stringify(body)
-
-    # fetchOptions = { method, mode, redirect, credentials, headers, body }
-
-    # try return fetch(loginURL, fetchOptions)
-    # catch err then log err
-    return
-   

@@ -37,7 +37,7 @@ confirmButton = document.getElementById("confirmationpopup-confirm-button")
 ############################################################
 credentialsPromiseReject = null
 credentialsPromiseAccept = null
-token = ""
+code = ""
 
 ############################################################
 datePicker = null
@@ -56,17 +56,30 @@ export initialize = ->
     return
 
 ############################################################
+makeAcceptable = ->
+    log "makeAcceptable"
+    if datePicker.isOn then datePicker.acceptCurrentPositions()
+    if datePicker.isOn then return false
+    return true
+
+############################################################
 confirmButtonClicked = ->
     log "confirmButtonClicked"
     confirmButton.classList.add("disabled")
     try
+        if !makeAcceptable() then return
         resetAllErrorFeedback()
-        userFeedback.innerHTML = confirmationPreloader.innerHTML
         # dateOfBirth = confirmationpopupBirthdayInput.value
         dateOfBirth = datePicker.value
         if !dateOfBirth then throw new InputError("No dateOfBirth provided!")
         
-        credentials = await sci.getCredentials(token, dateOfBirth)
+        credentials = {code, dateOfBirth}
+        loginBody = utl.loginRequestBody(credentials)
+        userFeedback.innerHTML = confirmationPreloader.innerHTML
+        
+        response = await sci.loginRequest(loginBody)
+        if !response.ok then throw new Error("Unexpected StatusCode: #{response.status}\n#{await response.text()}")
+
         resetAllErrorFeedback()
         confirmationpopup.classList.remove("shown")
         credentialsPromiseAccept(credentials)
@@ -130,9 +143,9 @@ resetAllErrorFeedback = ->
     return
 
 ############################################################
-export pickUpConfirmedCredentials = (givenToken) ->
+export pickUpConfirmedCredentials = (givenCode) ->
     log "userBirthdayConfirm"
-    token = givenToken
+    code = givenCode
     confirmationpopup.classList.add("shown")
 
     credentialsPromise = new Promise (resolve, reject) ->

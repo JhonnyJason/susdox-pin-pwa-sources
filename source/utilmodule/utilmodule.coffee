@@ -159,6 +159,22 @@ generatePBKDF2SubtleCrypto = (username, pwd) ->
     return derivedKeyBase64
 
 ############################################################
+export loginRequestBody = (credentials) ->
+    { dateOfBirth, code } = credentials
+    username = ""+dateOfBirth
+
+    if !isAlphanumericString(code) then throw new Error("Credentials contained invalid code!")
+    # if !utl.isBase32String(code) then throw new Error("Credentials contained invalid code!")
+
+    isMedic = false
+    rememberMe = false
+
+    hashedPw = argon2HashPw(code, username)
+
+    return {username, hashedPw, isMedic, rememberMe}
+
+
+############################################################
 export hashUsernamePw = (username, pwd) ->
     if username.length < 4 then username = username + username + username
     if username.length < 8 then username = username + username

@@ -8,6 +8,7 @@ import { createLogFunctions } from "thingy-debug"
 import * as utl from "./utilmodule.js"
 import { NetworkError, InvalidUserError, ValidationError, InvalidTokenError, ExpiredTokenError } from "./errormodule.js"
 import { tokenEndpointURL, imagesEndpointURL } from "./configmodule.js"
+import { loginURL } from "./configmodule.js"
 
 ############################################################
 postData = (url, data) ->
@@ -69,40 +70,6 @@ getData = (url, data) ->
         throw new NetworkError(errorMsg)
     return
 
-
-############################################################
-export getCredentials = (token, dateOfBirth) ->
-    log "getCredentials"
-    response = await getData(tokenEndpointURL, { token, dateOfBirth })
-    if response.error?
-        msg = "Error in response on getCredentials - token: '#{token}' | dateOfBirth: '#{dateOfBirth}'"
-        if response.error == "tokenInvalid" then  throw new InvalidTokenError(msg)
-        if response.error == "tokenExpired" then  throw new ExpiredTokenError(msg)
-        if response.error == "validationFailed" then  throw new ValidationError(msg)
-        throw new NetworkError("Unexpected Error! error: '#{response.error}' | #{msg}")
-    return response
-
-    # try await postData(tokenEndpointURL, { token })
-    # catch err then log err
-
-    # uuid = "bf8603c5-7435-44d4-b1d0-22a5f67441c8"
-    # code = "23456789a"
-    # dateOfBirth = "2001-02-01"
-    # return { uuid, code, dateOfBirth }
-
-############################################################
-export getUUID = (dateOfBirth, code) ->
-    log "getUUID"
-    response = await getData(tokenEndpointURL, { dateOfBirth, code })
-    if response.error? then throw new InvalidUserError()
-    return response.uuid
-    
-    # try await postData(tokenEndpointURL, { dateOfBirth, code })
-    # catch err then log err
-
-    # uuid = "bf8603c5-7435-44d4-b1d0-22a5f67441c8"
-    # return { uuid, code, dateOfBirth }
-
 ############################################################
 export getImages = (uuid) ->
     log "getImages"
@@ -116,3 +83,93 @@ export getImages = (uuid) ->
     #     "/img/karner-logo.jpg"
     # ]
 
+############################################################
+export loginWithRedirect = (body) ->
+    log "loginWithRedirect"
+    # method = "POST"
+    # mode = 'cors'
+    # redirect =  'follow'
+    # credentials = 'include'
+        
+    # headers = { 'Content-Type': 'application/application/x-www-form-urlencoded' }
+
+
+    # fetchOptions = { method, mode, redirect, credentials, headers }
+
+    # userCreds = S.get("userCredentials")
+    # url = loginURL+"?token=#{loginToken}&UUID=#{userCreds.uuid}"
+    # window.location.href = url
+    
+    # # try return fetch(login, fetchOptions)
+    # # catch err then log err
+
+    # #####  acutal login
+
+    method = "POST"
+    mode = 'cors'
+    redirect =  'follow'
+    credentials = 'include'
+    
+    # json body
+    headers = { 'Content-Type': 'application/json' }
+    body = JSON.stringify(body)
+
+    fetchOptions = { method, mode, redirect, credentials, headers, body }
+
+    try return fetch(loginURL, fetchOptions)
+    catch err then log err   
+    return
+
+############################################################
+export loginRequest = (body) ->
+    method = "POST"
+    mode = 'cors'
+    redirect =  'manual'
+    credentials = 'include'
+    
+    # json body
+    headers = { 'Content-Type': 'application/json' }
+    body = JSON.stringify(body)
+
+    fetchOptions = { method, mode, redirect, credentials, headers, body }
+
+    try return fetch(loginURL, fetchOptions)
+    catch err then log err   
+    return
+
+
+############################################################
+#region deprecated Code
+# ############################################################
+# export getCredentials = (token, dateOfBirth) ->
+#     log "getCredentials"
+#     response = await getData(tokenEndpointURL, { token, dateOfBirth })
+#     if response.error?
+#         msg = "Error in response on getCredentials - token: '#{token}' | dateOfBirth: '#{dateOfBirth}'"
+#         if response.error == "tokenInvalid" then  throw new InvalidTokenError(msg)
+#         if response.error == "tokenExpired" then  throw new ExpiredTokenError(msg)
+#         if response.error == "validationFailed" then  throw new ValidationError(msg)
+#         throw new NetworkError("Unexpected Error! error: '#{response.error}' | #{msg}")
+#     return response
+
+#     # try await postData(tokenEndpointURL, { token })
+#     # catch err then log err
+
+#     # uuid = "bf8603c5-7435-44d4-b1d0-22a5f67441c8"
+#     # code = "23456789a"
+#     # dateOfBirth = "2001-02-01"
+#     # return { uuid, code, dateOfBirth }
+
+# ############################################################
+# export getUUID = (dateOfBirth, code) ->
+#     log "getUUID"
+#     response = await getData(tokenEndpointURL, { dateOfBirth, code })
+#     if response.error? then throw new InvalidUserError()
+#     return response.uuid
+    
+#     # try await postData(tokenEndpointURL, { dateOfBirth, code })
+#     # catch err then log err
+
+#     # uuid = "bf8603c5-7435-44d4-b1d0-22a5f67441c8"
+#     # return { uuid, code, dateOfBirth }
+#endregion
