@@ -10,7 +10,7 @@ import * as utl from "./utilmodule.js"
 import * as sci from "./scimodule.js"
 
 ############################################################
-import { NetworkError, InputError, InvalidUserError } from "./errormodule.js"
+import { NetworkError, InputError, AuthenticationError } from "./errormodule.js"
 
 ############################################################
 import { ScrollRollDatepicker } from "./scrollrolldatepickermodule.js"
@@ -36,10 +36,6 @@ userFeedback = document.getElementById("user-feedback")
 #endregion
 
 ############################################################
-# maxLen = 6
-maxLen = 9
-
-############################################################
 datePicker = null
 
 ############################################################
@@ -58,8 +54,6 @@ export initialize = ->
 ############################################################
 loginCodeInputKeyDowned = (evt) ->
     # log "svnPartKeyUpped"
-    value = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
-    codeLength = value.length
     
     # 46 is delete
     if evt.keyCode == 46 then return    
@@ -68,30 +62,9 @@ loginCodeInputKeyDowned = (evt) ->
     # 27 is escape
     if evt.keyCode == 27 then return
     
-    # We we donot allow the input to grow furtherly
-    if codeLength == maxLen
-        evt.preventDefault()
-        return false
-    
-    if codeLength > maxLen then loginCodeInput.value = value.slice(0,maxLen)
-
-    okay = utl.isAlphanumericString(evt.key)
-    # okay = utl.isBase32String(evt.key)
-
-    if !okay
-        evt.preventDefault()
-        return false
-    return
-
-############################################################
-loginCodeInputKeyUpped = (evt) ->
-    # log "svnPartKeyUpped"
-    value = loginCodeInput.value
-    codeLength = value.length
-
-    codeTokens = []
-    rawCode = value.replaceAll(" ", "").toLowerCase()
+    rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
     rLen = rawCode.length
+    codeTokens = []
     
     log "rawCode #{rawCode}"
     if rLen > 0
@@ -101,10 +74,35 @@ loginCodeInputKeyUpped = (evt) ->
     if rLen > 6
         codeTokens.push(rawCode.slice(6))
     newValue = codeTokens.join("  ")
-    
-    del = evt.keyCode == 46 || evt.keyCode == 8
 
-    if rLen == 3 || (rLen == 6 && maxLen == 9) then newValue += "  " unless del
+    if (rLen == 3 or rLen == 6) then newValue += "  "    
+
+    loginCodeInput.value = newValue
+    return
+
+############################################################
+loginCodeInputKeyUpped = (evt) ->
+    # log "svnPartKeyUpped"
+    rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
+    newCode = ""
+    # filter out all the illegal characters
+    for c in rawCode when utl.isAlphanumericString(c)
+        newCode += c
+
+    rLen = newCode.length
+    if rLen > 9 then newCode = newCode.slice(0, 9)
+    rLen = newCode.length
+
+    codeTokens = []
+    
+    log "rawCode #{newCode}"
+    if rLen > 0
+        codeTokens.push(newCode.slice(0,3))
+    if rLen > 3
+        codeTokens.push(newCode.slice(3,6))
+    if rLen > 6
+        codeTokens.push(newCode.slice(6))
+    newValue = codeTokens.join("  ")
 
     loginCodeInput.value = newValue
     return
@@ -112,23 +110,22 @@ loginCodeInputKeyUpped = (evt) ->
 ############################################################
 export extractCredentials = ->
     log "extractCredentials"
-    value = loginCodeInput.value
-    code = value.replaceAll(" ", "")
+    code = loginCodeInput.value.replaceAll(" ", "")
     # dateOfBirth = loginBirthdayInput.value
     dateOfBirth = datePicker.value
 
     olog {code, dateOfBirth}
 
-    if code.length != maxLen then throw new InputError("Fehler im Code!")
+    if !(code.length == 6 or code.length == 9) then throw new InputError("Fehler im Code!")
     # if !utl.isBase32String(code) then throw new InputError("Fehler im Code!")
     if !dateOfBirth then throw new InputError("Kein Geburtsdatum gewählt!")
 
     credentials = { code, dateOfBirth }
     loginBody = utl.loginRequestBody(credentials)
     userFeedback.innerHTML = loginPreloader.innerHTML
-        
-    response = await sci.loginRequest(loginBody)
-    if !response.ok then throw new Error("Unexpected StatusCode: #{response.status}\n#{await response.text()}")
+
+    rersponse = await sci.loginRequest(loginBody)
+    log "#{await response.text()}"
 
     data.setUserCredentials(credentials)    
     # datePicker.reset()
@@ -158,10 +155,10 @@ export errorFeedback = (error) ->
     if error instanceof NetworkError
         credentialsframeContainer.classList.add("error")
         userFeedback.innerHTML = networkErrorFeedback.innerHTML
-    if error instanceof InputError 
+    if error instanceof InputError
         credentialsframeContainer.classList.add("error")
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
-    if error instanceof InvalidUserError
+    if error instanceof AuthenticationError
         credentialsframeContainer.classList.add("error")
         userFeedback.innerHTML = invalidUserErrorFeedback.innerHTML
 

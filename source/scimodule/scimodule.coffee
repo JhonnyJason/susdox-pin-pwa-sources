@@ -6,7 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as utl from "./utilmodule.js"
-import { NetworkError, InvalidUserError, ValidationError, InvalidTokenError, ExpiredTokenError } from "./errormodule.js"
+import { NetworkError, AuthenticationError } from "./errormodule.js"
 import { tokenEndpointURL, imagesEndpointURL } from "./configmodule.js"
 import { loginURL } from "./configmodule.js"
 
@@ -86,38 +86,20 @@ export getImages = (uuid) ->
 ############################################################
 export loginWithRedirect = (body) ->
     log "loginWithRedirect"
-    # method = "POST"
-    # mode = 'cors'
-    # redirect =  'follow'
-    # credentials = 'include'
-        
-    # headers = { 'Content-Type': 'application/application/x-www-form-urlencoded' }
-
-
-    # fetchOptions = { method, mode, redirect, credentials, headers }
-
-    # userCreds = S.get("userCredentials")
-    # url = loginURL+"?token=#{loginToken}&UUID=#{userCreds.uuid}"
-    # window.location.href = url
-    
-    # # try return fetch(login, fetchOptions)
-    # # catch err then log err
-
-    # #####  acutal login
-
     method = "POST"
     mode = 'cors'
     redirect =  'follow'
     credentials = 'include'
     
-    # json body
     headers = { 'Content-Type': 'application/json' }
     body = JSON.stringify(body)
 
     fetchOptions = { method, mode, redirect, credentials, headers, body }
 
-    try return fetch(loginURL, fetchOptions)
-    catch err then log err   
+    try return await fetch(loginURL, fetchOptions)        
+    catch err
+        if err.status == 401 then throw new AuthenticationError(err.message)
+        throw new NetworkError(err.message)
     return
 
 ############################################################
@@ -133,10 +115,11 @@ export loginRequest = (body) ->
 
     fetchOptions = { method, mode, redirect, credentials, headers, body }
 
-    try return fetch(loginURL, fetchOptions)
-    catch err then log err   
+    try return await fetch(loginURL, fetchOptions)        
+    catch err
+        if err.status == 401 then throw new AuthenticationError(err.message)
+        throw new NetworkError(err.message)
     return
-
 
 ############################################################
 #region deprecated Code

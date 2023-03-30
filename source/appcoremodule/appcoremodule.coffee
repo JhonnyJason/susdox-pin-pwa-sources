@@ -12,6 +12,7 @@ import * as cubeModule from "./cubemodule.js"
 import * as radiologistImages from "./radiologistimagemodule.js"
 import * as sci from "./scimodule.js"
 import * as confirmPopup from "./confirmationpopupmodule.js"
+import { AuthenticationError } from "./errormodule.js"
 
 ############################################################
 export initialize = ->
@@ -75,7 +76,10 @@ login = ->
     imageURLs = []
     try
         imageURLs = await sci.getImages(credentials)
-    catch err then log err
+    catch err 
+        log err
+        if err instanceof AuthenticationError then logout()
+        return
     data.setRadiologistImages(imageURLs)
     return
     
@@ -94,7 +98,6 @@ export startUp = ->
             data.setUserCredentials(credentials)
             return
         catch err then log err
-
 
     credentials = S.load("userCredentials")
     if credentials and Object.keys(credentials).length > 0 then login()

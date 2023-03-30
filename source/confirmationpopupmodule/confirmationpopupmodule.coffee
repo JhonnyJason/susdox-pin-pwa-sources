@@ -9,7 +9,7 @@ import * as sci from "./scimodule.js"
 import * as utl from "./utilmodule.js"
 
 ############################################################
-import { NetworkError, InputError, ValidationError, ExpiredTokenError, InvalidTokenError } from "./errormodule.js"
+import { NetworkError, InputError, AuthenticationError } from "./errormodule.js"
 
 ############################################################
 import { ScrollRollDatepicker } from "./scrollrolldatepickermodule.js"
@@ -77,8 +77,8 @@ confirmButtonClicked = ->
         loginBody = utl.loginRequestBody(credentials)
         userFeedback.innerHTML = confirmationPreloader.innerHTML
         
-        response = await sci.loginRequest(loginBody)
-        if !response.ok then throw new Error("Unexpected StatusCode: #{response.status}\n#{await response.text()}")
+        rersponse = await sci.loginRequest(loginBody)
+        log "#{await response.text()}"
 
         resetAllErrorFeedback()
         confirmationpopup.classList.remove("shown")
@@ -112,21 +112,21 @@ errorFeedback = (error) ->
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
         return
 
-    if error instanceof ValidationError 
+    if error instanceof AuthenticationError 
         confirmationpopupContent.classList.add("error")
         confirmationpopupBirthdayInput.classList.add("error")
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
         return
 
-    if error instanceof InvalidTokenError
-        confirmationpopupContent.classList.add("error")
-        userFeedback.innerHTML = invalidTokenErrorFeedback.innerHTML
-        return
+    # if error instanceof InvalidTokenError
+    #     confirmationpopupContent.classList.add("error")
+    #     userFeedback.innerHTML = invalidTokenErrorFeedback.innerHTML
+    #     return
 
-    if error instanceof ExpiredTokenError
-        confirmationpopupContent.classList.add("error")
-        userFeedback.innerHTML = expiredTokenErrorFeedback.innerHTML
-        return
+    # if error instanceof ExpiredTokenError
+    #     confirmationpopupContent.classList.add("error")
+    #     userFeedback.innerHTML = expiredTokenErrorFeedback.innerHTML
+    #     return
 
     confirmationpopupContent.classList.add("error")
     userFeedback.innerHTML = "Unexptected Error occured!"

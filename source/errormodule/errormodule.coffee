@@ -11,27 +11,7 @@ export class InputError extends Error
         @name = "InputError"
 
 ############################################################
-export class InvalidUserError extends Error
+export class AuthenticationError extends Error
     constructor: (message) ->
         super(message)
-        @name = "InvalidUserError"
-
-############################################################
-export class ValidationError extends Error
-    constructor: (message) ->
-        super(message)
-        @name = "ValidationError"
-
-
-############################################################
-export class InvalidTokenError extends Error
-    constructor: (message) ->
-        super(message)
-        @name = "InvalidTokenError"
-
-############################################################
-export class ExpiredTokenError extends Error
-    constructor: (message) ->
-        super(message)
-        @name = "ExpiredTokenError"
-
+        @name = "AuthenticationError"

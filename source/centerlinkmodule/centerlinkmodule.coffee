@@ -26,8 +26,7 @@ susdoxLinkClicked = (evnt) ->
         try
             loginBody = utl.loginRequestBody(credentials)
             response = await sci.loginWithRedirect(loginBody)
-
-            if !response.ok then throw new Error("Unexpected StatusCode: #{response.status}\n#{await response.text()}")
+            log "#{await response.text()}"
             
             return
         catch err then log err
