@@ -83,7 +83,6 @@ login = ->
     catch err 
         log err
         if err instanceof AuthenticationError then logout()
-        return
     data.setRadiologistImages(imageURLs)
     return
     

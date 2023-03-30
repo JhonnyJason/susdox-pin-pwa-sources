@@ -112,7 +112,7 @@ errorFeedback = (error) ->
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
         return
 
-    if error instanceof AuthenticationError 
+    if error instanceof AuthenticationError
         confirmationpopupContent.classList.add("error")
         confirmationpopupBirthdayInput.classList.add("error")
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
