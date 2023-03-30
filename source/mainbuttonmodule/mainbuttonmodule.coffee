@@ -23,7 +23,6 @@ export initialize = ->
     codeButton.addEventListener("click", codeButtonClicked)
     return
 
-
 ############################################################
 addCodeButtonClicked = (evnt) ->
     log "addCodeButtonClicked"
