@@ -11,6 +11,7 @@ import * as data from "./datamodule.js"
 import * as cubeModule from "./cubemodule.js"
 import * as radiologistImages from "./radiologistimagemodule.js"
 import * as sci from "./scimodule.js"
+import * as utl from "./utilmodule.js"
 import * as confirmPopup from "./confirmationpopupmodule.js"
 import { AuthenticationError } from "./errormodule.js"
 
@@ -75,6 +76,9 @@ login = ->
     ## Check for updates
     imageURLs = []
     try
+        loginBody = utl.loginRequestBody(credentials)
+        response = await sci.loginRequest(loginBody)
+        log response 
         imageURLs = await sci.getImages(credentials)
     catch err 
         log err

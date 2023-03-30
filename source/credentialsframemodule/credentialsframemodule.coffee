@@ -162,4 +162,6 @@ export errorFeedback = (error) ->
         credentialsframeContainer.classList.add("error")
         userFeedback.innerHTML = invalidUserErrorFeedback.innerHTML
 
+    credentialsframeContainer.classList.add("error")
+    userFeedback.innerHTML = "Unexptected Error occured!"
     return

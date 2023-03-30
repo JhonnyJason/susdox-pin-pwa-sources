@@ -71,9 +71,9 @@ getData = (url, data) ->
     return
 
 ############################################################
-export getImages = (uuid) ->
+export getImages = (credentials) ->
     log "getImages"
-    return getData(imagesEndpointURL, { uuid })
+    return getData(imagesEndpointURL, credentials)
     
     # try await postData(imagesEndpointURL, { uuid })
     # catch err then log err
@@ -96,7 +96,13 @@ export loginWithRedirect = (body) ->
 
     fetchOptions = { method, mode, redirect, credentials, headers, body }
 
-    try return await fetch(loginURL, fetchOptions)        
+    try 
+        response = await fetch(loginURL, fetchOptions)
+        if response.ok then return await response.text()
+        
+        error = new Error("#{await response.text()}")
+        error.status = response.status
+        throw error
     catch err
         if err.status == 401 then throw new AuthenticationError(err.message)
         throw new NetworkError(err.message)
@@ -115,7 +121,13 @@ export loginRequest = (body) ->
 
     fetchOptions = { method, mode, redirect, credentials, headers, body }
 
-    try return await fetch(loginURL, fetchOptions)        
+    try 
+        response = await fetch(loginURL, fetchOptions)
+        if response.ok then return await response.text()
+        
+        error = new Error("#{await response.text()}")
+        error.status = response.status
+        throw error
     catch err
         if err.status == 401 then throw new AuthenticationError(err.message)
         throw new NetworkError(err.message)

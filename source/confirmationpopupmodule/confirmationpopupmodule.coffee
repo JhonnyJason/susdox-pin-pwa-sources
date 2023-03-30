@@ -69,16 +69,16 @@ confirmButtonClicked = ->
     try
         if !makeAcceptable() then return
         resetAllErrorFeedback()
+        userFeedback.innerHTML = confirmationPreloader.innerHTML
         # dateOfBirth = confirmationpopupBirthdayInput.value
         dateOfBirth = datePicker.value
         if !dateOfBirth then throw new InputError("No dateOfBirth provided!")
         
         credentials = {code, dateOfBirth}
-        loginBody = utl.loginRequestBody(credentials)
-        userFeedback.innerHTML = confirmationPreloader.innerHTML
+        loginBody = await utl.loginRequestBody(credentials)
         
-        rersponse = await sci.loginRequest(loginBody)
-        log "#{await response.text()}"
+        response = await sci.loginRequest(loginBody)
+        log response
 
         resetAllErrorFeedback()
         confirmationpopup.classList.remove("shown")

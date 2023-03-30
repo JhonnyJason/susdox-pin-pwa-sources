@@ -173,7 +173,6 @@ export loginRequestBody = (credentials) ->
 
     return {username, hashedPw, isMedic, rememberMe}
 
-
 ############################################################
 export hashUsernamePw = (username, pwd) ->
     if username.length < 4 then username = username + username + username
