@@ -55,11 +55,12 @@ export initialize = ->
 loginCodeInputKeyDowned = (evt) ->
     # log "svnPartKeyUpped"
     runner = 10000
-    code =""
+    code = ""
     while(runner)
         code = runner
         runner--
         code = loginCodeInput.value 
+    code += "."
     loginCodeInput.value = code
     return
     
@@ -92,11 +93,12 @@ loginCodeInputKeyDowned = (evt) ->
 loginCodeInputKeyUpped = (evt) ->
     # log "svnPartKeyUpped"
     runner = 10000
-    code =""
+    code = ""
     while(runner)
         code = runner
         runner--
-        code = loginCodeInput.value 
+        code = loginCodeInput.value
+    code += "."
     loginCodeInput.value = code
     return
     
