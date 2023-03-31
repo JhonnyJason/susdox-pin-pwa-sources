@@ -54,6 +54,12 @@ export initialize = ->
 ############################################################
 loginCodeInputKeyDowned = (evt) ->
     # log "svnPartKeyUpped"
+    runner = 10000
+    code =""
+    while(runner)
+        code = loginCodeInput.value 
+        runner--
+        code = runner
     return
     
     # 46 is delete
@@ -84,6 +90,12 @@ loginCodeInputKeyDowned = (evt) ->
 ############################################################
 loginCodeInputKeyUpped = (evt) ->
     # log "svnPartKeyUpped"
+    runner = 10000
+    code =""
+    while(runner)
+        code = loginCodeInput.value 
+        runner--
+        code = runner
     return
     
     rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
