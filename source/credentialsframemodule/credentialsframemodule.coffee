@@ -57,9 +57,10 @@ loginCodeInputKeyDowned = (evt) ->
     runner = 10000
     code =""
     while(runner)
-        code = loginCodeInput.value 
-        runner--
         code = runner
+        runner--
+        code = loginCodeInput.value 
+    loginCodeInput.value = code
     return
     
     # 46 is delete
@@ -93,9 +94,10 @@ loginCodeInputKeyUpped = (evt) ->
     runner = 10000
     code =""
     while(runner)
-        code = loginCodeInput.value 
-        runner--
         code = runner
+        runner--
+        code = loginCodeInput.value 
+    loginCodeInput.value = code
     return
     
     rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
