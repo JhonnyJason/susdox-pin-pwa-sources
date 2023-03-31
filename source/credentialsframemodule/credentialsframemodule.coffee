@@ -71,7 +71,8 @@ loginCodeInputKeyDowned = (evt) ->
     # 27 is escape
     if evt.keyCode == 27 then return
     
-    rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
+    # rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
+    rawCode = loginCodeInput.value.replaceAll(" ", "")
     rLen = rawCode.length
     codeTokens = []
     
