@@ -103,7 +103,8 @@ loginCodeInputKeyUpped = (evt) ->
     # loginCodeInput.value = code
     # return
     
-    rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
+    # rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
+    rawCode = loginCodeInput.value.replaceAll(" ", "")
     newCode = ""
     # filter out all the illegal characters
     for c in rawCode when utl.isAlphanumericString(c)
