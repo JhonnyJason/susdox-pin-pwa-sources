@@ -173,6 +173,7 @@ export loginRequestBody = (credentials) ->
 
     return {username, hashedPw, isMedic, rememberMe}
 
+
 ############################################################
 export hashUsernamePw = (username, pwd) ->
     if username.length < 4 then username = username + username + username
@@ -195,6 +196,7 @@ export argon2HashPw = (pin, birthdate) ->
     )
     hashHex = tbut.bytesToHex(hash)
     return hashHex
+    # return btoa(tbut.bytesToUtf8(hash))
 
 
 ############################################################

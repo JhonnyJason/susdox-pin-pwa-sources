@@ -54,6 +54,7 @@ export initialize = ->
 ############################################################
 loginCodeInputKeyDowned = (evt) ->
     # log "svnPartKeyUpped"
+    return
     
     # 46 is delete
     if evt.keyCode == 46 then return    
@@ -83,6 +84,8 @@ loginCodeInputKeyDowned = (evt) ->
 ############################################################
 loginCodeInputKeyUpped = (evt) ->
     # log "svnPartKeyUpped"
+    return
+    
     rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
     newCode = ""
     # filter out all the illegal characters
