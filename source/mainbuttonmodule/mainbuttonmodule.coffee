@@ -30,7 +30,7 @@ addCodeButtonClicked = (evnt) ->
     return
 
 ############################################################
-acceptButtonClicked = (evnt) ->
+export acceptButtonClicked = (evnt) ->
     log "acceptButtonClicked"
     acceptButton.classList.add("disabled")
     try
