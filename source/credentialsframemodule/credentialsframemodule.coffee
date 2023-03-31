@@ -8,6 +8,7 @@ import { createLogFunctions } from "thingy-debug"
 import * as data from "./datamodule.js"
 import * as utl from "./utilmodule.js"
 import * as sci from "./scimodule.js"
+import { acceptButtonClicked } from "./mainbuttonmodule.js"
 
 ############################################################
 import { NetworkError, InputError, AuthenticationError } from "./errormodule.js"
@@ -39,6 +40,9 @@ userFeedback = document.getElementById("user-feedback")
 datePicker = null
 
 ############################################################
+currentCode = ""
+
+############################################################
 export initialize = ->
     log "initialize"
     loginCodeInput.addEventListener("keydown", loginCodeInputKeyDowned)
@@ -53,30 +57,26 @@ export initialize = ->
 
 ############################################################
 loginCodeInputKeyDowned = (evt) ->
-    # log "svnPartKeyUpped"
-    # runner = 10000
-    # code = ""
-    # while(runner)
-    #     code = runner
-    #     runner--
-    #     code = loginCodeInput.value 
-    # code += "."
-    # loginCodeInput.value = code
-    # return
+    # log "loginCodeInputKeyDowned"
     
+    # 13 is enter
+    if evt.keyCode == 13
+        evt.preventDefault()
+        acceptButtonClicked()
+        return    
     # 46 is delete
     if evt.keyCode == 46 then return    
     # 8 is backspace
     if evt.keyCode == 8 then return
     # 27 is escape
     if evt.keyCode == 27 then return
-    
-    # rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
-    rawCode = loginCodeInput.value.replaceAll(" ", "")
+
+    rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
+    if rawCode != currentCode then rawCode = currentCode
     rLen = rawCode.length
+
     codeTokens = []
     
-    log "rawCode #{rawCode}"
     if rLen > 0
         codeTokens.push(rawCode.slice(0,3))
     if rLen > 3
@@ -85,26 +85,17 @@ loginCodeInputKeyDowned = (evt) ->
         codeTokens.push(rawCode.slice(6))
     newValue = codeTokens.join("  ")
 
-    if (rLen == 3 or rLen == 6) then newValue += "  "    
+    if (rLen == 3 or rLen == 6) then rawCode += "  "    
 
     loginCodeInput.value = newValue
     return
 
 ############################################################
 loginCodeInputKeyUpped = (evt) ->
-    # log "svnPartKeyUpped"
-    # runner = 10000
-    # code = ""
-    # while(runner)
-    #     code = runner
-    #     runner--
-    #     code = loginCodeInput.value
-    # code += "."
-    # loginCodeInput.value = code
-    # return
+    # log "loginCodeInputKeyUpped"
     
-    # rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
-    rawCode = loginCodeInput.value.replaceAll(" ", "")
+    rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
+    log "rawCode #{rawCode}"
     newCode = ""
     # filter out all the illegal characters
     for c in rawCode when utl.isAlphanumericString(c)
@@ -112,11 +103,12 @@ loginCodeInputKeyUpped = (evt) ->
 
     rLen = newCode.length
     if rLen > 9 then newCode = newCode.slice(0, 9)
+    currentCode = newCode
     rLen = newCode.length
 
     codeTokens = []
     
-    log "rawCode #{newCode}"
+    log "newCode #{newCode}"
     if rLen > 0
         codeTokens.push(newCode.slice(0,3))
     if rLen > 3
@@ -131,7 +123,7 @@ loginCodeInputKeyUpped = (evt) ->
 ############################################################
 export extractCredentials = ->
     log "extractCredentials"
-    code = loginCodeInput.value.replaceAll(" ", "")
+    code = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
     # dateOfBirth = loginBirthdayInput.value
     dateOfBirth = datePicker.value
 
