@@ -1,8 +1,11 @@
 import libsodium from "libsodium-wrappers-sumo"
 import { bytesToHex } from "thingy-byte-utils"
 
-await libsodium.ready
-sodium = libsodium
+sodium = null
+
+initialize = ->
+    await libsodium.ready
+    sodium = libsodium
 
 calculateArgon2 = (pin,birthdate) ->
     salt = birthdate + "SUSDOX"
@@ -23,6 +26,7 @@ onmessage = (evnt) ->
     { pin, birthdate } = evnt.data
     if !pin? or !birthdate? then postMessage({error:"Invalid Arguments!"})
     try 
+        if !sodium? then await initialize()
         hashHex = calculateArgon2(pin, birthdate)
         postMessage({hashHex})
     catch error then postMessage(error)
