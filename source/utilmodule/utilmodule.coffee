@@ -7,6 +7,7 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 import * as tbut from "thingy-byte-utils"
 # import libsodium from "libsodium-wrappers-sumo"
+# sodium = null
 
 
 ############################################################
@@ -16,8 +17,7 @@ validBase32KeyCodes = null
 alphaNumRegex = new RegExp('^[a-z0-9]*$')
 base32Regex = new RegExp('^[a-km-np-z2-9]*$')
 
-# sodium = null
-
+############################################################
 argon2Worker = null
 argon2HashResolve = null
 argon2HashReject = null
@@ -37,9 +37,11 @@ argon2HashReject = null
 export initialize = ->
     log "initialize"
     argon2Worker = new Worker("argon2worker.js")
-
-    # await libsodium.ready
-    # sodium = libsodium
+    argon2Worker.addEventListener("message", argon2WorkerResponded)
+    # if window.Worker? then argon2Worker = new Worker("argon2worker.js")
+    # else
+    #     await libsodium.ready
+    #     sodium = libsodium
     # olog Object.keys(sodium)
     prepareValidKeyCodesMap()
     return
@@ -164,8 +166,6 @@ generatePBKDF2SubtleCrypto = (username, pwd) ->
     derivedKeyBase64 = bufferToBase64(derivedKeyBytes)
     return derivedKeyBase64
 
-deferredArgon2Calculation = () -> return
-
 argon2WorkerResponded = (evnt) ->
     log "argon2WorkerResponded"
     log evnt.data
@@ -186,20 +186,24 @@ export loginRequestBody = (credentials) ->
     isMedic = false
     rememberMe = false
 
-    hashedPw = await argon2HashPw(code, username)
+    if code.length == 9 then hashedPw = await argon2HashPw(code, username)
+    else if code.length == 6 then hashedPw = await hashUsernamePw(username, code)
+    else throw new Error("Unexpevded code Length!")
+    olog { hashedPw }
 
     return {username, hashedPw, isMedic, rememberMe}
 
 
 ############################################################
 export hashUsernamePw = (username, pwd) ->
+    log "hashUsernamePw"
     if username.length < 4 then username = username + username + username
     if username.length < 8 then username = username + username
 
     hash = await generatePBKDF2SubtleCrypto(username, pwd)
     return hash
 
-# export argon2HashPw = (pin, birthdate) ->
+# export argon2HashPwLocal = (pin, birthdate) ->
 #     salt = birthdate + "SUSDOX"
 #     log salt
 
@@ -216,15 +220,23 @@ export hashUsernamePw = (username, pwd) ->
     # return btoa(tbut.bytesToUtf8(hash))
 
 export argon2HashPw = (pin, birthdate) ->
+    log "argon2HashPw"
+    # if ! argon2Worker then return argon2HashPwLocal()
     promisedHash = new Promise (resolve, reject) ->
         argon2HashResolve = resolve
         argon2HashReject = reject
         return
     
     args = {pin, birthdate}
+    argon2Worker.postMessage(args)
 
-    try return await promisedHash
-    catch err then log err
+    try 
+        hashHex = await promisedHash
+        olog { hashHex }
+        return hashHex
+    catch err
+        log "Argon2 threw an Error!"
+        log err
     finally
         argon2HashResolve = null
         argon2HashReject = null

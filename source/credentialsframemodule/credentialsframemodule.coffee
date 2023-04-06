@@ -134,9 +134,9 @@ export extractCredentials = ->
     if !dateOfBirth then throw new InputError("Kein Geburtsdatum gewählt!")
 
     credentials = { code, dateOfBirth }
-    loginBody = utl.loginRequestBody(credentials)
     userFeedback.innerHTML = loginPreloader.innerHTML
 
+    loginBody = await utl.loginRequestBody(credentials)
     rersponse = await sci.loginRequest(loginBody)
     log "#{await response.text()}"
 
