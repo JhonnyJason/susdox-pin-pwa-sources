@@ -79,7 +79,8 @@ getData = (url, data) ->
 ############################################################
 export getImages = (credentials) ->
     log "getImages"
-    return getData(imagesEndpointURL, credentials)
+    return postData(imagesEndpointURL, credentials)
+    # return getData(imagesEndpointURL, credentials)
     
     # try await postData(imagesEndpointURL, { uuid })
     # catch err then log err
