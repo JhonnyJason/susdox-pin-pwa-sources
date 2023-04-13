@@ -120,7 +120,8 @@ export loginRequest = (body) ->
     method = "POST"
     mode = 'cors'
     redirect =  'manual'
-    credentials = 'include'
+    # credentials = 'include'
+    credentials = 'omit'
     
     # json body
     headers = { 'Content-Type': 'application/json' }
