@@ -76,9 +76,9 @@ login = ->
     ## Check for updates
     imageURLs = []
     try
-        loginBody = utl.loginRequestBody(credentials)
-        response = await sci.loginRequest(loginBody)
-        log response 
+        # loginBody = utl.loginRequestBody(credentials)
+        # response = await sci.loginRequest(loginBody)
+        # log response 
         imageURLs = await sci.getImages(credentials)
     catch err 
         log err
