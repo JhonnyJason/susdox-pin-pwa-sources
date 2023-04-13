@@ -18,25 +18,30 @@ postData = (url, data) ->
     # credentials = 'include'
     
     # json body
-    # headers = { 'Content-Type': 'application/json' }
-    # body = JSON.stringify(data)
+    headers = { 'Content-Type': 'application/json' }
+    body = JSON.stringify(data)
 
     # urlencoded body
-    headers = { "Content-Type": "application/x-www-form-urlencoded" }
-    formData = new URLSearchParams()
-    formData.append(lbl, d) for lbl,d of data
-    body = formData.toString()
-
+    # headers = { "Content-Type": "application/x-www-form-urlencoded" }
+    # formData = new URLSearchParams()
+    # formData.append(lbl, d) for lbl,d of data
+    # body = formData.toString()
 
     # options = { method, mode, redirect, credentials, headers, body }
     options = { method, mode, headers, body }
 
     try 
-        # await utl.waitMS(1200)
         response = await fetch(url, options)
-        if !response.ok then throw new Error("Response not ok - status: #{response.status}! body: #{await response.text()}")
-        return await response.json()
-    catch err then throw new NetworkError(err.message)
+        if response.ok then return await response.json()
+        
+        error = new Error("#{await response.text()}")
+        error.status = response.status
+        throw error
+
+    catch err
+        if err.status == 401 then throw new AuthenticationError(err.message)
+        throw new NetworkError(err.message)
+    return
 
 ############################################################
 getData = (url, data) ->
