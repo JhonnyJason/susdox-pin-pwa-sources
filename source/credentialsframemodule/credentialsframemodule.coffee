@@ -137,8 +137,8 @@ export extractCredentials = ->
     userFeedback.innerHTML = loginPreloader.innerHTML
 
     loginBody = await utl.loginRequestBody(credentials)
-    rersponse = await sci.loginRequest(loginBody)
-    log "#{await response.text()}"
+    response = await sci.loginRequest(loginBody)
+    log "#{response}"
 
     data.setUserCredentials(credentials)    
     # datePicker.reset()
