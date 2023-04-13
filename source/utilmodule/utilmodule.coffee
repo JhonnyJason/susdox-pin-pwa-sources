@@ -126,7 +126,7 @@ generatePBKDF2SubtleCrypto = (username, pwd) ->
     # saltBytes = crypto.getRandomValues(new Uint8Array(8))
     
     saltBytes = tbut.utf8ToBytes(username)
-    rawKeyBytes = tbut.utf8ToBytes(pwd)
+    rawKeyBytes = tbut.utf8ToBytes("AT-"+pwd)
 
     keyBytes = await crypto.importKey(
         'raw',
