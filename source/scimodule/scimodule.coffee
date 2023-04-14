@@ -15,7 +15,7 @@ postData = (url, data) ->
     method = "POST"
     mode = 'cors'
     # redirect =  'follow'
-    # credentials = 'include'
+    credentials = 'include'
     
     # json body
     headers = { 'Content-Type': 'application/json' }
@@ -125,8 +125,8 @@ export loginRequest = (body) ->
     method = "POST"
     mode = 'cors'
     redirect =  'manual'
-    # credentials = 'include'
-    credentials = 'omit'
+    credentials = 'include'
+    # credentials = 'omit'
     
     # json body
     headers = { 'Content-Type': 'application/json' }
