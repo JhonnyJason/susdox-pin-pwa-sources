@@ -28,7 +28,7 @@ postData = (url, data) ->
     # body = formData.toString()
 
     # options = { method, mode, redirect, credentials, headers, body }
-    options = { method, mode, headers, body }
+    options = { method, mode, credentials, headers, body }
 
     try 
         response = await fetch(url, options)
