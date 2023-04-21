@@ -48,7 +48,7 @@ export initialize = ->
     loginCodeInput.addEventListener("keydown", loginCodeInputKeyDowned)
     loginCodeInput.addEventListener("keyup", loginCodeInputKeyUpped)
     
-    options = 
+    options =
         element: "login-birthday-input"
         height: 32
     datePicker = new ScrollRollDatepicker(options)
@@ -127,7 +127,10 @@ export extractCredentials = ->
     # dateOfBirth = loginBirthdayInput.value
     dateOfBirth = datePicker.value
 
-    olog {code, dateOfBirth}
+    # olog {code, dateOfBirth}
+
+    if code.length == 8 and (code.indexOf("at")==0) then code = code.slice(2)
+    # log code
 
     if !(code.length == 6 or code.length == 9) then throw new InputError("Fehler im Code!")
     # if !utl.isBase32String(code) then throw new InputError("Fehler im Code!")

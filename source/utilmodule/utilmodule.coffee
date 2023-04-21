@@ -126,7 +126,8 @@ generatePBKDF2SubtleCrypto = (username, pwd) ->
     # saltBytes = crypto.getRandomValues(new Uint8Array(8))
     
     saltBytes = tbut.utf8ToBytes(username)
-    rawKeyBytes = tbut.utf8ToBytes("AT-"+pwd)
+    # rawKeyBytes = tbut.utf8ToBytes("AT-"+pwd)
+    rawKeyBytes = tbut.utf8ToBytes(pwd)
 
     keyBytes = await crypto.importKey(
         'raw',
@@ -187,9 +188,10 @@ export loginRequestBody = (credentials) ->
     rememberMe = false
 
     if code.length == 9 then hashedPw = await argon2HashPw(code, username)
-    else if code.length == 6 then hashedPw = await hashUsernamePw(username, code)
-    else throw new Error("Unexpevded code Length!")
-    olog { hashedPw }
+    # else if code.length == 6 then hashedPw = await hashUsernamePw(username, code)
+    else if code.length == 6 then hashedPw = code
+    else throw new Error("Unexpected code Length!")
+    # olog { hashedPw }
 
     return {username, hashedPw, isMedic, rememberMe}
 
@@ -232,7 +234,7 @@ export argon2HashPw = (pin, birthdate) ->
 
     try 
         hashHex = await promisedHash
-        olog { hashHex }
+        # olog { hashHex }
         return hashHex
     catch err
         log "Argon2 threw an Error!"
