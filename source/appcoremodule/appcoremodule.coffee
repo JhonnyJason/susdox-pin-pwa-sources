@@ -14,15 +14,43 @@ import * as sci from "./scimodule.js"
 import * as utl from "./utilmodule.js"
 import * as confirmPopup from "./confirmationpopupmodule.js"
 import { AuthenticationError } from "./errormodule.js"
+import { appVersion } from "./configmodule.js"
+
+############################################################
+serviceWorker = null
+if navigator? and navigator.serviceWorker? 
+    serviceWorker = navigator.serviceWorker
+
+############################################################
+currentVersion = document.getElementById("current-version")
+newVersion = document.getElementById("new-version")
+menuVersion = document.getElementById("menu-version")
 
 ############################################################
 export initialize = ->
     log "initialize"
+
+    currentVersion.textContent = appVersion
+    
+    if serviceWorker? 
+        serviceWorker.register("serviceworker.js", {scope: "/"})
+        serviceWorker.controller.postMessage("Hello I am version: #{appVersion}!")
+        serviceWorker.addEventListener("message", onServiceWorkerMessage)
+        serviceWorker.addEventListener("controllerchange", onServiceWorkerSwitch)
+    
     S.addOnChangeListener("userCredentials", userCredentialsChanged)
     return
 
 ############################################################
 #region internal Functions
+
+############################################################
+userCredentialsChanged = ->
+    log "userCredentialsChanged"
+    credentials = S.load("userCredentials")
+    olog credentials
+    if credentials and Object.keys(credentials).length > 0 then login()
+    return
 
 ############################################################
 getCodeFromURL = ->
@@ -37,6 +65,49 @@ getCodeFromURL = ->
     log code
     return code
 
+############################################################
+login = ->
+    log "login"
+    credentials = S.load("userCredentials")
+    radiologistImages.loadImages()
+    content.setToUserPage()
+    
+    ## Check for updates
+    imageURLs = ["img/karner-logo.jpg"] #TODO remove - just for testing
+    try
+        # TODO uncomment - just for testing
+        # loginBody = utl.loginRequestBody(credentials)
+        # response = await sci.loginRequest(loginBody)
+        # log response 
+        imageURLs = await sci.getImages(credentials)
+    catch err
+        log err
+        if err instanceof AuthenticationError then logout()
+    data.setRadiologistImages(imageURLs)
+    return
+
+############################################################
+onServiceWorkerMessage = (evnt) ->
+    console.log("  !  onServiceWorkerMessage")
+    console.log("#{evnt.data}")
+
+    if typeof evnt.data == "object" and evnt.data.version?
+        newVersion.textContent = evnt.data.version
+        menuVersion.classList.add("to-update")
+        menuVersion.onclick = -> location.reload()
+    return
+
+onServiceWorkerSwitch = ->
+    console.log("  !  onServiceWorkerSwitch")
+    serviceWorker.controller.postMessage("Hello I am version: #{appVersion}!")
+    serviceWorker.controller.postMessage("tellMeVersion")
+    return
+
+deleteImageCache = ->
+    log "deleteImageCache"
+    serviceWorker.controller.postMessage("deleteImageCache")
+    return
+
 #endregion
 
 ############################################################
@@ -50,6 +121,7 @@ export logout = ->
     cubeModule.reset()
     radiologistImages.reset()
     data.removeData()
+    deleteImageCache()
     # content.setToLoginPage()
     content.setToDefault()
     return
@@ -59,40 +131,16 @@ export upgrade = ->
     ##TODO
     return
 
-userCredentialsChanged = ->
-    log "userCredentialsChanged"
-    credentials = S.load("userCredentials")
-    olog credentials
-    if credentials and Object.keys(credentials).length > 0 then login()
-    return
-
-############################################################
-login = ->
-    log "login"
-    credentials = S.load("userCredentials")
-    radiologistImages.loadImages()
-    content.setToUserPage()
-    
-    ## Check for updates
-    imageURLs = []
-    try
-        # loginBody = utl.loginRequestBody(credentials)
-        # response = await sci.loginRequest(loginBody)
-        # log response 
-        imageURLs = await sci.getImages(credentials)
-    catch err 
-        log err
-        if err instanceof AuthenticationError then logout()
-    data.setRadiologistImages(imageURLs)
-    return
-    
 ############################################################
 export startUp = ->
     log "startUp"
+    ## TODO remove - just for testing
+    login()
+    return
 
     ## Check if we got some parameters to login automatically
     code = getCodeFromURL()
-    if code? 
+    if code?
         try
             credentials = await confirmPopup.pickUpConfirmedCredentials(code)
             # log "We could pick up some credentials ;-)"
