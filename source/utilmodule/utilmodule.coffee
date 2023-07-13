@@ -169,8 +169,8 @@ generatePBKDF2SubtleCrypto = (username, pwd) ->
 
 argon2WorkerResponded = (evnt) ->
     log "argon2WorkerResponded"
-    log evnt.data
     if evnt.data? then { error, hashHex } = evnt.data
+    olog { error, hashHex }
     if argon2HashResolve? and hashHex? then return argon2HashResolve(hashHex)
     if argon2HashReject? and error? then return argon2HashReject(error)
     log "argon2Worker response did not cause any effect!"
