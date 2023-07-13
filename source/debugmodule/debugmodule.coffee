@@ -18,7 +18,7 @@ export modulesToDebug = {
     # scrollrolldatepickermodule: true
     # statemodule: true
     # usermodalmodule: true
-    # utilmodule: true
+    utilmodule: true
 
 }
     
