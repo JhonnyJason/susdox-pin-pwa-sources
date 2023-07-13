@@ -34,7 +34,8 @@ export initialize = ->
     
     if serviceWorker? 
         serviceWorker.register("serviceworker.js", {scope: "/"})
-        serviceWorker.controller.postMessage("Hello I am version: #{appVersion}!")
+        if serviceWorker.controller?
+            serviceWorker.controller.postMessage("Hello I am version: #{appVersion}!")
         serviceWorker.addEventListener("message", onServiceWorkerMessage)
         serviceWorker.addEventListener("controllerchange", onServiceWorkerSwitch)
     

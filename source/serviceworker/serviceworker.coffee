@@ -101,7 +101,8 @@ installAppCache = ->
 
 cacheThenNetwork = (request) ->
     log "cacheThenNetwork"
-    cacheResponse = await caches.match(request, urlMatchOptions)
+    try cacheResponse = await caches.match(request, urlMatchOptions)
+    catch err then log err
     if cacheResponse? then return cacheResponse
     else return handleCacheMiss(request)
     return
