@@ -74,12 +74,12 @@ login = ->
     content.setToUserPage()
     
     ## Check for updates
-    imageURLs = ["img/karner-logo.jpg"] #TODO remove - just for testing
+    # imageURLs = ["img/karner-logo.jpg"] #TODO remove - just for testing
     try
         # TODO uncomment - just for testing
-        # loginBody = utl.loginRequestBody(credentials)
-        # response = await sci.loginRequest(loginBody)
-        # log response 
+        loginBody = utl.loginRequestBody(credentials)
+        response = await sci.loginRequest(loginBody)
+        log response 
         imageURLs = await sci.getImages(credentials)
     catch err
         log err
@@ -135,9 +135,9 @@ export upgrade = ->
 ############################################################
 export startUp = ->
     log "startUp"
-    ## TODO remove - just for testing
-    login()
-    return
+    # ## TODO remove - just for testing
+    # login()
+    # return
 
     ## Check if we got some parameters to login automatically
     code = getCodeFromURL()
