@@ -5,21 +5,41 @@ log = (arg) -> console.log("[serviceworker] #{arg}")
 
 ############################################################
 # appCacheName = "PIN-PWA#{appVersion}"
-appCacheName = "PIN-PWAmain"
-imageCacheName = "PIN-PWAimages"
-fontCacheName = "PIN-PWAfonts"
+appCacheName = "PIN-PWA_app"
+fontCacheName = "PIN-PWA_fonts"
+
+imageCacheName = "PIN-PWA_user-images"
+userCacheName = imageCacheName
 
 ############################################################
-appFiles = [
+cachesToDelete = [
+    "PIN-PWAmain"
+    "PIN-PWAimages"
+    "PIN-PWAfonts"
+]
+
+############################################################
+fixedAppFiles = [
     "/",
     "/manifest.json"
+    "/img/icon.png"
+    "/img/sustsol_logo.png"
+]
+
+optionalAppFiles = [
     "/android-chrome-96x96.png"
+    "/android-chrome-192x192.png"
+    "/android-chrome-512x512.png"
     "/apple-touch-icon.png"
     "/browserconfig.xml"
     "/favicon.ico"
-    "/favicon-32x32.png"
     "/favicon-16x16.png"
+    "/favicon-32x32.png"
+    "/mstile-70x70.png"
+    "/mstile-144x144.png"
     "/mstile-150x150.png"
+    "/mstile-310x150.png"
+    "/mstile-310x310.png"
     "/safari-pinned-tab.svg"
 ]
 
@@ -93,9 +113,9 @@ messageEventHandler = (evnt) ->
 installAppCache = ->
     log "installAppCache"
     try
-        # await caches.delete(fontCacheName) # probably unnecessary and probably we can do this more sophisticatedly
+        await deleteCaches(cachesToDelete)
         cache = await caches.open(appCacheName)
-        return cache.addAll(appFiles)
+        return cache.addAll(fixedAppFiles)
     catch err then log "Error on installAppCache: #{err.message}"
     return
 
@@ -107,32 +127,61 @@ cacheThenNetwork = (request) ->
     else return handleCacheMiss(request)
     return
 
+############################################################
+deleteCaches = (cacheNames) ->
+    log "deleteCaches"
+    promise = caches.delete(name) for name in cacheNames
+    try return await Promise.all(promises)
+    catch err then log "Error in deleteCaches: #{err.message}"
+    return  
+    
 
 ############################################################
 handleCacheMiss = (request) ->
-    # log "handleCacheMiss"
-    if fontEndings.test(request.url) then return handleFontMiss(request)
-    if imageEndings.test(request.url) then return handleImageMiss(request)
+    log "handleCacheMiss"
+    url = new URL(request.url)
+    if isOptionalAppFile(url.pathname) then return handleAppFileMiss(request)
+    if fontEndings.test(url.pathname) then return handleFontMiss(request)
+    if imageEndings.test(url.pathname) then return handleImageMiss(request)
     return fetch(request)
     
+############################################################
+handleAppFileMiss = (request) ->
+    log "handleAppFileMiss"
+    log request.url
+    try return await fetchAndCache(request, appCacheName)
+    catch err then log "Error on handleAppFileMiss: #{err.message}"
+    return
+
 handleImageMiss = (request) ->
-    # log "handleImageMiss"
-    # log request.url
-    try
-        cache = await caches.open(imageCacheName)
-        return cache.add(request)
+    log "handleImageMiss"
+    log request.url
+    try return await fetchAndCache(request, imageCacheName)
     catch err then log "Error on handleImageMiss: #{err.message}"
-    return fetch(request)
+    return
 
 handleFontMiss = (request) ->
-    # log "handleFontMiss"
-    # log request.url
-    try
-        cache = await caches.open(fontCacheName)
-        return cache.add(request)
+    log "handleFontMiss"
+    log request.url
+    try return await fetchAndCache(request, fontCacheName)
     catch err then log "Error on fontImageMiss: #{err.message}"
-    return fetch(request)
+    return
 
+############################################################
+fetchAndCache = (request, cacheName) ->
+    cache = await caches.open(cacheName)
+    response = await fetch(request) 
+    cache.put(request, response.clone())
+    return response
+
+############################################################
+isOptionalAppFile = (pathname) ->
+    log "isOptionalAppFile"
+    log pathname
+    if optionalAppFiles.includes(pathname) then return true
+    else return false
+    return
+    
 #endregion
 
 
