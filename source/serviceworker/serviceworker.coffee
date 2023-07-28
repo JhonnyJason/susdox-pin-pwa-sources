@@ -54,7 +54,7 @@ urlMatchOptions = {
 
 ############################################################
 onRegister = ->
-    log "onRegister"
+    # log "onRegister"
     self.addEventListener('activate', activateEventHandler)
     self.addEventListener('fetch', fetchEventHandler)
     self.addEventListener('install', installEventHandler)
@@ -64,15 +64,15 @@ onRegister = ->
     message = "postRegister"
     client.postMessage(message) for client in clients  
 
-    log "postRegister: found #{clients.length} clients!"
+    # log "postRegister: found #{clients.length} clients!"
     return
 
 ############################################################
 #region Event Handlers
 activateEventHandler = (evnt) ->
-    log "activateEventHandler"
+    # log "activateEventHandler"
     evnt.waitUntil(self.clients.claim())
-    log "clients have been claimed!"
+    # log "clients have been claimed!"
     return
 
  
@@ -83,9 +83,9 @@ fetchEventHandler = (evnt) ->
     return
 
 installEventHandler = (evnt) -> 
-    log "installEventHandler"
+    # log "installEventHandler"
     self.skipWaiting()
-    log "skipped waiting :-)"
+    # log "skipped waiting :-)"
     evnt.waitUntil(installAppCache())
     return
 
@@ -111,7 +111,7 @@ messageEventHandler = (evnt) ->
 ############################################################
 #region helper functions
 installAppCache = ->
-    log "installAppCache"
+    # log "installAppCache"
     try
         await deleteCaches(cachesToDelete)
         cache = await caches.open(appCacheName)
@@ -120,7 +120,7 @@ installAppCache = ->
     return
 
 cacheThenNetwork = (request) ->
-    log "cacheThenNetwork"
+    # log "cacheThenNetwork"
     try cacheResponse = await caches.match(request, urlMatchOptions)
     catch err then log err
     if cacheResponse? then return cacheResponse
@@ -129,7 +129,7 @@ cacheThenNetwork = (request) ->
 
 ############################################################
 deleteCaches = (cacheNames) ->
-    log "deleteCaches"
+    # log "deleteCaches"
     promise = caches.delete(name) for name in cacheNames
     try return await Promise.all(promises)
     catch err then log "Error in deleteCaches: #{err.message}"
@@ -138,7 +138,7 @@ deleteCaches = (cacheNames) ->
 
 ############################################################
 handleCacheMiss = (request) ->
-    log "handleCacheMiss"
+    # log "handleCacheMiss"
     url = new URL(request.url)
     if isOptionalAppFile(url.pathname) then return handleAppFileMiss(request)
     if fontEndings.test(url.pathname) then return handleFontMiss(request)
@@ -147,22 +147,22 @@ handleCacheMiss = (request) ->
     
 ############################################################
 handleAppFileMiss = (request) ->
-    log "handleAppFileMiss"
-    log request.url
+    # log "handleAppFileMiss"
+    # log request.url
     try return await fetchAndCache(request, appCacheName)
     catch err then log "Error on handleAppFileMiss: #{err.message}"
     return
 
 handleImageMiss = (request) ->
-    log "handleImageMiss"
-    log request.url
+    # log "handleImageMiss"
+    # log request.url
     try return await fetchAndCache(request, imageCacheName)
     catch err then log "Error on handleImageMiss: #{err.message}"
     return
 
 handleFontMiss = (request) ->
-    log "handleFontMiss"
-    log request.url
+    # log "handleFontMiss"
+    # log request.url
     try return await fetchAndCache(request, fontCacheName)
     catch err then log "Error on fontImageMiss: #{err.message}"
     return
@@ -176,8 +176,8 @@ fetchAndCache = (request, cacheName) ->
 
 ############################################################
 isOptionalAppFile = (pathname) ->
-    log "isOptionalAppFile"
-    log pathname
+    # log "isOptionalAppFile"
+    # log pathname
     if optionalAppFiles.includes(pathname) then return true
     else return false
     return

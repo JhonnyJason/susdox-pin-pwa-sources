@@ -5,8 +5,9 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import *  as cubeModule from "./cubemodule.js"
-import *  as S from "./statemodule.js"
+import * as cubeModule from "./cubemodule.js"
+import * as S from "./statemodule.js"
+import * as account from "./accountmodule.js"
 
 ############################################################
 #region internal variables
@@ -27,13 +28,14 @@ export initialize = ->
     log "initialize"
     # changeDetect = (el1, el2) -> JSON.stringify(el1) != JSON.stringify(el2) 
     # S.setChangeDetectionFunction("radiologistImages", changeDetect)
-    S.addOnChangeListener("radiologistImages", imagesChanged)
+    S.addOnChangeListener("activeAccount", imagesChanged)
     return
 
 ############################################################
 imagesChanged = ->
     log "imagesChanged"
-    imageURLs = S.load("radiologistImages")
+    try imageURLs = account.getRadiologistImages()
+    catch err then imageURLs = null
 
     if imageURLs? and Array.isArray(imageURLs) and imageURLs.length > 0
         allImages = [...imageURLs, sustSolLogoURL]

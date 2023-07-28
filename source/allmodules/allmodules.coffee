@@ -1,3 +1,4 @@
+import * as accountmodule from "./accountmodule.js"
 import * as appcoremodule from "./appcoremodule.js"
 import * as centerlinkmodule from "./centerlinkmodule.js"
 import * as codedisplaymodule from "./codedisplaymodule.js"
@@ -21,6 +22,7 @@ import * as usermodalmodule from "./usermodalmodule.js"
 import * as utilmodule from "./utilmodule.js"
 
 Modules = {
+    accountmodule,
     appcoremodule,
     centerlinkmodule,
     codedisplaymodule,
