@@ -5,14 +5,21 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as logoutModal from "./logoutmodal.js"
-import * as invalidcodeModal from "./invalidcodemodal.js"
-import * as codeverificationModal from "./codeverificationmodal.js"
+import { ModalCore } from "./modalcore.js"
+
+############################################################
+core = null
 
 ############################################################
 export initialize = ->
     log "initialize"
-    logoutModal.initialize()
-    invalidcodeModal.initialize()
-    codeverificationModal.initialize()
+    core = new ModalCore(invalidcodemodal)
+    core.connectDefaultElements()
     return
+
+
+############################################################
+export promptCodeDeletion = ->
+    log "promptCodeDeletion"
+    core.activate()
+    return core.modalPromise

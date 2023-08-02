@@ -6,7 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as app from "./appcoremodule.js"
-import * as modal from "./usermodalmodule.js"
+import * as logoutmodal from "./logoutmodal.js"
 
 ############################################################
 menuMoreInfo = document.getElementById("menu-more-info")
@@ -31,7 +31,7 @@ moreInfoClicked = (evnt) ->
 logoutClicked = (evnt) ->
     log "logoutClicked"
     try
-        await modal.userLogoutConfirm()
+        await logoutmodal.userConfirmation()
         app.logout()
     catch err then log "User rejected logout!"
     return

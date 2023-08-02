@@ -3,11 +3,9 @@ import * as appcoremodule from "./appcoremodule.js"
 import * as centerlinkmodule from "./centerlinkmodule.js"
 import * as codedisplaymodule from "./codedisplaymodule.js"
 import * as configmodule from "./configmodule.js"
-import * as confirmationpopupmodule from "./confirmationpopupmodule.js"
 import * as contentmodule from "./contentmodule.js"
 import * as credentialsframemodule from "./credentialsframemodule.js"
 import * as cubemodule from "./cubemodule.js"
-import * as datamodule from "./datamodule.js"
 import * as debugmodule from "./debugmodule.js"
 import * as errormodule from "./errormodule.js"
 import * as footermodule from "./footermodule.js"
@@ -27,11 +25,9 @@ Modules = {
     centerlinkmodule,
     codedisplaymodule,
     configmodule,
-    confirmationpopupmodule,
     contentmodule,
     credentialsframemodule,
     cubemodule,
-    datamodule,
     debugmodule,
     errormodule,
     footermodule,

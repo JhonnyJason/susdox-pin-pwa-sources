@@ -6,6 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as S from "./statemodule.js"
+import * as account from "./accountmodule.js"
 import {copyToClipboard} from "./utilmodule.js"
 
 ############################################################
@@ -18,19 +19,22 @@ codedisplayContainer = document.getElementById("codedisplay-container")
 codeDisplay = document.getElementById("code-display")
 
 ############################################################
-export initialize = ->
-    log "initialize"
-    S.addOnChangeListener("userCredentials", userCredentialsChanged)
-    userCredentialsChanged()
+export updateCode = ->
+    log "updateCode"
+    try 
+        credentials = account.getUserCredentials()
+        setCode(credentials.code)
+        if await account.accountIsValid()
+            codedisplayContainer.classList.remove("invalid-code")
+        else
+            codedisplayContainer.classList.add("invalid-code")
+        return
+    catch err then log err
+    
+    codedisplayContainer.classList.remove("invalid-code")
+    setCode("")
     return
-
-############################################################
-userCredentialsChanged = ->
-    credentials = S.load("userCredentials")
-    if credentials? and credentials.code? then setCode(credentials.code)
-    else setCode("")
-    return
-
+    
 ############################################################
 reveal = ->
     codedisplayContainer.classList.add("show-code")

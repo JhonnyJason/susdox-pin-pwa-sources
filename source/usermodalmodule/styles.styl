@@ -1,68 +1,12 @@
-// usermodal styles
-#usermodal
-    position: absolute
-    top 0
-    left 0
-    width: 100%
-    height 100%
-    background-color alpha(cd-darkblue, 0.7)
-    z-index -1
-    opacity 0
-    transition: opacity 0.3s
 
-#usermodal.shown
-    z-index: 999
-    opacity: 1
-
-#useraction-frame
-    position absolute
-    top 50%
-    left 50%
-    transform: translate(-50%, -50%)
-    box-sizing: border-box
-    background-color white
-    width: 90%
-    border-radius: 3px
-    overflow: hidden
-
-    #useraction-header
-        display flex
-        justify-content: space-between
-        align-items: center
-        width 100%
-        border none
-        box-shadow 0 0 5px 0 alpha(black, 0.1)
+/*==============================================================================
+ Modal Core Styles
+==============================================================================*/
+@import 'modalcore.styl'
     
-    #useraction-header-title
-        padding 20px 20px 15px 20px
-        font-size: 17pt
-        font-weight: bold
-    #useraction-close-button
-        height 35px
-        width 35px
-        padding-right: 20px
-
-    #useraction-message
-        padding 30px 20px 50px 20px
-
-    #useraction-options
-        display grid
-        width 100%
-        padding 2px
-        box-sizing: border-box
-        justify-content: flex-end
-        grid-gap: 2px
-        grid-template-columns: 1fr 1fr
-
-        .click-button
-            border-radius: 2px
-            background-color cd-turquoise
-            padding 10px 20px
-            color white
-            width 100%
-            box-sizing: border-box
-            text-align: center
-            font-size: 15pt
-        .click-button:hover
-            opacity 0.8
-
+/*==============================================================================
+ Specific Styles
+==============================================================================*/
+@import 'codeverificationmodal.styl'
+@import 'invalidcodemodal.styl'
+@import 'logoutmodal.styl'

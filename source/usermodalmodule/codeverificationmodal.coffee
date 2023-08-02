@@ -1,12 +1,13 @@
 ############################################################
 #region debug
 import { createLogFunctions } from "thingy-debug"
-{log, olog} = createLogFunctions("confirmationpopupmodule")
+{log, olog} = createLogFunctions("codeverificationmodule")
 #endregion
 
 ############################################################
 import * as sci from "./scimodule.js"
 import * as utl from "./utilmodule.js"
+import { ModalCore } from "./modalcore.js"
 
 ############################################################
 import { NetworkError, InputError, AuthenticationError } from "./errormodule.js"
@@ -16,10 +17,10 @@ import { ScrollRollDatepicker } from "./scrollrolldatepickermodule.js"
 
 ############################################################
 #region DOM Cache
-# confirmationpopupContent = document.getElementById("confirmationpopup-content")
+codeverificationContent = codeverificationmodal.getElementsByClassName("modal-content")[0]
 
 ############################################################
-# confirmationpopupBirthdayInput = document.getElementById("confirmationpopup-birthday-input")
+# codeverificationBirthdayInput = document.getElementById("codeverification-birthday-input")
 
 ############################################################
 invalidTokenErrorFeedback = document.getElementById("invalid-token-error-feedback")
@@ -29,30 +30,31 @@ inputErrorFeedback = document.getElementById("confirmation-error-feedback")
 confirmationPreloader = document.getElementById("confirmation-preloader")
 
 ############################################################
-userFeedback = document.getElementById("confirmationpopup-user-feedback")
-confirmButton = document.getElementById("confirmationpopup-confirm-button")
+userFeedback = document.getElementById("codeverification-user-feedback")
+confirmButton = document.getElementById("codeverification-confirm-button")
 
 #endregion
 
 ############################################################
-credentialsPromiseReject = null
-credentialsPromiseAccept = null
 code = ""
 
 ############################################################
 datePicker = null
+modalCore = null
 
 ############################################################
 export initialize = ->
     log "initialize"
+    modalCore = new ModalCore(codeverificationmodal)
+    modalCore.connectDefaultElements()
+    # confirm button is not default modal element
     confirmButton.addEventListener("click", confirmButtonClicked)
-    confirmationpopupCloseButton.addEventListener("click", closeButtonClicked)
     
-    element = "confirmationpopup-birthday-input"
+    element = "codeverification-birthday-input"
     datePicker = new ScrollRollDatepicker({element})
     await datePicker.initialize()
     
-    olog datePicker
+    # olog datePicker
     return
 
 ############################################################
@@ -70,7 +72,7 @@ confirmButtonClicked = ->
         if !makeAcceptable() then return
         resetAllErrorFeedback()
         userFeedback.innerHTML = confirmationPreloader.innerHTML
-        # dateOfBirth = confirmationpopupBirthdayInput.value
+        # dateOfBirth = codeverificationBirthdayInput.value
         dateOfBirth = datePicker.value
         if !dateOfBirth then throw new InputError("No dateOfBirth provided!")
         
@@ -81,18 +83,10 @@ confirmButtonClicked = ->
         log response
 
         resetAllErrorFeedback()
-        confirmationpopup.classList.remove("shown")
-        credentialsPromiseAccept(credentials)
+        modalCore.accept(credentials)
     catch err then errorFeedback(err)
     finally confirmButton.classList.remove("disabled")
     return
-
-closeButtonClicked = ->
-    log "closeButtonClicked"
-    confirmationpopup.classList.remove("shown")
-    credentialsPromiseReject("User Cancelled!")
-    return        # await utl.waitMS(5000)
-
 
 ############################################################
 errorFeedback = (error) ->
@@ -102,42 +96,37 @@ errorFeedback = (error) ->
     # NetworkError, InputError, ValidationError, ExpiredTokenError, InvalidTokenError
 
     if error instanceof NetworkError
-        confirmationpopupContent.classList.add("error")
+        codeverificationContent.classList.add("error")
         userFeedback.innerHTML = networkErrorFeedback.innerHTML
         return
 
     if error instanceof InputError
-        confirmationpopupContent.classList.add("error")
-        confirmationpopupBirthdayInput.classList.add("error")
+        codeverificationContent.classList.add("error")
+        codeverificationBirthdayInput.classList.add("error")
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
         return
 
     if error instanceof AuthenticationError
-        confirmationpopupContent.classList.add("error")
-        confirmationpopupBirthdayInput.classList.add("error")
+        codeverificationContent.classList.add("error")
+        codeverificationBirthdayInput.classList.add("error")
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
         return
 
-    confirmationpopupContent.classList.add("error")
+    codeverificationContent.classList.add("error")
     userFeedback.innerHTML = "Unexptected Error occured!"
     return
 
 ############################################################
 resetAllErrorFeedback = ->
     log "resetAllErrorFeedback"
-    confirmationpopupContent.classList.remove("error")
-    confirmationpopupBirthdayInput.classList.remove("error")
+    codeverificationContent.classList.remove("error")
+    codeverificationBirthdayInput.classList.remove("error")
     userFeedback.innerHTML = ""
     return
 
 ############################################################
 export pickUpConfirmedCredentials = (givenCode) ->
-    log "userBirthdayConfirm"
+    log "pickUpConfirmedCredentials"
     code = givenCode
-    confirmationpopup.classList.add("shown")
-
-    credentialsPromise = new Promise (resolve, reject) ->
-        credentialsPromiseAccept = resolve
-        credentialsPromiseReject = reject
-
-    return credentialsPromise
+    modalCore.activate()
+    return modalCore.modalPromise

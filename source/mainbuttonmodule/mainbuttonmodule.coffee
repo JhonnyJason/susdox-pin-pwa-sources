@@ -26,7 +26,7 @@ export initialize = ->
 ############################################################
 addCodeButtonClicked = (evnt) ->
     log "addCodeButtonClicked"
-    contentModule.setToLoginPage()
+    contentModule.setToAddCodeState()
     return
 
 ############################################################
@@ -38,7 +38,7 @@ export acceptButtonClicked = (evnt) ->
         credentialsframe.resetAllErrorFeedback()
         # await utl.waitMS(5000)
         await credentialsframe.extractCredentials()
-        contentModule.setToUserPage()
+        contentModule.setToUserImagesState()
         
     catch err
         log err

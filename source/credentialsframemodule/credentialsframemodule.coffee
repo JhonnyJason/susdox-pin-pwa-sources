@@ -5,7 +5,7 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as data from "./datamodule.js"
+import * as account from "./accountmodule.js"
 import * as utl from "./utilmodule.js"
 import * as sci from "./scimodule.js"
 import { acceptButtonClicked } from "./mainbuttonmodule.js"
@@ -143,7 +143,11 @@ export extractCredentials = ->
     response = await sci.loginRequest(loginBody)
     log "#{response}"
 
-    data.setUserCredentials(credentials)    
+    # the new account is valid and we set it as active by default
+    accountIndex = account.addNewAccount(credentials)
+    account.setAccountActive(accountIndex)
+    account.setAccountValid(accountIndex)
+    
     # datePicker.reset()
     loginCodeInput.value = ""
     loginBirthdayInput.value = ""

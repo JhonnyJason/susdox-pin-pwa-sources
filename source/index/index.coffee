@@ -4,13 +4,11 @@ domconnect.initialize()
 
 global.allModules = Modules
 
+############################################################
 if navigator? and navigator.serviceWorker? then navigator.serviceWorker.register("serviceworker.js")
 
 ############################################################
-appStartup = ->
-    ## which modules shall be kickstarted?
-    Modules.appcoremodule.startUp()
-    return
+appStartup = -> Modules.appcoremodule.startUp()
 
 ############################################################
 run = ->

@@ -7,13 +7,14 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 import * as S from "./statemodule.js"
 import * as content from "./contentmodule.js"
-import * as data from "./datamodule.js"
 import * as account from "./accountmodule.js"
 import * as cubeModule from "./cubemodule.js"
 import * as radiologistImages from "./radiologistimagemodule.js"
+import * as codeDisplay from "./codedisplaymodule.js"
 import * as sci from "./scimodule.js"
 import * as utl from "./utilmodule.js"
-import * as confirmPopup from "./confirmationpopupmodule.js"
+import * as verificationModal from "./codeverificationmodal.js"
+import * as invalidcodeModal from "./invalidcodemodal.js"
 import { AuthenticationError } from "./errormodule.js"
 import { appVersion } from "./configmodule.js"
 
@@ -36,7 +37,7 @@ export initialize = ->
     if serviceWorker? 
         serviceWorker.register("serviceworker.js", {scope: "/"})
         if serviceWorker.controller?
-            serviceWorker.controller.postMessage("Hello I am version: #{appVersion}!")
+            serviceWorker.controller.postMessage("App is version: #{appVersion}!")
         serviceWorker.addEventListener("message", onServiceWorkerMessage)
         serviceWorker.addEventListener("controllerchange", onServiceWorkerSwitch)
     
@@ -50,7 +51,7 @@ export startUp = ->
     code = getCodeFromURL()
     if code?
         try
-            credentials = await confirmPopup.pickUpConfirmedCredentials(code)
+            credentials = await verificationModal.pickUpConfirmedCredentials(code)
             # log "We could pick up some credentials ;-)"
             olog {credentials}
 
@@ -61,10 +62,7 @@ export startUp = ->
 
         catch err then log err
 
-    try enterUserPage()
-    catch err then content.setToDefault()
-    # if credentials and Object.keys(credentials).length > 0 then login()
-    # else content.setToDefault()
+    activeAccountChanged()
     return
 
 
@@ -74,19 +72,18 @@ export startUp = ->
 ############################################################
 activeAccountChanged = ->
     log "activeAccountChanged"
-    try 
-      credentials = account.getUserCredentials()
-    #   applyUserChange... 
-      return
-    catch err then log err
-    # credentials = S.load("userCredentials")
-    # olog credentials
-    # if credentials and Object.keys(credentials).length > 0 then login()
+    try await enterUserImagesState()
+    catch err then content.setToDefaultState()
+    codeDisplay.updateCode()
     return
 
 ############################################################
 getCodeFromURL = ->
     log "getCodeFromURL"
+    # ##TODO remove: setting code for testing
+    # code = "123123"
+    # return code
+
     url = new URL(window.location)
     hash = url.hash
 
@@ -98,24 +95,36 @@ getCodeFromURL = ->
     return code
 
 ############################################################
-enterUserPage = ->
-    log "enterUserPage"
+enterUserImagesState = ->
+    log "enterUserImagesState"
     credentials = account.getUserCredentials()
-    # radiologistImages.loadImages()
-    content.setToUserPage()
+    content.setToPreUserImagesState()
     
-    # ## Check for updates
-    # # imageURLs = ["img/karner-logo.jpg"] #TODO remove - just for testing
+    valid = true
+    deleteCode = false
+
+    try
+        valid = await account.accountIsValid()
+        if valid then await account.updateImages()
+        else deleteCode = await invalidcodeModal.promptCodeDeletion()
+    catch err then log err
+
+    olog { valid, deleteCode }
+    
+    if deleteCode 
+        account.deleteAccount()
+        return
+    
+    radiologistImages.loadImages()
+    content.setToUserImagesState()    
+    return
+    
+    # # if !valid 
     # try
-    #     # TODO uncomment - just for testing
-    #     loginBody = utl.loginRequestBody(credentials)
-    #     response = await sci.loginRequest(loginBody)
-    #     log response 
-    #     imageURLs = await sci.getImages(credentials)
-    # catch err
-    #     log err
-    #     if err instanceof AuthenticationError then logout()
-    # data.setRadiologistImages(imageURLs)
+    #     await accountInvalidModal.userConfirm()
+    #     account.deleteAccount()
+    #     await enterUserImagesState()
+    # catch err then log "User rejected account deletion!"
     return
 
 ############################################################
@@ -139,7 +148,7 @@ deleteImageCache = ->
     log "deleteImageCache"
     serviceWorker.controller.postMessage("deleteImageCache")
     return
-
+    
 #endregion
 
 ############################################################
@@ -152,12 +161,12 @@ export logout = ->
     log "logout"
     ## TODO update to new Login/Logout flow
 
-    cubeModule.reset()
-    radiologistImages.reset()
-    data.removeData()
-    deleteImageCache()
-    # content.setToLoginPage()
-    content.setToDefault()
+    # cubeModule.reset()
+    # radiologistImages.reset()
+    # data.removeData()
+    # deleteImageCache()
+    # # content.setToAddCodeState()
+    # content.setToDefaultState()
     return
 
 export upgrade = ->

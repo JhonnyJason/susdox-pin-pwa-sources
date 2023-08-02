@@ -32,44 +32,65 @@ menuFrameClicked = (evnt) ->
 
 ############################################################
 export susdoxLogoClicked = ->
-    if currentState == "login" then setToDefault()
+    if currentState == "login" then setToDefaultState()
     if currentState == "logged-in" then radiologistImages.setSustSolLogo()
 
 ############################################################
-export setToDefault = ->
-    log "setToDefault"
+#region State Setter Functions
+export setToDefaultState = ->
+    log "setToDefaultState"
     currentState = "default"
 
     content.classList.remove("preload")
-    content.classList.remove("setting-credentials")
-    content.classList.remove("credentials-set")
+    content.classList.remove("add-code")
+    content.classList.remove("pre-user-images")
+    content.classList.remove("user-images")
     
     menuModule.setMenuOff()
     
     return
 
 ############################################################
-export setToLoginPage = ->
-    log "setToDefault"
+export setToAddCodeState = ->
+    log "setToAddCodeState"
     currentState = "login"
 
     content.classList.remove("preload")
-    content.classList.remove("credentials-set")
-    content.classList.add("setting-credentials")
+    content.classList.remove("pre-user-images")
+    content.classList.remove("user-images")
+    content.classList.add("add-code")
     
     menuModule.setMenuOff()
     return
 
 ############################################################
-export setToUserPage = ->
-    log "setToUserPage"
+export setToPreUserImagesState = ->
+    log "setToPreUserImagesState"
+    currentState = ""
+
+    content.classList.remove("preload")
+    content.classList.remove("add-code")
+    content.classList.add("pre-user-images")
+    content.classList.remove("user-images")
+    
+    cubeModule.reset()
+
+    menuModule.setMenuOff()    
+    return
+
+############################################################
+export setToUserImagesState = ->
+    log "setToUserImagesState"
     currentState = "logged-in"
 
     content.classList.remove("preload")
-    content.classList.remove("setting-credentials")
-    content.classList.add("credentials-set")
+    content.classList.remove("add-code")
+    content.classList.remove("pre-user-images")
+    content.classList.add("user-images")
     
     cubeModule.allowTouch()
 
     menuModule.setMenuOff()    
     return
+
+#endregion

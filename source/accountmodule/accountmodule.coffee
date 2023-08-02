@@ -6,6 +6,9 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as S from "./statemodule.js"
+import * as utl from "./utilmodule.js"
+import * as sci from "./scimodule.js"
+import { AuthenticationError } from "./errormodule.js"
 
 ############################################################
 activeAccount = NaN
@@ -43,6 +46,9 @@ export getRadiologistImages = (index) ->
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
 
     accountObj = allAccounts[index]
+    
+    olog accountObj
+
     return accountObj.radiologistImages
 
 ############################################################
@@ -78,7 +84,7 @@ export setAccountValid = (index) ->
     return
 
 export accountIsValid = (index) ->
-    log "setAccountValid"
+    log "accountIsValid"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
@@ -91,13 +97,75 @@ export accountIsValid = (index) ->
         credentials = allAccounts[index].userCredentials
         loginBody = utl.loginRequestBody(credentials)
         response = await sci.loginRequest(loginBody)
+
+        log "LoginRequest was successful!"
         log response
+        log "throwing Fake auth Error!"
+        throw new AuthenticationError("Fake auth Error!")
+
         accountValidity[index] = true
     catch err
-        log err
+        log "Error on accountIsValid: #{err.message}"
+        # only on auth error, we know it is invalid
+        # for any non-auth error we act as if it was valid
         if err instanceof AuthenticationError 
             accountValidity[index] = false
             return false
 
     return true
+
+export deleteAccount = (index) ->
+    log "deleteAccount"
+    if noAccount then throw new Error("No User Account Available!")
+    if !index? then index = activeAccount
+    if index >= allAccounts.length then throw new Error("No account by index: #{index}")
+
+    deleteCurrentAccount = index == activeAccount
+    activeAccountWasZero = activeAccount == 0
+
+    allAccounts.splice(index, 1)
+    accountValidity.splice(index, 1)
+
+    if allAccounts.length == 0 
+        noAccount = true
+        activeAccount = NaN
+        s.save("activeAccount", NaN)
+        S.save("allAccounts")
+        return
+
+    if deleteCurrentAccount and activeAccountWasZero
+        S.save("allAccounts")
+        S.callOnChangeListeners("activeAccount")
+
+    if deleteCurrentAccount and !activeAccountWasZero
+        S.save("allAccounts")
+        activeAccount--
+        s.save("activeAccount", activeAccount)
+
+    if !deleteCurrentAccount and index < activeAccount
+        activeAccount--
+        s.saveSilently("activeAccount", activeAccount)
+
+    return
+
+############################################################
+export updateImages = (index) ->
+    log "updateImages"
+    if noAccount then throw new Error("No User Account Available!")
+    if !index? then index = activeAccount
+    if index >= allAccounts.length then throw new Error("No account by index: #{index}")
+
+    accountObj = allAccounts[index]
+
+    try
+        oldImages = accountObj.radiologistImages
+        credentials = accountObj.userCredentials
+        allImages = new Set(oldImages)
+
+        newImages = await sci.getImages(credentials)
+        
+        allImages.add(image) for image in newImages
+        accountObj.radiologistImages = [...allImages]
+    catch err then log "Error on updateImages: #{err.message}"
+    return
 

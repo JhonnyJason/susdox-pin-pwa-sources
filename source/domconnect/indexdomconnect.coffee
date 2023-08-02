@@ -6,15 +6,10 @@ indexdomconnect.initialize = () ->
     global.susdoxLogo = document.getElementById("susdox-logo")
     global.menuCloseButton = document.getElementById("menu-close-button")
     global.menuButton = document.getElementById("menu-button")
-    global.confirmationpopup = document.getElementById("confirmationpopup")
-    global.confirmationpopupContent = document.getElementById("confirmationpopup-content")
-    global.confirmationpopupCloseButton = document.getElementById("confirmationpopup-close-button")
-    global.confirmationpopupBirthdayInput = document.getElementById("confirmationpopup-birthday-input")
-    global.usermodal = document.getElementById("usermodal")
-    global.useractionFrame = document.getElementById("useraction-frame")
-    global.useractionCloseButton = document.getElementById("useraction-close-button")
-    global.useractionAcceptButton = document.getElementById("useraction-accept-button")
-    global.useractionRejectButton = document.getElementById("useraction-reject-button")
+    global.invalidcodemodal = document.getElementById("invalidcodemodal")
+    global.logoutmodal = document.getElementById("logoutmodal")
+    global.codeverificationmodal = document.getElementById("codeverificationmodal")
+    global.codeverificationBirthdayInput = document.getElementById("codeverification-birthday-input")
     return
     
 module.exports = indexdomconnect

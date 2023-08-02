@@ -20,14 +20,29 @@
     width 40px
 
 /*===================================================================*/
-.credentials-set
+.pre-user-images
+    #arrow-left
+        transform translate(0, -50%)
+        opacity: 0.6
+        pointer-events: none
+
+    #arrow-right
+        transform translate(0, -50%)
+        opacity: 0.6
+        pointer-events: none    
+    
+    #images-preloader
+        display block !important
+    
+    #cube
+        transform scale(0.84) rotateX(180deg)
+
+.user-images
     #arrow-left
         transform translate(0, -50%)
     #arrow-right
         transform translate(0, -50%)
     
-    #images-preloader
-        display block !important
     #cube
         transform scale(0.84) rotateX(180deg)
 
@@ -120,35 +135,35 @@
             transform rotateZ(180deg)
 
 /*===================================================================*/
-.setting-credentials
+.add-code
     #cube
         transform scale(0.84) rotateX(90deg)
 
 /*===================================================================*/
-.credentials-set.position--1
+.user-images.position--1
     #cube
         transform scale(0.84) rotateX(180deg) rotateY(-90deg)
 
-.credentials-set.position-0
+.user-images.position-0
     #cube
         transform scale(0.84) rotateX(180deg) rotateY(0deg)
 
-.credentials-set.position-1
+.user-images.position-1
     #cube
         transform scale(0.84) rotateX(180deg) rotateY(90deg)
 
-.credentials-set.position-2
+.user-images.position-2
     #cube
         transform scale(0.84) rotateX(180deg) rotateY(180deg)
 
-.credentials-set.position-3
+.user-images.position-3
     #cube
         transform scale(0.84) rotateX(180deg) rotateY(270deg)
 
-.credentials-set.position-4
+.user-images.position-4
     #cube
         transform scale(0.84) rotateX(180deg) rotateY(360deg)
 
-.credentials-set.no-transition
+.user-images.no-transition
     #cube
         transition none

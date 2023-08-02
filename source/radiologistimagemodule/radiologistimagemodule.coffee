@@ -6,7 +6,6 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as cubeModule from "./cubemodule.js"
-import * as S from "./statemodule.js"
 import * as account from "./accountmodule.js"
 
 ############################################################
@@ -22,31 +21,6 @@ allImages = []
 allImageElements = []
 
 #endregion
-
-############################################################
-export initialize = ->
-    log "initialize"
-    # changeDetect = (el1, el2) -> JSON.stringify(el1) != JSON.stringify(el2) 
-    # S.setChangeDetectionFunction("radiologistImages", changeDetect)
-    S.addOnChangeListener("activeAccount", imagesChanged)
-    return
-
-############################################################
-imagesChanged = ->
-    log "imagesChanged"
-    try imageURLs = account.getRadiologistImages()
-    catch err then imageURLs = null
-
-    if imageURLs? and Array.isArray(imageURLs) and imageURLs.length > 0
-        allImages = [...imageURLs, sustSolLogoURL]
-        allImageElements = new Array(allImages.length) 
-        setPosition(imageIndex)
-    else if imageURLs? and Array.isArray(imageURLs)
-        allImages = [sustSolLogoURL]
-        allImageElements = new Array(allImages.length) 
-        setPosition(imageIndex)
-    else reset()
-    return
 
 ############################################################
 setPosition = (idx) ->
@@ -107,7 +81,25 @@ export reset = ->
     return
 
 ############################################################
-export loadImages = -> imagesChanged()
+export loadImages = ->
+    log "loadImages"
+    try imageURLs = account.getRadiologistImages()
+    catch err
+        log "Error in loadImages: #{err.message}" 
+        imageURLs = null
+
+    olog {imageURLs}
+
+    if imageURLs? and Array.isArray(imageURLs) and imageURLs.length > 0
+        allImages = [...imageURLs, sustSolLogoURL]
+        allImageElements = new Array(allImages.length) 
+        setPosition(imageIndex)
+    else if imageURLs? and Array.isArray(imageURLs)
+        allImages = [sustSolLogoURL]
+        allImageElements = new Array(allImages.length) 
+        setPosition(imageIndex)
+    else reset()
+    return
 
 ############################################################
 export setSustSolLogo = ->
