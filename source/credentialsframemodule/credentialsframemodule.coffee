@@ -150,6 +150,7 @@ export extractCredentials = ->
     
     # datePicker.reset()
     loginCodeInput.value = ""
+    currentCode = ""
     loginBirthdayInput.value = ""
     userFeedback.innerHTML = ""
     return
