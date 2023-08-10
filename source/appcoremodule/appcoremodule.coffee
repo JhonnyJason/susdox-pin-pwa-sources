@@ -15,6 +15,7 @@ import * as sci from "./scimodule.js"
 import * as utl from "./utilmodule.js"
 import * as verificationModal from "./codeverificationmodal.js"
 import * as invalidcodeModal from "./invalidcodemodal.js"
+import * as menuModule from "./menumodule.js"
 import { AuthenticationError } from "./errormodule.js"
 import { appVersion } from "./configmodule.js"
 
@@ -73,7 +74,13 @@ export startUp = ->
 activeAccountChanged = ->
     log "activeAccountChanged"
     try await enterUserImagesState()
-    catch err then content.setToDefaultState()
+    catch err 
+        cubeModule.reset()
+        radiologistImages.reset()
+        deleteImageCache()
+        content.setToDefaultState()
+
+    menuModule.updateAllUsers()
     codeDisplay.updateCode()
     return
 
@@ -159,14 +166,7 @@ export moreInfo = ->
 
 export logout = ->
     log "logout"
-    ## TODO update to new Login/Logout flow
-
-    # cubeModule.reset()
-    # radiologistImages.reset()
-    # data.removeData()
-    # deleteImageCache()
-    # # content.setToAddCodeState()
-    # content.setToDefaultState()
+    account.deleteAccount()
     return
 
 export upgrade = ->

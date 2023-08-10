@@ -8,11 +8,12 @@ export modulesToDebug = {
     # centerlinkmodule: true
     # configmodule: true
     # codeverificationmodule: true
+    contentmodule: true
     # credentialsframemodule: true
     # cubemodule: true
     # errorfeedbackmodule: true
     # mainbuttonmodule: true
-    # menumodule: true
+    menumodule: true
     radiologistimagemodule: true
     # scimodule: true
     # scrollrolldatepickermodule: true

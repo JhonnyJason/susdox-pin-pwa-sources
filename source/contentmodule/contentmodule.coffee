@@ -5,6 +5,7 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
+import * as account from "./accountmodule.js"
 import * as utl from "./utilmodule.js"
 import * as credentialsframe from "./credentialsframemodule.js"
 import * as radiologistImages from "./radiologistimagemodule.js"
@@ -32,8 +33,18 @@ menuFrameClicked = (evnt) ->
 
 ############################################################
 export susdoxLogoClicked = ->
-    if currentState == "login" then setToDefaultState()
-    if currentState == "logged-in" then radiologistImages.setSustSolLogo()
+    log "susdoxLogoClicked"
+    # switch currentState
+    
+    if currentState == "add-code"
+        try 
+            account.getUserCredentials()
+            setToUserImagesState()
+        catch err then setToDefaultState()
+    
+    if currentState == "user-images" 
+        radiologistImages.setSustSolLogo()
+    return
 
 ############################################################
 #region State Setter Functions
@@ -53,7 +64,7 @@ export setToDefaultState = ->
 ############################################################
 export setToAddCodeState = ->
     log "setToAddCodeState"
-    currentState = "login"
+    currentState = "add-code"
 
     content.classList.remove("preload")
     content.classList.remove("pre-user-images")
@@ -66,7 +77,7 @@ export setToAddCodeState = ->
 ############################################################
 export setToPreUserImagesState = ->
     log "setToPreUserImagesState"
-    currentState = ""
+    currentState = "pre-user-images"
 
     content.classList.remove("preload")
     content.classList.remove("add-code")
@@ -81,7 +92,7 @@ export setToPreUserImagesState = ->
 ############################################################
 export setToUserImagesState = ->
     log "setToUserImagesState"
-    currentState = "logged-in"
+    currentState = "user-images"
 
     content.classList.remove("preload")
     content.classList.remove("add-code")

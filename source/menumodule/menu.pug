@@ -1,5 +1,16 @@
 //- menu structure
+#menu-hidden-templates
+    #menu-entry-template
+        a.menu-entry(user-index="{{{index}}}")
+            .menu-icon: svg: use(href="#svg-user-icon")
+            .menu-label {{{userLabel}}}
+    
 nav#menu
+    .menu-group 
+        a.menu-entry#menu-add-code
+            .menu-icon: svg: use(href="#svg-plus-icon")
+            .menu-label=content.menuAddCodeLabel
+    .menu-group.no-user#all-users
     .menu-group 
         a.menu-entry#menu-more-info(target="_blank" href="https://pwa.bilder-befunde.at/info")
             .menu-icon: svg: use(href="#svg-info-icon")
@@ -15,4 +26,4 @@ nav#menu
             #current-version.menu-label v0.1.x
             //- #to-version-icon.menu-icon: svg: use(href="#svg-chevron-right-icon")
             #to-version-icon.menu-icon: svg: use(href="#svg-arrow-right-icon")
-            #new-version.menu-label v0.1.2
+            #new-version.menu-label v0.1.y

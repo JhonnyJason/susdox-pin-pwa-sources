@@ -4,6 +4,10 @@ import { createLogFunctions } from "thingy-debug"
 {log, olog} = createLogFunctions("accountmodule")
 #endregion
 
+
+# TestString to past as allAccounts
+# [{"userCredentials":{"code": "874506", "dateOfBirth":"1959-12-24"}, "label":"Test Benutzer", "radiologistImages": []}, {"userCredentials":{"code": "874506", "dateOfBirth":"1959-12-24"}, "label":"Benutzer 2", "radiologistImages": []}]
+
 ############################################################
 import * as S from "./statemodule.js"
 import * as utl from "./utilmodule.js"
@@ -51,6 +55,11 @@ export getRadiologistImages = (index) ->
 
     return accountObj.radiologistImages
 
+export getAccountsInfo = ->
+    log "getAccountsInfo"
+    return { activeAccount, allAccounts, accountValidity }
+
+
 ############################################################
 export addNewAccount = (credentials) ->
     log "addNewAccount"
@@ -58,7 +67,7 @@ export addNewAccount = (credentials) ->
     accountObj = {}
     accountObj.userCredentials = credentials
     accountObj.radiologistImages = []
-    accountObj.label = "Benutzer 1"
+    accountObj.label = "Benutzer #{accountIndex + 1}"
     allAccounts.push(accountObj)
     S.save("allAccounts")
     noAccount = false
@@ -129,7 +138,7 @@ export deleteAccount = (index) ->
     if allAccounts.length == 0 
         noAccount = true
         activeAccount = NaN
-        s.save("activeAccount", NaN)
+        S.save("activeAccount", NaN)
         S.save("allAccounts")
         return
 
@@ -140,11 +149,11 @@ export deleteAccount = (index) ->
     if deleteCurrentAccount and !activeAccountWasZero
         S.save("allAccounts")
         activeAccount--
-        s.save("activeAccount", activeAccount)
+        S.save("activeAccount", activeAccount)
 
     if !deleteCurrentAccount and index < activeAccount
         activeAccount--
-        s.saveSilently("activeAccount", activeAccount)
+        S.saveSilently("activeAccount", activeAccount)
 
     return
 
