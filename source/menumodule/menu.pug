@@ -5,12 +5,12 @@
             .menu-icon: svg: use(href="#svg-user-icon")
             .menu-label {{{userLabel}}}
     
-nav#menu
+nav#menu.no-user
     .menu-group 
         a.menu-entry#menu-add-code
             .menu-icon: svg: use(href="#svg-plus-icon")
             .menu-label=content.menuAddCodeLabel
-    .menu-group.no-user#all-users
+    .menu-group#all-users
     .menu-group 
         a.menu-entry#menu-more-info(target="_blank" href="https://pwa.bilder-befunde.at/info")
             .menu-icon: svg: use(href="#svg-info-icon")

@@ -44,10 +44,14 @@ menu-icon-size = 25px
     border-top solid 1px alpha(cd-darkblue, 0.1)
     border-bottom solid 1px alpha(cd-darkblue, 0.1)
 
-#all-users.no-user
-    border-bottom none
-    padding 0
-
+.no-user
+    #all-users
+        border-bottom none
+        padding 0
+    #menu-logout
+        pointer-events: none
+        opacity 0.6
+        
 #menu-version
     color cd-darkblue
     opacity 0.6

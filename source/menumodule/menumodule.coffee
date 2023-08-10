@@ -95,8 +95,8 @@ export updateAllUsers = ->
 
     allUsers.innerHTML = html
     
-    if allAccounts.length == 0 then allUsers.classList.add("no-user")
-    else allUsers.classList.remove("no-user")
+    if allAccounts.length == 0 then menu.classList.add("no-user")
+    else menu.classList.remove("no-user")
     
     activeUser = document.querySelector(".menu-entry[user-index='#{activeAccount}']")
     activeUser.classList.add("active-user")
