@@ -17,6 +17,7 @@ import * as scimodule from "./scimodule.js"
 import * as scrollrolldatepickermodule from "./scrollrolldatepickermodule.js"
 import * as statemodule from "./statemodule.js"
 import * as usermodalmodule from "./usermodalmodule.js"
+import * as usernamedisplaymodule from "./usernamedisplaymodule.js"
 import * as utilmodule from "./utilmodule.js"
 
 Modules = {
@@ -39,6 +40,7 @@ Modules = {
     scrollrolldatepickermodule,
     statemodule,
     usermodalmodule,
+    usernamedisplaymodule,
     utilmodule,
 }
 
