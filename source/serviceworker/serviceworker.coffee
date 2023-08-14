@@ -20,7 +20,8 @@ cachesToDelete = [
 
 ############################################################
 fixedAppFiles = [
-    "/",
+    "/"
+    "/argon2worker.js"
     "/manifest.json"
     "/img/icon.png"
     "/img/sustsol_logo.png"
