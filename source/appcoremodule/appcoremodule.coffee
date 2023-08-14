@@ -11,6 +11,7 @@ import * as account from "./accountmodule.js"
 import * as cubeModule from "./cubemodule.js"
 import * as radiologistImages from "./radiologistimagemodule.js"
 import * as codeDisplay from "./codedisplaymodule.js"
+import * as usernameDisplay from "./usernamedisplaymodule.js"
 import * as sci from "./scimodule.js"
 import * as utl from "./utilmodule.js"
 import * as verificationModal from "./codeverificationmodal.js"
@@ -66,7 +67,6 @@ export startUp = ->
     activeAccountChanged()
     return
 
-
 ############################################################
 #region internal Functions
 
@@ -82,6 +82,7 @@ activeAccountChanged = ->
 
     menuModule.updateAllUsers()
     codeDisplay.updateCode()
+    usernameDisplay.updateUsername()
     return
 
 ############################################################

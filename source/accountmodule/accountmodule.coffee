@@ -34,6 +34,13 @@ export initialize = ->
     return
 
 ############################################################
+export getAccountObject = (index) ->
+    log "getAccountObject"
+    if noAccount then throw new Error("No User Account Available!")
+    if !index? then index = activeAccount
+    if index >= allAccounts.length then throw new Error("No account by index: #{index}")
+    return allAccounts[index]
+
 export getUserCredentials = (index) ->
     log "getUserCredentials"
     if noAccount then throw new Error("No User Account Available!")

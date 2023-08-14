@@ -99,7 +99,7 @@ export updateAllUsers = ->
     else menu.classList.remove("no-user")
     
     activeUser = document.querySelector(".menu-entry[user-index='#{activeAccount}']")
-    activeUser.classList.add("active-user")
+    if activeUser? then activeUser.classList.add("active-user")
 
     allUserEntries = document.querySelectorAll("#all-users > *")
     for userEntry,idx in allUserEntries

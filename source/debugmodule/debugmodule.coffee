@@ -19,6 +19,7 @@ export modulesToDebug = {
     # scrollrolldatepickermodule: true
     # statemodule: true
     # usermodalmodule: true
+    usernamedisplaymodule: true
     # logoutmodal: true
     # invalidcodemodal: true
     # codeverificationmodal: true
