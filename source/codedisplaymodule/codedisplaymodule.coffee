@@ -21,6 +21,7 @@ codeDisplay = document.getElementById("code-display")
 ############################################################
 export updateCode = ->
     log "updateCode"
+    reset()
     try 
         credentials = account.getUserCredentials()
         setCode(credentials.code)

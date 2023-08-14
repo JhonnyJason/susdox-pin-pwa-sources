@@ -66,6 +66,7 @@ export getAccountsInfo = ->
     log "getAccountsInfo"
     return { activeAccount, allAccounts, accountValidity }
 
+############################################################
 
 ############################################################
 export addNewAccount = (credentials) ->
@@ -151,7 +152,7 @@ export deleteAccount = (index) ->
 
     if deleteCurrentAccount and activeAccountWasZero
         S.save("allAccounts")
-        S.callOnChangeListeners("activeAccount")
+        S.callOutChange("activeAccount")
 
     if deleteCurrentAccount and !activeAccountWasZero
         S.save("allAccounts")
@@ -164,6 +165,17 @@ export deleteAccount = (index) ->
 
     return
 
+############################################################
+export saveLabelEdit = (label, index) ->
+    log "saveLabelEdit"
+    if noAccount then throw new Error("No User Account Available!")
+    if !index? then index = activeAccount
+    if index >= allAccounts.length then throw new Error("No account by index: #{index}")
+
+    accountObj = allAccounts[index]
+    accountObj.label = label
+    S.save("allAccounts")
+    return
 ############################################################
 export updateImages = (index) ->
     log "updateImages"
@@ -182,6 +194,7 @@ export updateImages = (index) ->
         
         allImages.add(image) for image in newImages
         accountObj.radiologistImages = [...allImages]
+        S.save("allAccounts")
     catch err then log "Error on updateImages: #{err.message}"
     return
 

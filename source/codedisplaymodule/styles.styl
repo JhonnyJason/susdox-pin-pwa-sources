@@ -1,28 +1,42 @@
 // codebutton styles
-#codedisplay-container > *
+#codedisplay-container
+    width 100%
+
+#codedisplay-buttons
+    height 80px
+    width 100%
+    position relative
+
+#codedisplay-buttons > *
     position absolute
     top 50%
     left 50%
+    transform translate(-50%, -50%)
+    transition all 0.3s
     background-color: cd-turquoise
     color white
     border-radius: 10px
-    box-sizing: border-box
     width 220px
+    box-sizing: border-box
     font-size 15pt
     text-align: center
-    transition all 0.3s
 
-#codedisplay-container.invalid-code > *
-    background-color: cd-darkred
+#invalid-code-info
+    display none
+
+#codedisplay-container.invalid-code 
+    #codedisplay-buttons > *
+        background-color: cd-darkred
+    #invalid-code-info
+        display block
+        color cd-darkred
+        font-size 10pt
+        padding 10px
 
 #codedisplay-container
-    position relative
-    width 100%
-    padding 0
 
     #show-code-label  
         padding 20px
-        transform translate(-50%, -50%)
         z-index 1
         
     #code-display
@@ -32,10 +46,8 @@
         width 100%
         transform translate(-50%, -50%) scale(0,0.3)
         z-index -1
-        transition transform 0.3s
 
 #codedisplay-container.show-code
-    // padding 10px
     
     #show-code-label  
         z-index -1

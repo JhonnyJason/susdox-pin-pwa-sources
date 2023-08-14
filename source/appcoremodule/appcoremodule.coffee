@@ -75,8 +75,6 @@ activeAccountChanged = ->
     log "activeAccountChanged"
     try await enterUserImagesState()
     catch err 
-        cubeModule.reset()
-        radiologistImages.reset()
         deleteImageCache()
         content.setToDefaultState()
 
@@ -119,11 +117,10 @@ enterUserImagesState = ->
 
     olog { valid, deleteCode }
     
-    if deleteCode 
+    if deleteCode
         account.deleteAccount()
         return
     
-    radiologistImages.loadImages()
     content.setToUserImagesState()    
     return
     

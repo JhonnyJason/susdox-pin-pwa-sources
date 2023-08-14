@@ -31,6 +31,8 @@ menuFrameClicked = (evnt) ->
     menuModule.setMenuOff()
     return
 
+
+
 ############################################################
 export susdoxLogoClicked = ->
     log "susdoxLogoClicked"
@@ -56,9 +58,12 @@ export setToDefaultState = ->
     content.classList.remove("add-code")
     content.classList.remove("pre-user-images")
     content.classList.remove("user-images")
-    
-    menuModule.setMenuOff()
-    
+
+    cubeModule.reset()
+    radiologistImages.reset()
+    credentialsframe.resetAllErrorFeedback()
+
+    menuModule.setMenuOff()    
     return
 
 ############################################################
@@ -70,7 +75,11 @@ export setToAddCodeState = ->
     content.classList.remove("pre-user-images")
     content.classList.remove("user-images")
     content.classList.add("add-code")
-    
+
+    cubeModule.reset()
+    radiologistImages.reset()
+    credentialsframe.resetAllErrorFeedback()
+
     menuModule.setMenuOff()
     return
 
@@ -85,6 +94,8 @@ export setToPreUserImagesState = ->
     content.classList.remove("user-images")
     
     cubeModule.reset()
+    radiologistImages.reset()
+    credentialsframe.resetAllErrorFeedback()
 
     menuModule.setMenuOff()    
     return
@@ -92,6 +103,9 @@ export setToPreUserImagesState = ->
 ############################################################
 export setToUserImagesState = ->
     log "setToUserImagesState"
+    credentialsframe.resetAllErrorFeedback()
+    radiologistImages.loadImages()
+
     currentState = "user-images"
 
     content.classList.remove("preload")

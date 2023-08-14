@@ -9,9 +9,34 @@ edit-icon-size = 25px
     padding 30px 20px 0 20px
     box-sizing: border-box
     // background-color rgba(0, 0, 0, 0.2)
+    transition: opacity 0.3s
+
+.preload
+    #usernamedisplay-container
+        // display none
+        opacity: 0
+        pointer-events: none
+        z-index -1
+
+.add-code
+    #usernamedisplay-container
+        opacity: 0
+        pointer-events: none
+        z-index -1
+        // display none
+
+.pre-user-images
+    #usernamedisplay-container
+        opacity: 0
+        pointer-events: none
+        z-index -1
+        // display none
 
 #usernamedisplay-container.no-username
-    display none
+    opacity: 0
+    pointer-events: none
+    z-index -1
+    // display none
 
 #usernamedisplay
     font-size: 20px

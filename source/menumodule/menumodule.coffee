@@ -40,7 +40,11 @@ userEntryClicked = (evnt) ->
     el = evnt.currentTarget
     userIndex = el.getAttribute("user-index")
     log userIndex
+    {activeAccount} = accountModule.getAccountsInfo()
     userIndex = parseInt(userIndex)
+
+    if userIndex == activeAccount then contentModule.setToUserImagesState()
+
     accountModule.setAccountActive(userIndex) unless userIndex == NaN
     return
 
