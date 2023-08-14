@@ -116,9 +116,9 @@ export accountIsValid = (index) ->
         response = await sci.loginRequest(loginBody)
 
         log "LoginRequest was successful!"
-        log response
-        log "throwing Fake auth Error!"
-        throw new AuthenticationError("Fake auth Error!")
+        # log response
+        # log "throwing Fake auth Error!"
+        # throw new AuthenticationError("Fake auth Error!")
 
         accountValidity[index] = true
     catch err
