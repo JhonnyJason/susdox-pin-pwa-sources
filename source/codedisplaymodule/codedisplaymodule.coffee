@@ -7,6 +7,9 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 import * as S from "./statemodule.js"
 import * as account from "./accountmodule.js"
+import * as centerlinkModule from "./centerlinkmodule.js"
+import * as invalidcodeModal from "./invalidcodemodal.js"
+
 import {copyToClipboard} from "./utilmodule.js"
 
 ############################################################
@@ -25,6 +28,7 @@ export updateCode = ->
     try 
         credentials = account.getUserCredentials()
         setCode(credentials.code)
+        centerlinkModule.updateDateOfBirth(credentials.dateOfBirth)
         if await account.accountIsValid()
             codedisplayContainer.classList.remove("invalid-code")
         else
@@ -34,10 +38,26 @@ export updateCode = ->
     
     codedisplayContainer.classList.remove("invalid-code")
     setCode("")
+    centerlinkModule.updateDateOfBirth("")
     return
     
 ############################################################
 reveal = ->
+
+
+    # Check for code deletion when code is invalid
+    try
+        valid = await account.accountIsValid()
+        if !valid then deleteCode = await invalidcodeModal.promptCodeDeletion()
+
+        if deleteCode
+            account.deleteAccount()
+            return
+
+    catch err then log err
+    
+
+    centerlinkModule.displayDateOfBirth()
     codedisplayContainer.classList.add("show-code")
     isRevealed = true
     return
@@ -54,6 +74,7 @@ export setCode = (code) ->
     return
 
 export reset = ->
+    centerlinkModule.displayCenterLink()
     codedisplayContainer.classList.remove("show-code")
     isRevealed = false
     return

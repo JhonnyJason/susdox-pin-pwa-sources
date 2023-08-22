@@ -1,4 +1,8 @@
 //- usermodal structure
+#invalidcodemodal-hidden-templates
+
+    #invalidcodemodal-content-message-template()!=content.invalidcodemodalMessageTemplate
+
 #invalidcodemodal.usermodal
     .click-catcher
     .modal-container
@@ -6,7 +10,9 @@
             h2.modal-header-title=content.invalidcodemodalTitle
             .modal-close-button.click-button: svg: use(href="#svg-cross-icon")
         .modal-content!=content.invalidcodemodalMessage
+
         .modal-actions
-            //- #delete-invalid-code-button
+            #invalidcodemodal-update-button.click-button=content.invalidcodemodalUpdateButtonText
+        .modal-actions
             .modal-accept-button.click-button=content.deleteInvalidCodeButtonText 
             .modal-cancel-button.click-button=content.modalCancelButtonText

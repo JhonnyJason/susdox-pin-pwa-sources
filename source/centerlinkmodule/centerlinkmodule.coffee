@@ -9,7 +9,9 @@ import * as S from "./statemodule.js"
 import *  as utl from "./utilmodule.js"
 
 ############################################################
+centerlink = document.getElementById("centerlink")
 susdoxLink = document.getElementById("susdox-link")
+dateOfBirthDisplay = document.getElementById("date-of-birth-display")
 
 ############################################################
 export initialize = ->
@@ -33,3 +35,18 @@ susdoxLinkClicked = (evnt) ->
     window.open(susdoxLink.getAttribute("href"), "_blank")
     return
 
+############################################################
+export updateDateOfBirth = (dateOfBirth) ->
+    log "updateDateOfBirth"
+    dateOfBirthDisplay.textContent = dateOfBirth
+    return
+
+export displayDateOfBirth = ->
+    log "displayDateOfBirth"
+    centerlink.classList.add("code-shown")
+    return
+
+export displayCenterLink = ->
+    log "displayCenterLink"
+    centerlink.classList.remove("code-shown")
+    return

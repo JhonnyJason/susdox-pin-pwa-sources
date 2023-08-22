@@ -129,6 +129,8 @@ export accountIsValid = (index) ->
             accountValidity[index] = false
             return false
 
+    ## TODO return true again
+    return false
     return true
 
 export deleteAccount = (index) ->

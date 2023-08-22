@@ -107,19 +107,11 @@ enterUserImagesState = ->
     content.setToPreUserImagesState()
     
     valid = true
-    deleteCode = false
 
     try
         valid = await account.accountIsValid()
         if valid then await account.updateImages()
-        else deleteCode = await invalidcodeModal.promptCodeDeletion()
     catch err then log err
-
-    olog { valid, deleteCode }
-    
-    if deleteCode
-        account.deleteAccount()
-        return
     
     content.setToUserImagesState()    
     return
@@ -151,7 +143,8 @@ onServiceWorkerSwitch = ->
 
 deleteImageCache = ->
     log "deleteImageCache"
-    serviceWorker.controller.postMessage("deleteImageCache")
+    if serviceWorker? and serviceWorker.controller?
+        serviceWorker.controller.postMessage("deleteImageCache")
     return
     
 #endregion
