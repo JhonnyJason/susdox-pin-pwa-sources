@@ -120,6 +120,9 @@ export accountIsValid = (index) ->
         # log "throwing Fake auth Error!"
         # throw new AuthenticationError("Fake auth Error!")
 
+        ## TODO return true again
+        return false
+
         accountValidity[index] = true
     catch err
         log "Error on accountIsValid: #{err.message}"
@@ -167,6 +170,8 @@ export deleteAccount = (index) ->
 
     return
 
+export saveAllAccounts = -> S.save("allAccounts")
+    
 ############################################################
 export saveLabelEdit = (label, index) ->
     log "saveLabelEdit"
@@ -178,6 +183,7 @@ export saveLabelEdit = (label, index) ->
     accountObj.label = label
     S.save("allAccounts")
     return
+
 ############################################################
 export updateImages = (index) ->
     log "updateImages"

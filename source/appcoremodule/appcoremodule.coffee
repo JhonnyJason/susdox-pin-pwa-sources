@@ -17,6 +17,8 @@ import * as utl from "./utilmodule.js"
 import * as verificationModal from "./codeverificationmodal.js"
 import * as invalidcodeModal from "./invalidcodemodal.js"
 import * as menuModule from "./menumodule.js"
+import * as credentialsFrame from "./credentialsframemodule.js"
+import * as mainButton from "./mainbuttonmodule.js"
 import { AuthenticationError } from "./errormodule.js"
 import { appVersion } from "./configmodule.js"
 
@@ -164,6 +166,20 @@ export upgrade = ->
     log "upgrade"
     location.reload()
     return
+
+############################################################
+export updateCode = ->
+    log "updateCode"
+    credentialsFrame.prepareForCodeUpdate()
+    content.setToAddCodeState()
+    try 
+        await mainButton.waitToAccept()
+    catch err
+        log err
+    ##TODO what do do more?
+    content.setToUserImagesState()
+    return
+
 
 
 

@@ -6,6 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as S from "./statemodule.js"
+import * as app from "./appcoremodule.js"
 import * as account from "./accountmodule.js"
 import * as centerlinkModule from "./centerlinkmodule.js"
 import * as invalidcodeModal from "./invalidcodemodal.js"
@@ -43,8 +44,7 @@ export updateCode = ->
     
 ############################################################
 reveal = ->
-
-
+    log "reveal"
     # Check for code deletion when code is invalid
     try
         valid = await account.accountIsValid()
@@ -54,7 +54,12 @@ reveal = ->
             account.deleteAccount()
             return
 
-    catch err then log err
+    catch err 
+        log err
+        if err == "updateButtonClicked"
+            await app.updateCode()
+            reveal()
+            return
     
 
     centerlinkModule.displayDateOfBirth()

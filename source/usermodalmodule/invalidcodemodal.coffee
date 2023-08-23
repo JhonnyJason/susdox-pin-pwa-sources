@@ -19,6 +19,9 @@ messageTemplate = ""
 messageElement = null
 
 ############################################################
+updateButton = document.getElementById("invalidcodemodal-update-button")
+
+############################################################
 export initialize = ->
     log "initialize"
     core = new ModalCore(invalidcodemodal)
@@ -26,8 +29,15 @@ export initialize = ->
 
     messageTemplate = invalidcodemodalContentMessageTemplate.innerHTML
     messageElement = invalidcodemodal.getElementsByClassName("modal-content")[0]
+    
+    updateButton.addEventListener("click", updateButtonClicked)
     return
 
+############################################################
+updateButtonClicked = (evnt) ->
+    log "updateButtonClicked"
+    core.reject("updateButtonClicked")
+    return
 
 ############################################################
 export promptCodeDeletion = ->

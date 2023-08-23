@@ -15,6 +15,10 @@ acceptButton = document.getElementById("accept-button")
 codeButton = document.getElementById("code-button")
 
 ############################################################
+rejectAcceptPromise = null
+resolveAcceptPromise = null
+
+############################################################
 export initialize = ->
     log "initialize"
     addCodeButton.addEventListener("click", addCodeButtonClicked)
@@ -24,9 +28,23 @@ export initialize = ->
     return
 
 ############################################################
+clearPromise = ->
+    log "clearPromise"
+    rejectAcceptPromise = null
+    resolveAcceptPromise = null
+    return
+
+
+############################################################
 addCodeButtonClicked = (evnt) ->
     log "addCodeButtonClicked"
     contentModule.setToAddCodeState()
+    return
+
+############################################################
+codeButtonClicked = (evnt) ->
+    # codeDisplay.revealOrCopy()
+    codeDisplay.revealOrHide()
     return
 
 ############################################################
@@ -38,18 +56,34 @@ export acceptButtonClicked = (evnt) ->
         credentialsframe.resetAllErrorFeedback()
         # await utl.waitMS(5000)
         await credentialsframe.extractCredentials()
-        contentModule.setToUserImagesState()
+        if resolveAcceptPromise? then resolveAcceptPromise()
+        else contentModule.setToUserImagesState()
         
     catch err
         log err
         credentialsframe.errorFeedback(err)
-    finally 
+    finally
         acceptButton.classList.remove("disabled")
     return
 
 ############################################################
-codeButtonClicked = (evnt) ->
-    # codeDisplay.revealOrCopy()
-    codeDisplay.revealOrHide()
-    return
+export waitToAccept = ->
+    log "waitToAccept"
+    
+    acceptPromise = new Promise (resolve, reject) ->
+        rejectAcceptPromise = ->
+            reject()
+            clearPromise()
+            return
 
+        resolveAcceptPromise = ->
+            resolve()
+            clearPromise()
+            return
+            
+    return acceptPromise
+
+export cancelAcceptWait = ->
+    log "cancelAcceptWait"
+    if rejectAcceptPromise? then rejectAcceptPromise()
+    return

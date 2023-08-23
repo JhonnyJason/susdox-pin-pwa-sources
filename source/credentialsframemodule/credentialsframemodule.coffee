@@ -43,6 +43,9 @@ datePicker = null
 currentCode = ""
 
 ############################################################
+accountToUpdate = null
+
+############################################################
 export initialize = ->
     log "initialize"
     loginCodeInput.addEventListener("keydown", loginCodeInputKeyDowned)
@@ -120,6 +123,16 @@ loginCodeInputKeyUpped = (evt) ->
     loginCodeInput.value = newValue
     return
 
+
+############################################################
+export prepareForCodeUpdate = ->
+    log "prepareForCodeUpdate"
+    accountToUpdate = account.getAccountObject()
+    olog accountToUpdate
+    datePicker.setValue(accountToUpdate.userCredentials.dateOfBirth)
+    datePicker.freeze()
+    return
+
 ############################################################
 export extractCredentials = ->
     log "extractCredentials"
@@ -143,12 +156,17 @@ export extractCredentials = ->
     response = await sci.loginRequest(loginBody)
     log "#{response}"
 
-    # the new account is valid and we set it as active by default
-    accountIndex = account.addNewAccount(credentials)
-    account.setAccountActive(accountIndex)
-    account.setAccountValid(accountIndex)
+    if accountToUpdate?
+        # we just updated an account - switch credentials and save
+        accountToUpdate.userCredentials = credentials
+        account.saveAllAccounts()
+    else
+        # the new account is valid and we set it as active by default
+        accountIndex = account.addNewAccount(credentials)
+        account.setAccountActive(accountIndex)
+        account.setAccountValid(accountIndex)
     
-    # datePicker.reset()
+    datePicker.reset()
     loginCodeInput.value = ""
     currentCode = ""
     loginBirthdayInput.value = ""
