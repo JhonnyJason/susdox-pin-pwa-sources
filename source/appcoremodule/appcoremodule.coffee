@@ -38,7 +38,7 @@ export initialize = ->
 
     currentVersion.textContent = appVersion
     
-    if serviceWorker? 
+    if serviceWorker?
         serviceWorker.register("serviceworker.js", {scope: "/"})
         if serviceWorker.controller?
             serviceWorker.controller.postMessage("App is version: #{appVersion}!")
@@ -152,11 +152,6 @@ deleteImageCache = ->
 #endregion
 
 ############################################################
-export moreInfo = ->
-    log "moreInfo"
-    ##TODO
-    return
-
 export logout = ->
     log "logout"
     account.deleteAccount()
