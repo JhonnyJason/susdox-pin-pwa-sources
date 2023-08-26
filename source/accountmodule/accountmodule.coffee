@@ -27,7 +27,7 @@ export initialize = ->
     allAccounts = S.load("allAccounts") || []
     S.save("allAccounts", allAccounts, true)
     activeAccount = parseInt(S.load("activeAccount"))
-    olog { allAccounts, activeAccount }
+    # olog { allAccounts, activeAccount }
     return unless allAccounts.length > 0
 
     noAccount = false
@@ -58,7 +58,7 @@ export getRadiologistImages = (index) ->
 
     accountObj = allAccounts[index]
     
-    olog accountObj
+    # olog accountObj
 
     return accountObj.radiologistImages
 

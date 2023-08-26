@@ -128,7 +128,7 @@ loginCodeInputKeyUpped = (evt) ->
 export prepareForCodeUpdate = ->
     log "prepareForCodeUpdate"
     accountToUpdate = account.getAccountObject()
-    olog accountToUpdate
+    # olog accountToUpdate
     datePicker.setValue(accountToUpdate.userCredentials.dateOfBirth)
     datePicker.freeze()
     return

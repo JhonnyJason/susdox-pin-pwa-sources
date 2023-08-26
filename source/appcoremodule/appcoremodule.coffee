@@ -57,7 +57,7 @@ export startUp = ->
         try
             credentials = await verificationModal.pickUpConfirmedCredentials(code)
             # log "We could pick up some credentials ;-)"
-            olog {credentials}
+            # olog {credentials}
 
             # the new account is valid and we set it as active by default
             accountIndex = account.addNewAccount(credentials)
@@ -131,7 +131,7 @@ onServiceWorkerMessage = (evnt) ->
     log("  !  onServiceWorkerMessage")
     if typeof evnt.data == "object" and evnt.data.version?
         serviceworkerVersion = evnt.data.version
-        olog { appVersion, serviceworkerVersion }
+        # olog { appVersion, serviceworkerVersion }
         if serviceworkerVersion == appVersion then return
         newVersion.textContent = serviceworkerVersion
         menuVersion.classList.add("to-update")

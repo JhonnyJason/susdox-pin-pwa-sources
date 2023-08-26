@@ -48,7 +48,7 @@ createImageElement = (idx) ->
     log "createImageElement"
     idx = (idx + allImages.length) % allImages.length
     log "idx: #{idx}"
-    olog allImages
+    # olog allImages
     
     image = document.createElement("img")
     image.src = allImages[idx]
@@ -88,7 +88,7 @@ export loadImages = ->
         log "Error in loadImages: #{err.message}" 
         imageURLs = null
 
-    olog {imageURLs}
+    # olog {imageURLs}
 
     if imageURLs? and Array.isArray(imageURLs) and imageURLs.length > 0
         allImages = [...imageURLs, sustSolLogoURL]
