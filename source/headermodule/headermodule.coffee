@@ -5,8 +5,7 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as content from "./contentmodule.js"
-import * as menuModule from "./menumodule.js"
+import * as app from "./appcoremodule.js"
 
 ############################################################
 export initialize = ->
@@ -19,17 +18,17 @@ export initialize = ->
 ############################################################
 susdoxLogoClicked = ->
     log "susdoxLogoClicked"
-    content.susdoxLogoClicked()
+    app.triggerHome()
     return
 
 menuButtonClicked = ->
     log "menuButtonClicked"
-    menuModule.setMenuOn()
+    app.triggerMenu()
     return
 
 menuCloseButtonClicked = ->
     log "menuCloseButtonClicked"
-    menuModule.setMenuOff()
+    app.triggerMenu()
     return
 
 

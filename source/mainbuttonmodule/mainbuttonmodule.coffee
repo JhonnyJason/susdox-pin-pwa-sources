@@ -5,6 +5,7 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
+import * as app from "./appcoremodule.js"
 import * as codeDisplay from "./codedisplaymodule.js"
 import * as credentialsframe from "./credentialsframemodule.js"
 import * as contentModule from "./contentmodule.js"
@@ -38,7 +39,8 @@ clearPromise = ->
 ############################################################
 addCodeButtonClicked = (evnt) ->
     log "addCodeButtonClicked"
-    contentModule.setToAddCodeState()
+    app.triggerAddCode()
+    # contentModule.setToAddCodeState()
     return
 
 ############################################################

@@ -7,15 +7,15 @@ export modulesToDebug = {
     appcoremodule: true
     # centerlinkmodule: true
     # configmodule: true
-    codedisplaymodule: true
+    # codedisplaymodule: true
     # codeverificationmodule: true
     # contentmodule: true
-    credentialsframemodule: true
+    # credentialsframemodule: true
     # cubemodule: true
     # errorfeedbackmodule: true
     # invalidcodemodal: true
     # logoutmodal: true
-    mainbuttonmodule: true
+    # mainbuttonmodule: true
     # menumodule: true
     # modalcore: true
     navmodule: true 
@@ -23,6 +23,7 @@ export modulesToDebug = {
     # scimodule: true
     # scrollrolldatepickermodule: true
     # statemodule: true
+    uistatemodule: true
     # usermodalmodule: true
     # usernamedisplaymodule: true
     # utilmodule: true

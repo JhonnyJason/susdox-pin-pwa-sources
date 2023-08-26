@@ -47,3 +47,9 @@ export promptCodeDeletion = ->
 
     core.activate()
     return core.modalPromise
+
+############################################################
+export turnDownModal = (reason) ->
+    log "turnDownModal"
+    core.reject(reason)
+    return

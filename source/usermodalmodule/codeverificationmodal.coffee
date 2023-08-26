@@ -130,3 +130,9 @@ export pickUpConfirmedCredentials = (givenCode) ->
     code = givenCode
     modalCore.activate()
     return modalCore.modalPromise
+
+############################################################
+export turnDownModal = (reason) ->
+    log "turnDownModal"
+    modalCore.reject(reason)
+    return

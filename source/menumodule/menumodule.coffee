@@ -9,17 +9,17 @@ import M from "mustache"
 
 ############################################################
 import * as app from "./appcoremodule.js"
-import * as contentModule from "./contentmodule.js"
-import * as logoutmodal from "./logoutmodal.js"
 import * as accountModule from "./accountmodule.js"
 
 ############################################################
+#region DOM Cache
 menuAddCode = document.getElementById("menu-add-code")
-menuMoreInfo = document.getElementById("menu-more-info")
 menuLogout = document.getElementById("menu-logout")
 menuVersion = document.getElementById("menu-version")
 allUsers = document.getElementById("all-users")
 menuEntryTemplate =  document.getElementById("menu-entry-template")
+
+#endregion
 
 ############################################################
 entryTemplate = menuEntryTemplate.innerHTML
@@ -28,7 +28,6 @@ entryTemplate = menuEntryTemplate.innerHTML
 export initialize = ->
     log "initialize"
     menuAddCode.addEventListener("click", addCodeClicked)
-    menuMoreInfo.addEventListener("click", moreInfoClicked)
     menuLogout.addEventListener("click", logoutClicked)
     menuVersion.addEventListener("click", menuVersionClicked)
     return
@@ -43,46 +42,28 @@ userEntryClicked = (evnt) ->
     {activeAccount} = accountModule.getAccountsInfo()
     userIndex = parseInt(userIndex)
 
-    if userIndex == activeAccount then contentModule.setToUserImagesState()
+    if userIndex == activeAccount then app.triggerHome()
 
     accountModule.setAccountActive(userIndex) unless userIndex == NaN
     return
 
 addCodeClicked = (evnt) ->
     log "addCodeClicked"
-    contentModule.setToAddCodeState()
+    app.triggerAddCode()
     return
 
-moreInfoClicked = (evnt) ->
-    log "moreInfoClicked"
-    app.moreInfo()
-    return
 
 logoutClicked = (evnt) ->
     log "logoutClicked"
-    try
-        await logoutmodal.userConfirmation()
-        log "LogoutModal.userConfirmation() succeeded!"
-        app.logout()
-    catch err then log err
+    app.triggerLogout()
     return
 
 menuVersionClicked = (evnt) ->
     log "menuVersionClicked"
-    app.upgrade()
+    app.triggerUpgrade()
     return
 
 #endregion
-
-############################################################
-export setMenuOff = ->
-    document.body.classList.remove("menu-on")
-    return
-
-############################################################
-export setMenuOn = ->
-    document.body.classList.add("menu-on")
-    return
 
 ############################################################
 export updateAllUsers = ->
@@ -110,3 +91,18 @@ export updateAllUsers = ->
         log "userEntry: #{idx}:#{userEntry.getAttribute("user-index")}"
         userEntry.addEventListener("click", userEntryClicked)
     return
+
+############################################################
+#region UI State functions
+
+############################################################
+export setMenuOff = ->
+    document.body.classList.remove("menu-on")
+    return
+
+############################################################
+export setMenuOn = ->
+    document.body.classList.add("menu-on")
+    return
+
+#endregion

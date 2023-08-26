@@ -6,6 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as S from "./statemodule.js"
+import * as nav from "./navmodule.js"
 import * as content from "./contentmodule.js"
 import * as account from "./accountmodule.js"
 import * as cubeModule from "./cubemodule.js"
@@ -32,6 +33,12 @@ currentVersion = document.getElementById("current-version")
 newVersion = document.getElementById("new-version")
 menuVersion = document.getElementById("menu-version")
 
+
+############################################################
+appBaseState = "no-code"
+appUIMod = "none"
+urlCode = null
+
 ############################################################
 export initialize = ->
     log "initialize"
@@ -44,45 +51,57 @@ export initialize = ->
             serviceWorker.controller.postMessage("App is version: #{appVersion}!")
         serviceWorker.addEventListener("message", onServiceWorkerMessage)
         serviceWorker.addEventListener("controllerchange", onServiceWorkerSwitch)
-    
-    S.addOnChangeListener("activeAccount", activeAccountChanged)
+
+    S.addOnChangeListener("navState", navStateChanged)
+    S.addOnChangeListener("activeAccount", checkAccounts)
     return
 
 ############################################################
 export startUp = ->
     log "startUp"
     ## Check if we got a code for a new Account
-    code = getCodeFromURL()
-    if code?
-        try
-            credentials = await verificationModal.pickUpConfirmedCredentials(code)
-            # log "We could pick up some credentials ;-)"
-            # olog {credentials}
+    urlCode = getCodeFromURL()
+    if urlCode? then await triggerURLCodeDetected()
 
-            # the new account is valid and we set it as active by default
-            accountIndex = account.addNewAccount(credentials)
-            account.setAccountActive(accountIndex)
-            account.setAccountValid(accountIndex)
-
-        catch err then log err
-
-    activeAccountChanged()
+    checkAccounts()
     return
 
 ############################################################
 #region internal Functions
 
 ############################################################
-activeAccountChanged = ->
-    log "activeAccountChanged"
-    try await enterUserImagesState()
-    catch err 
-        deleteImageCache()
-        content.setToDefaultState()
+checkAccounts = ->
+    # this function is called
+    # - on startUp
+    # - after user-switch
+    # - after user-logout
+    log "checkAccounts"
+    try 
+        await account.getUserCredentials()
+        await tiggerAvailableAccount()
+    catch err then appBaseState = "no-code"
+
+
+    if appBaseState == "no-code" then deleteImageCache()
+    S.set("uiState", "#{appBaseState}:none")
 
     menuModule.updateAllUsers()
     codeDisplay.updateCode()
     usernameDisplay.updateUsername()
+    return
+
+############################################################
+navStateChanged = ->
+    log "navStateChanged"
+    ## TODO implement
+    return
+
+############################################################
+setAppState = (base, mod) ->
+    log "setAppState"
+    if base then appBaseState = base
+    if mod then appUIMod = mod
+    S.set("uiState", "#{appBaseState}:#{appUIMod}")
     return
 
 ############################################################
@@ -95,7 +114,7 @@ getCodeFromURL = ->
     url = new URL(window.location)
     hash = url.hash
 
-    window.history.replaceState({}, document.title, "/")
+    history.replaceState(history.state, document.title, "/")
     if !hash then return null
     
     code = hash.replace("#", "")
@@ -103,29 +122,14 @@ getCodeFromURL = ->
     return code
 
 ############################################################
-enterUserImagesState = ->
-    log "enterUserImagesState"
-    credentials = account.getUserCredentials()
-    content.setToPreUserImagesState()
-    
-    valid = true
-
-    try
-        valid = await account.accountIsValid()
-        if valid then await account.updateImages()
-    catch err then log err
-    
-    content.setToUserImagesState()    
+addValidAccount = (credentials) ->
+    log "addValidAccount"
+    # we set it as active by default
+    accountIndex = account.addNewAccount(credentials)
+    account.setAccountActive(accountIndex)
+    account.setAccountValid(accountIndex)
     return
     
-    # # if !valid 
-    # try
-    #     await accountInvalidModal.userConfirm()
-    #     account.deleteAccount()
-    #     await enterUserImagesState()
-    # catch err then log "User rejected account deletion!"
-    return
-
 ############################################################
 onServiceWorkerMessage = (evnt) ->
     log("  !  onServiceWorkerMessage")
@@ -152,19 +156,78 @@ deleteImageCache = ->
 #endregion
 
 ############################################################
-export logout = ->
-    log "logout"
-    account.deleteAccount()
+#region User Action Triggers
+
+export triggerURLCodeDetected = ->
+    log "triggerURLCodeDetected"
+    try
+        await nav.addModification("codeverification")
+        setAppState("", "codeverification")
+        credentials = await verificationModal.pickUpConfirmedCredentials(urlCode)
+        addValidAccount(credentials)
+    catch err then log err
+    finally await nav.unmodify()
     return
 
-export upgrade = ->
-    log "upgrade"
+export triggerHome = ->
+    log "triggerHome"
+    await nav.backToRoot()
+    return
+
+export triggerMenu = ->
+    log "triggerMenu"
+    if appUIMod == "menu" then return await nav.unmodify()
+    
+    await nav.addModification("menu")
+    setAppState("", "menu")
+    return
+
+export triggerAddCode = ->
+    log "triggerAddCodeButton"
+    ## TODO implement
+    contentModule.setToAddCodeState()
+
+    return
+
+export triggerAccept = ->
+    log "triggerAcceptButton"
+    ## TODO implement
+    
+    return
+
+export triggerAvailableAccount = ->
+    log "triggerAvailableAccount"
+    setAppState("pre-user-images", "none")
+
+    try
+        valid = await account.accountIsValid()
+        if valid then await account.updateImages()
+    catch err then log err
+    
+    setAppState("user-images", "none")
+    return
+
+export triggerLogout = ->
+    log "triggerLogout"
+    ## TODO reimplement
+    try
+        await logoutmodal.userConfirmation()
+        log "LogoutModal.userConfirmation() succeeded!"
+        account.deleteAccount()
+    catch err then log err
+
+    return
+
+export triggerUpgrade = ->
+    log "triggerUpgrade"
     location.reload()
     return
+
 
 ############################################################
 export updateCode = ->
     log "updateCode"
+    ## TODO rename and reimplement
     credentialsFrame.prepareForCodeUpdate()
     content.setToAddCodeState()
     try 
@@ -176,6 +239,6 @@ export updateCode = ->
     return
 
 
-
+#endregion
 
 
