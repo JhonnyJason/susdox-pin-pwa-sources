@@ -8,7 +8,7 @@ global.allModules = Modules
 if navigator? and navigator.serviceWorker? then navigator.serviceWorker.register("serviceworker.js")
 
 ############################################################
-appStartup = -> Modules.appcoremodule.startUp()
+appStartup = -> Modules.navmodule.appLoaded()
 
 ############################################################
 run = ->

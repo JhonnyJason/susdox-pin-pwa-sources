@@ -18,6 +18,7 @@ export modulesToDebug = {
     mainbuttonmodule: true
     # menumodule: true
     # modalcore: true
+    navmodule: true 
     # radiologistimagemodule: true
     # scimodule: true
     # scrollrolldatepickermodule: true

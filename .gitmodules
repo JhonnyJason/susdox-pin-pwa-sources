@@ -10,3 +10,6 @@
 [submodule "source/scrollrolldatepickermodule"]
 	path = source/scrollrolldatepickermodule
 	url = git@github.com:JhonnyJason/pwa-sources-scrollrolldatepickermodule.git
+[submodule "source/navmodule"]
+	path = source/navmodule
+	url = git@github.com:JhonnyJason/pwa-sources-navmodule.git

@@ -56,14 +56,14 @@ urlMatchOptions = {
 ############################################################
 onRegister = ->
     # log "onRegister"
-    self.addEventListener('activate', activateEventHandler)
-    self.addEventListener('fetch', fetchEventHandler)
-    self.addEventListener('install', installEventHandler)
+    # self.addEventListener('activate', activateEventHandler)
+    # self.addEventListener('fetch', fetchEventHandler)
+    # self.addEventListener('install', installEventHandler)
     self.addEventListener('message', messageEventHandler)
 
-    clients = await self.clients.matchAll({ includeUncontrolled: true })
-    message = "postRegister"
-    client.postMessage(message) for client in clients  
+    # clients = await self.clients.matchAll({ includeUncontrolled: true })
+    # message = "postRegister"
+    # client.postMessage(message) for client in clients  
 
     # log "postRegister: found #{clients.length} clients!"
     return
