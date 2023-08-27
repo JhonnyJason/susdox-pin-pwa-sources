@@ -20,6 +20,8 @@ import * as codeDisplay from "./codedisplaymodule.js"
 import * as usernameDisplay from "./usernamedisplaymodule.js"
 import * as menuModule from "./menumodule.js"
 
+import * as radiologistImages from "./radiologistimagemodule.js"
+
 ############################################################
 import * as verificationModal from "./codeverificationmodal.js"
 import * as invalidcodeModal from "./invalidcodemodal.js"
@@ -244,7 +246,9 @@ export triggerAccountLoginCheck = ->
 ############################################################
 export triggerHome = ->
     log "triggerHome"
-    await nav.backToRoot()
+    if appBaseState == "user-images" and appUIMod == "none"
+        radiologistImages.setSustSolLogo()
+    else await nav.backToRoot()
     return
 
 ############################################################
@@ -307,9 +311,11 @@ export triggerCodeReveal = ->
         
     catch err 
         log err
-        await nav.unmodify()
-        if err == "updateButtonClicked" then triggerCodeUpdate()
-
+        switch err
+            when "updateButtonClicked" then triggerCodeUpdate()
+            when "click-catcher", "modal-cancel-button", "modal-close-button"
+                setAppState("user-images", "coderevealed")
+                await nav.addModification("coderevealed")
     return
 
 # export triggerInvalidCode = ->

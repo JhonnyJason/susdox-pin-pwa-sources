@@ -5,7 +5,6 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as codeDisplay from "./codedisplaymodule.js"
 import * as radiologistImages from "./radiologistimagemodule.js"
 
 ############################################################
@@ -176,7 +175,6 @@ arrowLeftClicked = (evnt) ->
     return if transitioning
     transitioning =  true
     touching = false
-    codeDisplay.reset()
     actionAfterRotation = radiologistImages.shiftLeft
     rotateLeft()
     return    
@@ -187,7 +185,6 @@ arrowRightClicked = (evnt) ->
     return if transitioning
     transitioning = true
     touching = false
-    codeDisplay.reset()
     actionAfterRotation = radiologistImages.shiftRight    
     rotateRight()
     return
@@ -305,7 +302,6 @@ export rotateToSustSolLeft = ->
     if transitioning then throw new Error("transitioning")
     transitioning = true
     touching = false
-    codeDisplay.reset()
     actionAfterRotation = radiologistImages.sustSolRotateCompleted    
     # cubePosition = 0
     rotateRight()

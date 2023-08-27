@@ -51,6 +51,7 @@ applyState["no-code:none"] = ->
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
     return
 
 applyState["no-code:menu"] = ->
@@ -60,6 +61,7 @@ applyState["no-code:menu"] = ->
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
     return
 
 applyState["no-code:codeverification"] = ->
@@ -69,6 +71,7 @@ applyState["no-code:codeverification"] = ->
     codeDisplay.hideCode()
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
     return
 
 #endregion
@@ -112,6 +115,7 @@ applyState["pre-user-images:none"] = ->
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
     return
 
 ############################################################
@@ -123,6 +127,7 @@ applyState["user-images:none"] = ->
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
     return
 
 applyState["user-images:menu"] = ->
@@ -132,6 +137,7 @@ applyState["user-images:menu"] = ->
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
     return
 
 applyState["user-images:logoutconfirmation"] = ->
@@ -141,6 +147,7 @@ applyState["user-images:logoutconfirmation"] = ->
     codeDisplay.hideCode()
     codeverificationModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
     return
 
 applyState["user-images:invalidcode"] = ->
@@ -150,6 +157,7 @@ applyState["user-images:invalidcode"] = ->
     codeDisplay.hideCode()
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
     return
 
 applyState["user-images:updatecode"] = ->
@@ -160,6 +168,7 @@ applyState["user-images:updatecode"] = ->
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
     return
 
 applyState["user-images:coderevealed"] = ->
@@ -169,6 +178,7 @@ applyState["user-images:coderevealed"] = ->
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
     return
 
 #endregion
