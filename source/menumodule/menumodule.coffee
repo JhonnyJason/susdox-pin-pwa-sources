@@ -13,6 +13,7 @@ import * as accountModule from "./accountmodule.js"
 
 ############################################################
 #region DOM Cache
+menuFrame = document.getElementById("menu-frame")
 menuAddCode = document.getElementById("menu-add-code")
 menuLogout = document.getElementById("menu-logout")
 menuVersion = document.getElementById("menu-version")
@@ -27,6 +28,7 @@ entryTemplate = menuEntryTemplate.innerHTML
 ############################################################
 export initialize = ->
     log "initialize"
+    menuFrame.addEventListener("click", menuFrameClicked)
     menuAddCode.addEventListener("click", addCodeClicked)
     menuLogout.addEventListener("click", logoutClicked)
     menuVersion.addEventListener("click", menuVersionClicked)
@@ -34,8 +36,14 @@ export initialize = ->
 
 ############################################################
 #region event Listeners
+menuFrameClicked = (evnt) ->
+    log "menuFrameClicked"
+    app.triggerMenu()
+    return
+
 userEntryClicked = (evnt) ->
     log "userEntryClicked"
+    evnt.stopPropagation()
     el = evnt.currentTarget
     userIndex = el.getAttribute("user-index")
     log userIndex
@@ -49,17 +57,20 @@ userEntryClicked = (evnt) ->
 
 addCodeClicked = (evnt) ->
     log "addCodeClicked"
+    evnt.stopPropagation()
     app.triggerAddCode()
     return
 
 
 logoutClicked = (evnt) ->
     log "logoutClicked"
+    evnt.stopPropagation()
     app.triggerLogout()
     return
 
 menuVersionClicked = (evnt) ->
     log "menuVersionClicked"
+    evnt.stopPropagation()
     app.triggerUpgrade()
     return
 

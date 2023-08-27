@@ -11,6 +11,8 @@ import * as S from "./statemodule.js"
 #region imported UI modules
 import * as content from "./contentmodule.js"
 import * as menu from "./menumodule.js"
+import * as codeDisplay from "./codedisplaymodule.js"
+import * as credentialsFrame from "./credentialsframemodule.js"
 import * as codeverificationModal from "./codeverificationmodal.js"
 import * as logoutModal from "./logoutmodal.js"
 import * as invalidcodeModal from "./invalidcodemodal.js"
@@ -45,6 +47,7 @@ applyUIState = ->
 applyState["no-code:none"] = ->
     content.setToDefaultState()
     menu.setMenuOff()
+    codeDisplay.hideCode()
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
@@ -53,23 +56,17 @@ applyState["no-code:none"] = ->
 applyState["no-code:menu"] = ->
     content.setToDefaultState()
     menu.setMenuOn()
+    codeDisplay.hideCode()
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
     return
 
-applyState["add-first-code:none"] = ->
-    content.setToAddCodeState()
+applyState["no-code:codeverification"] = ->
+    content.setToDefaultState()
+    codeverificationModal.turnUpModal()
     menu.setMenuOff()
-    codeverificationModal.turnDownModal("uiState changed")
-    logoutModal.turnDownModal("uiState changed")
-    invalidcodeModal.turnDownModal("uiState changed")
-    return
-
-applyState["add-first-code:menu"] = ->
-    content.setToAddCodeState()
-    menu.setMenuOn()
-    codeverificationModal.turnDownModal("uiState changed")
+    codeDisplay.hideCode()
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
     return
@@ -77,27 +74,52 @@ applyState["add-first-code:menu"] = ->
 #endregion
 
 ############################################################
-#region user states
+#region add-code states
+applyState["add-code:none"] = ->
+    credentialsFrame.prepareForAddCode()
+    content.setToAddCodeState()
+    menu.setMenuOff()
+    codeDisplay.hideCode()
+    codeverificationModal.turnDownModal("uiState changed")
+    logoutModal.turnDownModal("uiState changed")
+    invalidcodeModal.turnDownModal("uiState changed")
+    return
+
+applyState["add-code:menu"] = ->
+    content.setToAddCodeState()
+    menu.setMenuOn()
+    codeDisplay.hideCode()
+    codeverificationModal.turnDownModal("uiState changed")
+    logoutModal.turnDownModal("uiState changed")
+    invalidcodeModal.turnDownModal("uiState changed")
+    return
+
+applyState["add-code:logoutconfirmation"] = ->
+    content.setToAddCodeState()
+    logoutModal.turnUpModal()
+    menu.setMenuOff()
+    codeDisplay.hideCode()
+    codeverificationModal.turnDownModal("uiState changed")
+    invalidcodeModal.turnDownModal("uiState changed")
+    return
+
+#endregion
+
 applyState["pre-user-images:none"] = ->
     content.setToPreUserImagesState()
     menu.setMenuOff()
-    codeverificationModal.turnDownModal("uiState changed")
-    logoutModal.turnDownModal("uiState changed")
-    invalidcodeModal.turnDownModal("uiState changed")
-
-    return
-
-applyState["pre-user-images:menu"] = ->
-    content.setToPreUserImagesState()
-    menu.setMenuOn()
+    codeDisplay.hideCode()
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
     return
 
+############################################################
+#region user-images states
 applyState["user-images:none"] = ->
     content.setToUserImagesState()    
     menu.setMenuOff()
+    codeDisplay.hideCode()
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
@@ -106,13 +128,48 @@ applyState["user-images:none"] = ->
 applyState["user-images:menu"] = ->
     content.setToUserImagesState()    
     menu.setMenuOn()
+    codeDisplay.hideCode()
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
     return
 
+applyState["user-images:logoutconfirmation"] = ->
+    content.setToUserImagesState()    
+    logoutModal.turnUpModal()
+    menu.setMenuOff()
+    codeDisplay.hideCode()
+    codeverificationModal.turnDownModal("uiState changed")
+    invalidcodeModal.turnDownModal("uiState changed")
+    return
 
+applyState["user-images:invalidcode"] = ->
+    content.setToUserImagesState()    
+    invalidcodeModal.turnUpModal()
+    menu.setMenuOff()
+    codeDisplay.hideCode()
+    codeverificationModal.turnDownModal("uiState changed")
+    logoutModal.turnDownModal("uiState changed")
+    return
 
+applyState["user-images:updatecode"] = ->
+    credentialsFrame.prepareForCodeUpdate()
+    content.setToAddCodeState()    
+    menu.setMenuOff()
+    codeDisplay.hideCode()    
+    codeverificationModal.turnDownModal("uiState changed")
+    logoutModal.turnDownModal("uiState changed")
+    invalidcodeModal.turnDownModal("uiState changed")
+    return
+
+applyState["user-images:coderevealed"] = ->
+    content.setToUserImagesState()    
+    codeDisplay.revealCode()
+    menu.setMenuOff()
+    codeverificationModal.turnDownModal("uiState changed")
+    logoutModal.turnDownModal("uiState changed")
+    invalidcodeModal.turnDownModal("uiState changed")
+    return
 
 #endregion
 

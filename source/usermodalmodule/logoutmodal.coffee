@@ -31,11 +31,17 @@ export initialize =  ->
 ############################################################
 export userConfirmation = ->
     log "userConfirmation"
+    return core.modalPromise
+
+
+############################################################
+export turnUpModal = ->
+    log "turnUpModal"
     accountObj = account.getAccountObject()
     messageElement.innerHTML = M.render(messageTemplate, accountObj)
 
     core.activate()
-    return core.modalPromise
+    return
 
 ############################################################
 export turnDownModal = (reason) ->

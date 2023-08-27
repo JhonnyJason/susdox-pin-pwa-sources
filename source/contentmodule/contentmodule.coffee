@@ -14,24 +14,9 @@ import * as menuModule from "./menumodule.js"
 import * as cubeModule from "./cubemodule.js"
 
 ############################################################
-menuFrame = document.getElementById("menu-frame")
 
 ############################################################
 currentState = "default"
-
-############################################################
-export initialize = ->
-    log "initialize"
-    menuFrame.addEventListener("click", menuFrameClicked)
-    return
-
-############################################################
-menuFrameClicked = (evnt) ->
-    log "menuFrameClicked"
-    menuModule.setMenuOff()
-    return
-
-
 
 ############################################################
 export susdoxLogoClicked = ->

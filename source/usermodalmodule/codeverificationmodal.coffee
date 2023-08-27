@@ -128,8 +128,13 @@ resetAllErrorFeedback = ->
 export pickUpConfirmedCredentials = (givenCode) ->
     log "pickUpConfirmedCredentials"
     code = givenCode
-    modalCore.activate()
     return modalCore.modalPromise
+
+############################################################
+export turnUpModal =  ->
+    log "turnUpModal"
+    modalCore.activate()
+    return
 
 ############################################################
 export turnDownModal = (reason) ->

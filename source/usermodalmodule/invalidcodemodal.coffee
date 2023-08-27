@@ -42,11 +42,16 @@ updateButtonClicked = (evnt) ->
 ############################################################
 export promptCodeDeletion = ->
     log "promptCodeDeletion"
+    return core.modalPromise
+
+############################################################
+export turnUpModal = (reason) ->
+    log "turnUpModal"
     accountObj = account.getAccountObject()
     messageElement.innerHTML = M.render(messageTemplate, accountObj)
 
     core.activate()
-    return core.modalPromise
+    return
 
 ############################################################
 export turnDownModal = (reason) ->

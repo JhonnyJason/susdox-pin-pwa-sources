@@ -123,15 +123,8 @@ loginCodeInputKeyUpped = (evt) ->
     loginCodeInput.value = newValue
     return
 
-
 ############################################################
-export prepareForCodeUpdate = ->
-    log "prepareForCodeUpdate"
-    accountToUpdate = account.getAccountObject()
-    # olog accountToUpdate
-    datePicker.setValue(accountToUpdate.userCredentials.dateOfBirth)
-    datePicker.freeze()
-    return
+export getAccountToUpdate = -> accountToUpdate
 
 ############################################################
 export extractCredentials = ->
@@ -156,21 +149,8 @@ export extractCredentials = ->
     response = await sci.loginRequest(loginBody)
     log "#{response}"
 
-    if accountToUpdate?
-        # we just updated an account - switch credentials and save
-        accountToUpdate.userCredentials = credentials
-        account.saveAllAccounts()
-    else
-        # the new account is valid and we set it as active by default
-        accountIndex = account.addNewAccount(credentials)
-        account.setAccountActive(accountIndex)
-        account.setAccountValid(accountIndex)
-    
-    datePicker.reset()
-    loginCodeInput.value = ""
-    currentCode = ""
-    loginBirthdayInput.value = ""
-    userFeedback.innerHTML = ""
+    return credentials
+
     return
 
 ############################################################
@@ -209,3 +189,27 @@ export errorFeedback = (error) ->
     credentialsframeContainer.classList.add("error")
     userFeedback.innerHTML = "Unexptected Error occured!"
     return
+
+
+############################################################
+#region UI States handles
+export prepareForCodeUpdate = ->
+    log "prepareForCodeUpdate"
+    accountToUpdate = account.getAccountObject()
+    # olog accountToUpdate
+
+    datePicker.setValue(accountToUpdate.userCredentials.dateOfBirth)
+    datePicker.freeze()
+    return
+
+export prepareForAddCode = ->
+    log "prepareForAddCode"
+    accountToUpdate = null
+    datePicker.reset()
+    loginCodeInput.value = ""
+    currentCode = ""
+    loginBirthdayInput.value = ""
+    userFeedback.innerHTML = ""
+    return
+
+#endregion

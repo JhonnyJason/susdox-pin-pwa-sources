@@ -6,7 +6,6 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as app from "./appcoremodule.js"
-import * as codeDisplay from "./codedisplaymodule.js"
 import * as credentialsframe from "./credentialsframemodule.js"
 import * as contentModule from "./contentmodule.js"
 
@@ -40,32 +39,20 @@ clearPromise = ->
 addCodeButtonClicked = (evnt) ->
     log "addCodeButtonClicked"
     app.triggerAddCode()
-    # contentModule.setToAddCodeState()
     return
 
 ############################################################
 codeButtonClicked = (evnt) ->
-    # codeDisplay.revealOrCopy()
-    codeDisplay.revealOrHide()
+    log "codeButtonClicked"
+    app.triggerCodeReveal()
     return
 
 ############################################################
 export acceptButtonClicked = (evnt) ->
     log "acceptButtonClicked"
     acceptButton.classList.add("disabled")
-    try
-        if !credentialsframe.makeAcceptable() then return
-        credentialsframe.resetAllErrorFeedback()
-        # await utl.waitMS(5000)
-        await credentialsframe.extractCredentials()
-        if resolveAcceptPromise? then resolveAcceptPromise()
-        else contentModule.setToUserImagesState()
-        
-    catch err
-        log err
-        credentialsframe.errorFeedback(err)
-    finally
-        acceptButton.classList.remove("disabled")
+    await app.triggerAccept()
+    acceptButton.classList.remove("disabled")
     return
 
 ############################################################
