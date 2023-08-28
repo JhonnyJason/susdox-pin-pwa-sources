@@ -19,11 +19,13 @@ menuLogout = document.getElementById("menu-logout")
 menuVersion = document.getElementById("menu-version")
 allUsers = document.getElementById("all-users")
 menuEntryTemplate =  document.getElementById("menu-entry-template")
+unnamedTextElement = document.getElementById("unnamed-text-element")
 
 #endregion
 
 ############################################################
 entryTemplate = menuEntryTemplate.innerHTML
+unnamedText = unnamedTextElement.textContent
 
 ############################################################
 export initialize = ->
@@ -85,7 +87,8 @@ export updateAllUsers = ->
     for accountObj,idx in allAccounts
         log "#{idx}:#{accountObj.label}"
         cObj = {}
-        cObj.userLabel = accountObj.label
+        if accountObj.label == "" then cObj.userLabel = unnamedText
+        else cObj.userLabel = accountObj.label
         cObj.index = idx
         html += M.render(entryTemplate, cObj)
 

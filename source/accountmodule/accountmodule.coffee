@@ -75,7 +75,8 @@ export addNewAccount = (credentials) ->
     accountObj = {}
     accountObj.userCredentials = credentials
     accountObj.radiologistImages = []
-    accountObj.label = "Benutzer #{accountIndex + 1}"
+    # accountObj.label = "Benutzer #{accountIndex + 1}"
+    accountObj.label = ""
     allAccounts.push(accountObj)
     S.save("allAccounts")
     noAccount = false

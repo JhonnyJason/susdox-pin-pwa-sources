@@ -38,6 +38,15 @@ susdoxLinkClicked = (evnt) ->
 ############################################################
 export updateDateOfBirth = (dateOfBirth) ->
     log "updateDateOfBirth"
+    tokens = dateOfBirth.split("-")
+    
+    if tokens.length == 3
+        year = tokens[0]
+        month = tokens[1]
+        day = tokens[2]
+
+        dateOfBirth = "#{day}.#{month}.#{year}"
+
     dateOfBirthDisplay.textContent = dateOfBirth
     return
 

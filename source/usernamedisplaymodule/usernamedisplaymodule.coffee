@@ -20,16 +20,18 @@ currentUsername = ""
 ############################################################
 export initialize = ->
     log "initialize"
-    usernameEditButton.addEventListener("click", editButtonClicked)
+    # usernameEditButton.addEventListener("click", editButtonClicked)
     usernamedisplay.addEventListener("keydown", usernamedisplayKeyDowned)
-    usernamedisplay.addEventListener("blur", usernamedisplayBlurred)
+    # usernamedisplay.addEventListener("blur", usernamedisplayBlurred)
+    usernamedisplay.addEventListener("change", usernamedisplayBlurred)
     return
 
 ############################################################
 stopEditing = ->
     setUsername(currentUsername)
-    usernamedisplay.removeAttribute("contenteditable")
-    window.getSelection().removeAllRanges()
+    usernamedisplay.blur()
+    # usernamedisplay.removeAttribute("contenteditable")
+    # window.getSelection().removeAllRanges()
     return
 
 ############################################################
@@ -45,7 +47,7 @@ applyUsername = (name) ->
 ############################################################
 usernamedisplayBlurred = (evnt) ->
     log "usernamedisplayBlurred"
-    applyUsername(usernamedisplay.textContent)
+    applyUsername(usernamedisplay.value)
     stopEditing()
     return
 
@@ -57,7 +59,7 @@ usernamedisplayKeyDowned = (evnt) ->
     # 13 is enter
     if evnt.keyCode == 13
         evnt.preventDefault()
-        applyUsername(usernamedisplay.textContent)
+        applyUsername(usernamedisplay.value)
         stopEditing()
     
     # 27 is escape
@@ -67,30 +69,29 @@ usernamedisplayKeyDowned = (evnt) ->
 ############################################################
 editButtonClicked = (evnt) ->
     log "editButtonClicked"
-    usernamedisplay.setAttribute("contenteditable", true)
-    window.getSelection().selectAllChildren(usernamedisplay)
+    # usernamedisplay.setAttribute("contenteditable", true)
+    # window.getSelection().selectAllChildren(usernamedisplay)
     return
 
 ############################################################
 setUsername = (name) ->
     log "setUsername"
     currentUsername = name
-    usernamedisplay.textContent = name
+    usernamedisplay.value = name
     return
 
 ############################################################
 export updateUsername = ->
     log "updateUsername"
-    try 
+    try
         accountObj = account.getAccountObject()
         usernamedisplayContainer.classList.remove("no-username")
         setUsername(accountObj.label)
         return
 
-    catch err then log err
-    
-    #this is still the error case    
-    usernamedisplayContainer.classList.add("no-username")
-    setUsername("")
+    catch err 
+        log err
+        usernamedisplayContainer.classList.add("no-username")
+        setUsername("")
     return
 

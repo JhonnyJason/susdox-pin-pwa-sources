@@ -318,20 +318,11 @@ export triggerCodeReveal = ->
                 await nav.addModification("coderevealed")
     return
 
-# export triggerInvalidCode = ->
-#     log "triggerInvalidCode"
-#     ## TODO implement, maybe
-#     return
-
-
 ############################################################
 export triggerCodeUpdate = ->
     log "triggerCodeUpdate"
     setAppState("user-images", "updatecode")
     await nav.addModification("updatecode")
-    # try await mainButton.waitToAccept()
-    # catch err then log err
-    # await nav.unmodify()
     return
 
 ############################################################
