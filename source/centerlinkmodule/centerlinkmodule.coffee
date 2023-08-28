@@ -15,20 +15,20 @@ dateOfBirthDisplay = document.getElementById("date-of-birth-display")
 
 ############################################################
 export initialize = ->
-    log "initialize"
+    ## prod log "initialize"
     susdoxLink.addEventListener("click", susdoxLinkClicked)
     return
 
 ############################################################
 susdoxLinkClicked = (evnt) ->
-    log "susdoxLinkClicked"
+    ## prod log "susdoxLinkClicked"
     evnt.preventDefault()
     credentials = S.load("userCredentials")
     if credentials? and Object.keys(credentials).length > 0 
         try
             loginBody = utl.loginRequestBody(credentials)
             response = await sci.loginWithRedirect(loginBody)
-            log "#{await response.text()}"
+            ## prod log "#{await response.text()}"
             
             return
         catch err then log err
@@ -37,7 +37,7 @@ susdoxLinkClicked = (evnt) ->
 
 ############################################################
 export updateDateOfBirth = (dateOfBirth) ->
-    log "updateDateOfBirth"
+    ## prod log "updateDateOfBirth"
     tokens = dateOfBirth.split("-")
     
     if tokens.length == 3
@@ -50,12 +50,13 @@ export updateDateOfBirth = (dateOfBirth) ->
     dateOfBirthDisplay.textContent = dateOfBirth
     return
 
+############################################################
 export displayDateOfBirth = ->
-    log "displayDateOfBirth"
+    ## prod log "displayDateOfBirth"
     centerlink.classList.add("code-shown")
     return
 
 export displayCenterLink = ->
-    log "displayCenterLink"
+    ## prod log "displayCenterLink"
     centerlink.classList.remove("code-shown")
     return

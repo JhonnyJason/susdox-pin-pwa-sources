@@ -31,11 +31,11 @@ argon2HashReject = null
 #     operations()
 # after = performacne.now()
 # dif = after - before
-# log "X took #{dif}ms"
+# ## prod log "X took #{dif}ms"
 
 ############################################################
 export initialize = ->
-    log "initialize"
+    ## prod log "initialize"
     argon2Worker = new Worker("argon2worker.js")
     argon2Worker.addEventListener("message", argon2WorkerResponded)
     # if window.Worker? then argon2Worker = new Worker("argon2worker.js")
@@ -168,12 +168,12 @@ generatePBKDF2SubtleCrypto = (username, pwd) ->
     return derivedKeyBase64
 
 argon2WorkerResponded = (evnt) ->
-    log "argon2WorkerResponded"
+    ## prod log "argon2WorkerResponded"
     if evnt.data? then { error, hashHex } = evnt.data
     # olog { error, hashHex }
     if argon2HashResolve? and hashHex? then return argon2HashResolve(hashHex)
     if argon2HashReject? and error? then return argon2HashReject(error)
-    log "argon2Worker response did not cause any effect!"
+    ## prod log "argon2Worker response did not cause any effect!"
     return
 
 ############################################################
@@ -197,7 +197,7 @@ export loginRequestBody = (credentials) ->
 
 ############################################################
 export hashUsernamePw = (username, pwd) ->
-    log "hashUsernamePw"
+    ## prod log "hashUsernamePw"
     if username.length < 4 then username = username + username + username
     if username.length < 8 then username = username + username
 
@@ -221,7 +221,7 @@ export hashUsernamePw = (username, pwd) ->
     # return btoa(tbut.bytesToUtf8(hash))
 
 export argon2HashPw = (pin, birthdate) ->
-    log "argon2HashPw"
+    ## prod log "argon2HashPw"
     # if ! argon2Worker then return argon2HashPwLocal()
     promisedHash = new Promise (resolve, reject) ->
         argon2HashResolve = resolve
@@ -236,7 +236,7 @@ export argon2HashPw = (pin, birthdate) ->
         # olog { hashHex }
         return hashHex
     catch err
-        log "Argon2 threw an Error!"
+        ## prod log "Argon2 threw an Error!"
         log err
     finally
         argon2HashResolve = null
@@ -262,7 +262,7 @@ export waitMS = (timeMS) ->
 export copyToClipboard = (text) ->
     try
         await navigator.clipboard.writeText(text)
-        log "Clipboard API succeeded"
+        ## prod log "Clipboard API succeeded"
         if msgBox? then msgBox.info("Copied: "+text)
         return
     catch err then log err

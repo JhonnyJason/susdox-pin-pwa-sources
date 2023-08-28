@@ -19,7 +19,7 @@ currentUsername = ""
 
 ############################################################
 export initialize = ->
-    log "initialize"
+    ## prod log "initialize"
     # usernameEditButton.addEventListener("click", editButtonClicked)
     usernamedisplay.addEventListener("keydown", usernamedisplayKeyDowned)
     # usernamedisplay.addEventListener("blur", usernamedisplayBlurred)
@@ -36,7 +36,7 @@ stopEditing = ->
 
 ############################################################
 applyUsername = (name) ->
-    log "applyUsername"
+    ## prod log "applyUsername"
     return if currentUsername == name
 
     currentUsername = name
@@ -46,7 +46,7 @@ applyUsername = (name) ->
 
 ############################################################
 usernamedisplayBlurred = (evnt) ->
-    log "usernamedisplayBlurred"
+    ## prod log "usernamedisplayBlurred"
     applyUsername(usernamedisplay.value)
     stopEditing()
     return
@@ -54,7 +54,7 @@ usernamedisplayBlurred = (evnt) ->
 
 ############################################################
 usernamedisplayKeyDowned = (evnt) ->
-    log "usernamedisplayKeyDowned"
+    ## prod log "usernamedisplayKeyDowned"
     
     # 13 is enter
     if evnt.keyCode == 13
@@ -68,21 +68,21 @@ usernamedisplayKeyDowned = (evnt) ->
 
 ############################################################
 editButtonClicked = (evnt) ->
-    log "editButtonClicked"
+    ## prod log "editButtonClicked"
     # usernamedisplay.setAttribute("contenteditable", true)
     # window.getSelection().selectAllChildren(usernamedisplay)
     return
 
 ############################################################
 setUsername = (name) ->
-    log "setUsername"
+    ## prod log "setUsername"
     currentUsername = name
     usernamedisplay.value = name
     return
 
 ############################################################
 export updateUsername = ->
-    log "updateUsername"
+    ## prod log "updateUsername"
     try
         accountObj = account.getAccountObject()
         usernamedisplayContainer.classList.remove("no-username")

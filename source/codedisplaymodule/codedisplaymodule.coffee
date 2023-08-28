@@ -33,7 +33,7 @@ setCode = (code) ->
 
 ############################################################
 export updateCode = ->
-    log "updateCode"
+    ## prod log "updateCode"
     try
         credentials = account.getUserCredentials()
         setCode(credentials.code)
@@ -51,14 +51,14 @@ export updateCode = ->
 
 ############################################################
 export hideCode = ->
-    log "hideCode"
+    ## prod log "hideCode"
     centerlinkModule.displayCenterLink()
     codedisplayContainer.classList.remove("show-code")
     isRevealed = false
     return
 
 export revealCode = ->
-    log "revealCode"
+    ## prod log "revealCode"
     centerlinkModule.displayDateOfBirth()
     codedisplayContainer.classList.add("show-code")
     isRevealed = true

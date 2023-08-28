@@ -24,18 +24,18 @@ applyState = {}
 
 ############################################################
 export initialize = ->
-    log "initialize"
+    ## prod log "initialize"
     S.addOnChangeListener("uiState", applyUIState)
     return
 
 ############################################################
 applyUIState = ->
-    log "applyUIState"
+    ## prod log "applyUIState"
     uiState = S.get("uiState")
     applyFunction = applyState[uiState]
     if typeof applyFunction == "function" then return applyFunction()
          
-    # log "on applyUIState: uiState '#{uiState}' did not have an apply function!"
+    # ## prod log "on applyUIState: uiState '#{uiState}' did not have an apply function!"
     throw new Error("on applyUIState: uiState '#{uiState}' did not have an apply function!")
     return
 
@@ -125,6 +125,16 @@ applyState["user-images:none"] = ->
     menu.setMenuOff()
     codeDisplay.hideCode()
     codeverificationModal.turnDownModal("uiState changed")
+    logoutModal.turnDownModal("uiState changed")
+    invalidcodeModal.turnDownModal("uiState changed")
+    credentialsFrame.resetAllErrorFeedback()
+    return
+
+applyState["user-images:codeverification"] = ->
+    content.setToUserImagesState()
+    codeverificationModal.turnUpModal()
+    menu.setMenuOff()
+    codeDisplay.hideCode()
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
     credentialsFrame.resetAllErrorFeedback()

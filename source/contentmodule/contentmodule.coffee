@@ -11,7 +11,9 @@ import * as cubeModule from "./cubemodule.js"
 ############################################################
 #region State Setter Functions
 export setToDefaultState = ->
-    log "setToDefaultState"
+    ## prod log "setToDefaultState"
+    # await cubeModule.waitForTransition()
+
     content.classList.remove("preload")
     content.classList.remove("add-code")
     content.classList.remove("pre-user-images")
@@ -23,7 +25,9 @@ export setToDefaultState = ->
 
 ############################################################
 export setToAddCodeState = ->
-    log "setToAddCodeState"
+    ## prod log "setToAddCodeState"
+    # await cubeModule.waitForTransition()
+
     content.classList.remove("preload")
     content.classList.remove("pre-user-images")
     content.classList.remove("user-images")
@@ -35,7 +39,9 @@ export setToAddCodeState = ->
 
 ############################################################
 export setToPreUserImagesState = ->
-    log "setToPreUserImagesState"
+    ## prod log "setToPreUserImagesState"
+    # await cubeModule.waitForTransition()
+
     content.classList.remove("preload")
     content.classList.remove("add-code")
     content.classList.add("pre-user-images")
@@ -47,8 +53,8 @@ export setToPreUserImagesState = ->
 
 ############################################################
 export setToUserImagesState = ->
-    log "setToUserImagesState"
-    radiologistImages.loadImages()
+    ## prod log "setToUserImagesState"
+    await cubeModule.waitForTransition()
 
     content.classList.remove("preload")
     content.classList.remove("add-code")
@@ -56,6 +62,7 @@ export setToUserImagesState = ->
     content.classList.add("user-images")
     
     cubeModule.allowTouch()
+    radiologistImages.loadImages()
     return
 
 #endregion

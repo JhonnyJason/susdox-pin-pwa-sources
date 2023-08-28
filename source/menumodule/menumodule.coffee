@@ -29,7 +29,7 @@ unnamedText = unnamedTextElement.textContent
 
 ############################################################
 export initialize = ->
-    log "initialize"
+    ## prod log "initialize"
     menuFrame.addEventListener("click", menuFrameClicked)
     menuAddCode.addEventListener("click", addCodeClicked)
     menuLogout.addEventListener("click", logoutClicked)
@@ -39,12 +39,12 @@ export initialize = ->
 ############################################################
 #region event Listeners
 menuFrameClicked = (evnt) ->
-    log "menuFrameClicked"
+    ## prod log "menuFrameClicked"
     app.triggerMenu()
     return
 
 userEntryClicked = (evnt) ->
-    log "userEntryClicked"
+    ## prod log "userEntryClicked"
     evnt.stopPropagation()
     el = evnt.currentTarget
     userIndex = el.getAttribute("user-index")
@@ -58,20 +58,20 @@ userEntryClicked = (evnt) ->
     return
 
 addCodeClicked = (evnt) ->
-    log "addCodeClicked"
+    ## prod log "addCodeClicked"
     evnt.stopPropagation()
     app.triggerAddCode()
     return
 
 
 logoutClicked = (evnt) ->
-    log "logoutClicked"
+    ## prod log "logoutClicked"
     evnt.stopPropagation()
     app.triggerLogout()
     return
 
 menuVersionClicked = (evnt) ->
-    log "menuVersionClicked"
+    ## prod log "menuVersionClicked"
     evnt.stopPropagation()
     app.triggerUpgrade()
     return
@@ -80,12 +80,12 @@ menuVersionClicked = (evnt) ->
 
 ############################################################
 export updateAllUsers = ->
-    log "updateAllUsers"
+    ## prod log "updateAllUsers"
     {activeAccount, allAccounts, accountValidity} = accountModule.getAccountsInfo()
     
     html = ""
     for accountObj,idx in allAccounts
-        log "#{idx}:#{accountObj.label}"
+        ## prod log "#{idx}:#{accountObj.label}"
         cObj = {}
         if accountObj.label == "" then cObj.userLabel = unnamedText
         else cObj.userLabel = accountObj.label
@@ -102,7 +102,7 @@ export updateAllUsers = ->
 
     allUserEntries = document.querySelectorAll("#all-users > *")
     for userEntry,idx in allUserEntries
-        log "userEntry: #{idx}:#{userEntry.getAttribute("user-index")}"
+        ## prod log "userEntry: #{idx}:#{userEntry.getAttribute("user-index")}"
         userEntry.addEventListener("click", userEntryClicked)
     return
 

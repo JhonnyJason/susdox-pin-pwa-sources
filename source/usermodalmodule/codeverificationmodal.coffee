@@ -37,16 +37,17 @@ confirmButton = document.getElementById("codeverification-confirm-button")
 
 ############################################################
 code = ""
+promiseConsumed = false
 
 ############################################################
 datePicker = null
-modalCore = null
+core = null
 
 ############################################################
 export initialize = ->
-    log "initialize"
-    modalCore = new ModalCore(codeverificationmodal)
-    modalCore.connectDefaultElements()
+    ## prod log "initialize"
+    core = new ModalCore(codeverificationmodal)
+    core.connectDefaultElements()
     # confirm button is not default modal element
     confirmButton.addEventListener("click", confirmButtonClicked)
     
@@ -59,14 +60,14 @@ export initialize = ->
 
 ############################################################
 makeAcceptable = ->
-    log "makeAcceptable"
+    ## prod log "makeAcceptable"
     if datePicker.isOn then datePicker.acceptCurrentPositions()
     if datePicker.isOn then return false
     return true
 
 ############################################################
 confirmButtonClicked = ->
-    log "confirmButtonClicked"
+    ## prod log "confirmButtonClicked"
     confirmButton.classList.add("disabled")
     try
         if !makeAcceptable() then return
@@ -77,20 +78,20 @@ confirmButtonClicked = ->
         if !dateOfBirth then throw new InputError("No dateOfBirth provided!")
         
         credentials = {code, dateOfBirth}
+        olog credentials
         loginBody = await utl.loginRequestBody(credentials)
-        
         response = await sci.loginRequest(loginBody)
         log response
 
         resetAllErrorFeedback()
-        modalCore.accept(credentials)
+        core.accept(credentials)
     catch err then errorFeedback(err)
     finally confirmButton.classList.remove("disabled")
     return
 
 ############################################################
 errorFeedback = (error) ->
-    log "errorFeedback"
+    ## prod log "errorFeedback"
     log error
 
     # NetworkError, InputError, ValidationError, ExpiredTokenError, InvalidTokenError
@@ -118,7 +119,7 @@ errorFeedback = (error) ->
 
 ############################################################
 resetAllErrorFeedback = ->
-    log "resetAllErrorFeedback"
+    ## prod log "resetAllErrorFeedback"
     codeverificationContent.classList.remove("error")
     codeverificationBirthdayInput.classList.remove("error")
     userFeedback.innerHTML = ""
@@ -126,18 +127,24 @@ resetAllErrorFeedback = ->
 
 ############################################################
 export pickUpConfirmedCredentials = (givenCode) ->
-    log "pickUpConfirmedCredentials"
+    ## prod log "pickUpConfirmedCredentials"
     code = givenCode
-    return modalCore.modalPromise
+    promiseConsumed = true
+    return core.modalPromise
 
 ############################################################
 export turnUpModal =  ->
-    log "turnUpModal"
-    modalCore.activate()
+    ## prod log "turnUpModal"
+    promiseConsumed = false
+    core.activate()
     return
 
 ############################################################
 export turnDownModal = (reason) ->
-    log "turnDownModal"
-    modalCore.reject(reason)
+    ## prod log "turnDownModal"
+    if core.modalPromise? and !promiseConsumed 
+        core.modalPromise.catch(()->return)
+        # core.modalPromise.catch((err) -> log("unconsumed: #{err}"))
+
+    core.reject(reason)
     return

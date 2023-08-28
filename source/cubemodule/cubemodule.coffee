@@ -43,6 +43,8 @@ currentRight = cubeRight
 ############################################################
 actionAfterRotation = null
 transitioning = false
+# transitionResolve = null
+transitionPromise = null
 
 ############################################################
 touching = false
@@ -57,7 +59,7 @@ noTouch = true
 
 ############################################################
 export initialize = ->
-    log "initialize"
+    ## prod log "initialize"
     arrowLeft.addEventListener("click", arrowLeftClicked)
     arrowRight.addEventListener("click", arrowRightClicked)
     cube.addEventListener("transitionend", cubeTransitionEnded)
@@ -79,7 +81,7 @@ export initialize = ->
 
 ############################################################
 mouseDowned = (evnt) ->
-    log "mouseDowned"
+    ## prod log "mouseDowned"
     return if noTouch
 
     # touchStartX = evnt.clientX
@@ -88,7 +90,7 @@ mouseDowned = (evnt) ->
     return
 
 touchStarted = (evnt) ->
-    log "touchStarted"
+    ## prod log "touchStarted"
     return if noTouch
 
     return unless evnt.touches.length == 1
@@ -105,19 +107,18 @@ touchEnded = ->
     touching = false
     return
 
-mouseUpped = -> 
+mouseUpped = ->
     return if noTouch
 
     if touching then snapBack()
     touching = false
     return
 
-
 ############################################################
 mouseMoved = (evnt) ->
     return if noTouch
 
-    # log "mouaseMoved"
+    # ## prod log "mouaseMoved"
     return if transitioning
     return unless touching 
     x = evnt.clientX
@@ -135,11 +136,10 @@ mouseMoved = (evnt) ->
     addRotationTilt(tiltDeg)
     return
 
-
 touchMoved = (evnt) ->
     return if noTouch
 
-    # log "touchMoved"
+    # ## prod log "touchMoved"
     return if transitioning
     return unless touching
     x = evnt.touches[0].clientX
@@ -157,21 +157,23 @@ touchMoved = (evnt) ->
 
 ############################################################
 cubeTransitionEnded = (evnt) ->
-    log "cubeTransitionEnded"
+    ## prod log "cubeTransitionEnded"
     if actionAfterRotation? then actionAfterRotation()
     actionAfterRotation = null
     if cubePosition == -1 or cubePosition == 4
-        log "cubePosition: #{cubePosition}"
+        ## prod log "cubePosition: #{cubePosition}"
         content.classList.add("no-transition")
         content.classList.remove("position-#{cubePosition}")
         cubePosition = (cubePosition + 4) % 4
         content.classList.add("position-#{cubePosition}")
     transitioning = false
+    if transitionPromise? then transitionPromise.fullfill()
+    transitionPromise = null
     return
 
 ############################################################
 arrowLeftClicked = (evnt) ->
-    log "arrowLeftClicked"
+    ## prod log "arrowLeftClicked"
     return if transitioning
     transitioning =  true
     touching = false
@@ -181,7 +183,7 @@ arrowLeftClicked = (evnt) ->
 
 ############################################################
 arrowRightClicked = (evnt) ->
-    log "arrowRightClicked"
+    ## prod log "arrowRightClicked"
     return if transitioning
     transitioning = true
     touching = false
@@ -202,7 +204,7 @@ snapBack = ->
 
 ############################################################
 addRotationTilt = (tilt) ->
-    log "addRotationTilt"
+    ## prod log "addRotationTilt"
     switch cubePosition
         when -1 then baseRotation = -90
         when 0 then baseRotation = 0
@@ -210,7 +212,7 @@ addRotationTilt = (tilt) ->
         when 2 then baseRotation = 180
         when 3 then baseRotation = 270
         when 4 then baseRotation = -360
-        else log "cubePosition not in regular range(0-3): #{cubePosition}"
+        else ## prod log "cubePosition not in regular range(0-3): #{cubePosition}"
     
     rotation = baseRotation + tilt
 
@@ -272,7 +274,7 @@ export setCurrentRightElement = (el) ->
 
 ############################################################
 export reset = ->
-    log "reset"
+    ## prod log "reset"
     noTouch = true
     positionClass = "position-#{cubePosition}"
     cubePosition = 0
@@ -284,6 +286,12 @@ export reset = ->
 
     setCurrentFrontElement(sustsolCubeImage)
 
+    transitionResolve = null
+    transitionPromise = new Promise (resolve) ->
+        transitionResolve = resolve
+    
+    transitionPromise.fullfill = transitionResolve
+
     finishReset = ->
         content.classList.remove("no-transition")
         content.classList.remove(positionClass)
@@ -293,6 +301,9 @@ export reset = ->
 
     transitioning = true
     actionAfterRotation = finishReset
+
+    #security backstop as sometimes the transitionEnd event is not fired
+    setTimeout(cubeTransitionEnded, 350)
     return
 ############################################################
 export allowTouch = -> noTouch = false
@@ -309,5 +320,8 @@ export rotateToSustSolLeft = ->
 
 ############################################################
 export isInTransition = -> transitioning
+
+############################################################
+export waitForTransition = -> transitionPromise
 
 #endregion

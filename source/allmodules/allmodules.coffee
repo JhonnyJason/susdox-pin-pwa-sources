@@ -8,7 +8,6 @@ import * as credentialsframemodule from "./credentialsframemodule.js"
 import * as cubemodule from "./cubemodule.js"
 import * as debugmodule from "./debugmodule.js"
 import * as errormodule from "./errormodule.js"
-import * as footermodule from "./footermodule.js"
 import * as headermodule from "./headermodule.js"
 import * as mainbuttonmodule from "./mainbuttonmodule.js"
 import * as menumodule from "./menumodule.js"
@@ -33,7 +32,6 @@ Modules = {
     cubemodule,
     debugmodule,
     errormodule,
-    footermodule,
     headermodule,
     mainbuttonmodule,
     menumodule,

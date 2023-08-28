@@ -35,7 +35,7 @@ import { appVersion } from "./configmodule.js"
 
 ############################################################
 serviceWorker = null
-if navigator? and navigator.serviceWorker? 
+if navigator? and navigator.serviceWorker?
     serviceWorker = navigator.serviceWorker
 
 ############################################################
@@ -55,7 +55,7 @@ startUpProcessed = false
 
 ############################################################
 export initialize = ->
-    log "initialize"
+    ## prod log "initialize"
 
     currentVersion.textContent = appVersion
     
@@ -78,16 +78,19 @@ export initialize = ->
 
 ############################################################
 navStateChanged = ->
-    log "navStateChanged"
+    ## prod log "navStateChanged"
     {base, modifier} = S.get("navState")
     olog { base, modifier }
-    
+
+    # Check if the original navigation caused the mod to change    
+    modChanged = modifier != appUIMod
+
     # reset always
     accountToUpdate = null
+    ## Check if we got a code for a new Account
+    code = getCodeFromURL()
 
     if !startUpProcessed then await startUp()
-
-    modChanged = modifier != appUIMod
 
     ########################################
     # Apply States
@@ -97,17 +100,27 @@ navStateChanged = ->
             else setAppState("no-code", modifier)
         when "AddCode" then setAppState("add-code", modifier)
     
-    if modChanged then log "modChanged to #{modifier}"
+    ########################################
+    if code? then await triggerURLCodeDetected(code)
+
+    ########################################
+    if modChanged then ## prod log "modChanged to #{modifier}"
     return unless modChanged
 
+    ########################################
+    # Apply reverted modifications
     switch modifier
         when "logoutconfirmation" then triggerLogout()
         when "invalidcode" then triggerCodeReveal()
+        when "codeverification"
+            if urlCode? then await triggerURLCodeDetected(urlCode)
+            else await nav.unmodify()
+
     return
 
 ############################################################
 activeAccountChanged = ->
-    log "activeAccountChanged"
+    ## prod log "activeAccountChanged"
     await checkAccountAvailability()
     if accountAvailable then await triggerAccountLoginCheck()
     else # last account has been deleted
@@ -122,11 +135,7 @@ activeAccountChanged = ->
 
 ############################################################
 startUp = ->
-    log "startUp"
-    ## Check if we got a code for a new Account
-    urlCode = getCodeFromURL()
-    if urlCode? then await triggerURLCodeDetected()
-    
+    ## prod log "startUp"    
     await checkAccountAvailability()
     if accountAvailable then await triggerAccountLoginCheck()
 
@@ -136,7 +145,7 @@ startUp = ->
 
 ############################################################
 checkAccountAvailability = ->
-    log "checkAccountAvailability"
+    ## prod log "checkAccountAvailability"
     try 
         await account.getUserCredentials()
         accountAvailable = true
@@ -149,7 +158,7 @@ checkAccountAvailability = ->
 
 ############################################################
 updatePeriphery = ->
-    log "updatePeriphery"
+    ## prod log "updatePeriphery"
     # update data in peripheral UIs
     menuModule.updateAllUsers()
     codeDisplay.updateCode()
@@ -158,16 +167,16 @@ updatePeriphery = ->
 
 ############################################################
 setAppState = (base, mod) ->
-    log "setAppState"
+    ## prod log "setAppState"
     if base then appBaseState = base
     if mod then appUIMod = mod
-    log "#{appBaseState}:#{appUIMod}"
+    ## prod log "#{appBaseState}:#{appUIMod}"
     S.set("uiState", "#{appBaseState}:#{appUIMod}")
     return
 
 ############################################################
 getCodeFromURL = ->
-    log "getCodeFromURL"
+    ## prod log "getCodeFromURL"
     # ##TODO remove: setting code for testing
     # code = "123123"
     # return code
@@ -184,7 +193,7 @@ getCodeFromURL = ->
 
 ############################################################
 addValidAccount = (credentials) ->
-    log "addValidAccount"
+    ## prod log "addValidAccount"
     # we set it as active by default
     accountIndex = account.addNewAccount(credentials)
     account.setAccountActive(accountIndex)
@@ -203,13 +212,13 @@ onServiceWorkerMessage = (evnt) ->
     return
 
 onServiceWorkerSwitch = ->
-    console.log("  !  onServiceWorkerSwitch")
+    # console.log("  !  onServiceWorkerSwitch")
     serviceWorker.controller.postMessage("Hello I am version: #{appVersion}!")
     serviceWorker.controller.postMessage("tellMeVersion")
     return
 
 deleteImageCache = ->
-    log "deleteImageCache"
+    ## prod log "deleteImageCache"
     if serviceWorker? and serviceWorker.controller?
         serviceWorker.controller.postMessage("deleteImageCache")
     return
@@ -219,11 +228,13 @@ deleteImageCache = ->
 ############################################################
 #region User Action Triggers
 
-export triggerURLCodeDetected = ->
-    log "triggerURLCodeDetected"
+export triggerURLCodeDetected = (code) ->
+    ## prod log "triggerURLCodeDetected"
+    urlCode = code
     try
         setAppState("", "codeverification")
         await nav.addModification("codeverification")
+        ## prod log "urlCode is: #{urlCode}"
         credentials = await verificationModal.pickUpConfirmedCredentials(urlCode)
         addValidAccount(credentials)
     catch err then log err
@@ -232,7 +243,7 @@ export triggerURLCodeDetected = ->
 
 ############################################################
 export triggerAccountLoginCheck = ->
-    log "triggerAccountLoginCheck"
+    ## prod log "triggerAccountLoginCheck"
     setAppState("pre-user-images", "none")
 
     try
@@ -245,15 +256,15 @@ export triggerAccountLoginCheck = ->
 
 ############################################################
 export triggerHome = ->
-    log "triggerHome"
-    if appBaseState == "user-images" and appUIMod == "none"
-        radiologistImages.setSustSolLogo()
+    ## prod log "triggerHome"
+    navState = S.get("navState")
+    if navState.depth == 0 then radiologistImages.setSustSolLogo()
     else await nav.backToRoot()
     return
 
 ############################################################
 export triggerMenu = ->
-    log "triggerMenu"
+    ## prod log "triggerMenu"
     if appUIMod == "menu"
         await nav.unmodify()
         return
@@ -264,14 +275,14 @@ export triggerMenu = ->
 
 ############################################################
 export triggerAddCode = ->
-    log "triggerAddCodeButton"
+    ## prod log "triggerAddCodeButton"
     setAppState("add-code")
     await nav.addStateNavigation("AddCode")
     return
 
 ############################################################
 export triggerAccept = ->
-    log "triggerAccept"
+    ## prod log "triggerAccept"
     try
         if !credentialsFrame.makeAcceptable() then return
         credentialsFrame.resetAllErrorFeedback()
@@ -292,7 +303,7 @@ export triggerAccept = ->
 
 ############################################################
 export triggerCodeReveal = ->
-    log "triggerCodeReveal"
+    ## prod log "triggerCodeReveal"
     if appUIMod == "coderevealed" then return await nav.unmodify()
     try
         valid = await account.accountIsValid()
@@ -320,14 +331,14 @@ export triggerCodeReveal = ->
 
 ############################################################
 export triggerCodeUpdate = ->
-    log "triggerCodeUpdate"
+    ## prod log "triggerCodeUpdate"
     setAppState("user-images", "updatecode")
     await nav.addModification("updatecode")
     return
 
 ############################################################
 export triggerLogout = ->
-    log "triggerLogout"
+    ## prod log "triggerLogout"
     try
         setAppState("", "logoutconfirmation")
         await nav.addModification("logoutconfirmation")
@@ -339,7 +350,7 @@ export triggerLogout = ->
 
 ############################################################
 export triggerUpgrade = ->
-    log "triggerUpgrade"
+    ## prod log "triggerUpgrade"
     location.reload()
     return
 
