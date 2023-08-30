@@ -128,7 +128,7 @@ activeAccountChanged = ->
         deleteImageCache()
 
     await triggerHome()
-    updatePeriphery()
+    updateUIData()
     return
 
 #endregion
@@ -139,7 +139,7 @@ startUp = ->
     await checkAccountAvailability()
     if accountAvailable then await triggerAccountLoginCheck()
 
-    updatePeriphery()
+    updateUIData()
     startUpProcessed = true
     return
 
@@ -157,9 +157,9 @@ checkAccountAvailability = ->
     return
 
 ############################################################
-updatePeriphery = ->
-    ## prod log "updatePeriphery"
-    # update data in peripheral UIs
+updateUIData = ->
+    ## prod log "updateUIData"
+    # update data in the UIs
     menuModule.updateAllUsers()
     codeDisplay.updateCode()
     usernameDisplay.updateUsername()
