@@ -49,6 +49,7 @@ export class ModalCore
         return
 
     activate: ->
+        return if @modalPromise?
         core = this
         @modalPromise = new Promise (resolve, reject) ->
             core.rejectPromise = reject

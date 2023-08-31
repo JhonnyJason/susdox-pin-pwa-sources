@@ -57,8 +57,12 @@ export promptCodeDeletion = ->
     return core.modalPromise
 
 ############################################################
+#region UI State Manipulation
+
 export turnUpModal = (reason) ->
     ## prod log "turnUpModal"
+    return if core.modalPromise? # already up
+
     accountObj = account.getAccountObject()
     cObj = {}
     if accountObj.label == "" then cObj.label = unnamedText
@@ -70,7 +74,6 @@ export turnUpModal = (reason) ->
     core.activate()
     return
 
-############################################################
 export turnDownModal = (reason) ->
     ## prod log "turnDownModal"
     if core.modalPromise? and !promiseConsumed 
@@ -78,4 +81,7 @@ export turnDownModal = (reason) ->
         # core.modalPromise.catch((err) -> log("unconsumed: #{err}"))
 
     core.reject(reason)
+    promiseConsumed = false
     return
+
+#endregion

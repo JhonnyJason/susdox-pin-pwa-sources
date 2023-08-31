@@ -36,12 +36,15 @@ confirmButton = document.getElementById("codeverification-confirm-button")
 #endregion
 
 ############################################################
+#region Internal Variables
 code = ""
 promiseConsumed = false
 
 ############################################################
 datePicker = null
 core = null
+
+#endregion
 
 ############################################################
 export initialize = ->
@@ -59,6 +62,7 @@ export initialize = ->
     return
 
 ############################################################
+#region Internal Functions
 makeAcceptable = ->
     ## prod log "makeAcceptable"
     if datePicker.isOn then datePicker.acceptCurrentPositions()
@@ -125,6 +129,8 @@ resetAllErrorFeedback = ->
     userFeedback.innerHTML = ""
     return
 
+#endregion
+
 ############################################################
 export pickUpConfirmedCredentials = (givenCode) ->
     ## prod log "pickUpConfirmedCredentials"
@@ -133,13 +139,15 @@ export pickUpConfirmedCredentials = (givenCode) ->
     return core.modalPromise
 
 ############################################################
+#region UI State Manipulation
+
 export turnUpModal =  ->
     ## prod log "turnUpModal"
+    return if core.modalPromise? # already up
     promiseConsumed = false
     core.activate()
     return
 
-############################################################
 export turnDownModal = (reason) ->
     ## prod log "turnDownModal"
     if core.modalPromise? and !promiseConsumed 
@@ -147,4 +155,7 @@ export turnDownModal = (reason) ->
         # core.modalPromise.catch((err) -> log("unconsumed: #{err}"))
 
     core.reject(reason)
+    promiseConsumed = false
     return
+
+#endregion

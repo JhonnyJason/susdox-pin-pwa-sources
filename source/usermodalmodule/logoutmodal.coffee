@@ -17,13 +17,17 @@ unnamedTextElement = document.getElementById("unnamed-text-element")
 unnamedText = unnamedTextElement.textContent
 
 ############################################################
+#region Internal Variables
 core = null
 
 ############################################################
 messageTemplate = ""
 messageElement = null
 
+############################################################
 promiseConsumed = false
+
+#endregion
 
 ############################################################
 export initialize =  ->
@@ -38,13 +42,17 @@ export initialize =  ->
 ############################################################
 export userConfirmation = ->
     ## prod log "userConfirmation"
+    core.activate() unless core.modalPromise?
     promiseConsumed = true
     return core.modalPromise
 
-
 ############################################################
+#region UI State Manipulation
+
 export turnUpModal = ->
     ## prod log "turnUpModal"
+    return if core.modalPromise? # already up
+
     accountObj = account.getAccountObject()
     cObj = {}
     if accountObj.label == "" then cObj.label = unnamedText
@@ -56,7 +64,6 @@ export turnUpModal = ->
     core.activate()
     return
 
-############################################################
 export turnDownModal = (reason) ->
     ## prod log "turnDownModal"
     if core.modalPromise? and !promiseConsumed 
@@ -64,4 +71,7 @@ export turnDownModal = (reason) ->
         # core.modalPromise.catch((err) -> log("unconsumed: #{err}"))
 
     core.reject(reason)
+    promiseConsumed = false
     return
+
+#endregion
