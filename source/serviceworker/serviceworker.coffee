@@ -56,9 +56,9 @@ urlMatchOptions = {
 ############################################################
 onRegister = ->
     # ## prod-c ## prod log "onRegister"
-    self.addEventListener('activate', activateEventHandler)
-    self.addEventListener('fetch', fetchEventHandler)
-    self.addEventListener('install', installEventHandler)
+    # self.addEventListener('activate', activateEventHandler)
+    # self.addEventListener('fetch', fetchEventHandler)
+    # self.addEventListener('install', installEventHandler)
     self.addEventListener('message', messageEventHandler)
 
     # clients = await self.clients.matchAll({ includeUncontrolled: true })

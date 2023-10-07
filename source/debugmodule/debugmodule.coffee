@@ -3,7 +3,7 @@ import { addModulesToDebug } from "thingy-debug"
 ############################################################
 export modulesToDebug = {
 
-    # accountmodule: true
+    accountmodule: true
     # appcoremodule: true
     # centerlinkmodule: true
     # configmodule: true
@@ -20,7 +20,7 @@ export modulesToDebug = {
     # modalcore: true
     # navmodule: true 
     # radiologistimagemodule: true
-    # scimodule: true
+    scimodule: true
     # scrollrolldatepickermodule: true
     # statemodule: true
     # uistatemodule: true

@@ -87,7 +87,8 @@ export updateAllUsers = ->
     for accountObj,idx in allAccounts
         ## prod log "#{idx}:#{accountObj.label}"
         cObj = {}
-        if accountObj.label == "" then cObj.userLabel = unnamedText
+        defaultLabel = accountObj.name || unnamedText
+        if accountObj.label == "" then cObj.userLabel = defaultLabel
         else cObj.userLabel = accountObj.label
         cObj.index = idx
         html += M.render(entryTemplate, cObj)

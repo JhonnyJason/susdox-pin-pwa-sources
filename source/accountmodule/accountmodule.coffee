@@ -23,7 +23,7 @@ noAccount = true
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
     allAccounts = S.load("allAccounts") || []
     S.save("allAccounts", allAccounts, true)
     activeAccount = parseInt(S.load("activeAccount"))
@@ -35,14 +35,14 @@ export initialize = ->
 
 ############################################################
 export getAccountObject = (index) ->
-    ## prod log "getAccountObject"
+    log "getAccountObject"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
     return allAccounts[index]
 
 export getUserCredentials = (index) ->
-    ## prod log "getUserCredentials"
+    log "getUserCredentials"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
@@ -51,7 +51,7 @@ export getUserCredentials = (index) ->
     return accountObj.userCredentials
 
 export getRadiologistImages = (index) ->
-    ## prod log "getRadiologistImages"
+    log "getRadiologistImages"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
@@ -63,14 +63,14 @@ export getRadiologistImages = (index) ->
     return accountObj.radiologistImages
 
 export getAccountsInfo = ->
-    ## prod log "getAccountsInfo"
+    log "getAccountsInfo"
     return { activeAccount, allAccounts, accountValidity }
 
 ############################################################
 
 ############################################################
 export addNewAccount = (credentials) ->
-    ## prod log "addNewAccount"
+    log "addNewAccount"
     accountIndex = allAccounts.length
     accountObj = {}
     accountObj.userCredentials = credentials
@@ -83,7 +83,7 @@ export addNewAccount = (credentials) ->
     return accountIndex
 
 export setAccountActive = (index) ->
-    ## prod log "setAccountActive"
+    log "setAccountActive"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
@@ -93,7 +93,7 @@ export setAccountActive = (index) ->
     return
 
 export setAccountValid = (index) ->
-    ## prod log "setAccountValid"
+    log "setAccountValid"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
@@ -102,7 +102,7 @@ export setAccountValid = (index) ->
     return
 
 export accountIsValid = (index) ->
-    ## prod log "accountIsValid"
+    log "accountIsValid"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
@@ -113,17 +113,24 @@ export accountIsValid = (index) ->
     # account is valid when loginRequest succeeds
     try
         credentials = allAccounts[index].userCredentials
-        loginBody = utl.loginRequestBody(credentials)
+        loginBody = await utl.loginRequestBody(credentials)
         response = await sci.loginRequest(loginBody)
 
-        ## prod log "LoginRequest was successful!"
-        # log response
-        # ## prod log "throwing Fake auth Error!"
+        log "LoginRequest was successful!"
+        log typeof response
+        if typeof response == "object" then olog response
+        else log response
+        
+        # log "throwing Fake auth Error!"
         # throw new AuthenticationError("Fake auth Error!")
+
+        if typeof response == "object" and response.name? 
+            allAccounts[index].name = response.name
+            S.save("allAccounts")
 
         accountValidity[index] = true
     catch err
-        ## prod log "Error on accountIsValid: #{err.message}"
+        log "Error on accountIsValid: #{err.message}"
         # only on auth error, we know it is invalid
         # for any non-auth error we act as if it was valid
         if err instanceof AuthenticationError 
@@ -133,7 +140,7 @@ export accountIsValid = (index) ->
     return true
 
 export deleteAccount = (index) ->
-    ## prod log "deleteAccount"
+    log "deleteAccount"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
@@ -170,7 +177,7 @@ export saveAllAccounts = -> S.save("allAccounts")
     
 ############################################################
 export saveLabelEdit = (label, index) ->
-    ## prod log "saveLabelEdit"
+    log "saveLabelEdit"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
@@ -182,7 +189,7 @@ export saveLabelEdit = (label, index) ->
 
 ############################################################
 export updateImages = (index) ->
-    ## prod log "updateImages"
+    log "updateImages"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
@@ -199,6 +206,6 @@ export updateImages = (index) ->
         allImages.add(image) for image in newImages
         accountObj.radiologistImages = [...allImages]
         S.save("allAccounts")
-    catch err then ## prod log "Error on updateImages: #{err.message}"
+    catch err then log "Error on updateImages: #{err.message}"
     return
 

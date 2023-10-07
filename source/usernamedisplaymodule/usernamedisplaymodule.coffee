@@ -16,6 +16,7 @@ usernameEditButton = document.getElementById("username-edit-button")
 
 ############################################################
 currentUsername = ""
+savedPlaceholder = ""
 
 ############################################################
 export initialize = ->
@@ -24,6 +25,7 @@ export initialize = ->
     usernamedisplay.addEventListener("keydown", usernamedisplayKeyDowned)
     # usernamedisplay.addEventListener("blur", usernamedisplayBlurred)
     usernamedisplay.addEventListener("change", usernamedisplayBlurred)
+    savedPlaceholder = usernamedisplay.getAttribute("placeholder") 
     return
 
 ############################################################
@@ -80,18 +82,26 @@ setUsername = (name) ->
     usernamedisplay.value = name
     return
 
+setDefaultName = (defaultName) ->
+    ## prod log "setDefaultName"
+    if defaultName? then usernamedisplay.setAttribute("placeholder", defaultName)
+    else usernamedisplay.setAttribute("placeholder", savedPlaceholder)
+    return
+
 ############################################################
 export updateUsername = ->
     ## prod log "updateUsername"
     try
         accountObj = account.getAccountObject()
         usernamedisplayContainer.classList.remove("no-username")
+        setDefaultName(accountObj.name)
         setUsername(accountObj.label)
         return
 
     catch err 
         log err
         usernamedisplayContainer.classList.add("no-username")
+        setDefaultName()
         setUsername("")
     return
 

@@ -131,12 +131,15 @@ export loginRequest = (body) ->
     # json body
     headers = { 'Content-Type': 'application/json' }
     body = JSON.stringify(body)
-
+    
     fetchOptions = { method, mode, redirect, credentials, headers, body }
 
+    olog fetchOptions
     try 
         response = await fetch(loginURL, fetchOptions)
-        if response.ok then return await response.text()
+        # if response.ok then return await response.text()
+        ## TODO: use json from response
+        if response.ok then return await response.json()
         
         error = new Error("#{await response.text()}")
         error.status = response.status

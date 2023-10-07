@@ -1,22 +1,17 @@
 ############################################################
 #region debug
 import { createLogFunctions } from "thingy-debug"
-{log, olog} = createLogFunctions("centerlinkmodule")
+{log, olog} = createLogFunctions("centerbuttonmodule")
 #endregion
 
 ############################################################
 import * as S from "./statemodule.js"
 import *  as utl from "./utilmodule.js"
 
-############################################################
-centerlink = document.getElementById("centerlink")
-susdoxLink = document.getElementById("susdox-link")
-dateOfBirthDisplay = document.getElementById("date-of-birth-display")
 
 ############################################################
 export initialize = ->
     ## prod log "initialize"
-    # susdoxLink.addEventListener("click", susdoxLinkClicked)
     return
 
 ############################################################
@@ -38,25 +33,25 @@ susdoxLinkClicked = (evnt) ->
 ############################################################
 export updateDateOfBirth = (dateOfBirth) ->
     ## prod log "updateDateOfBirth"
-    # tokens = dateOfBirth.split("-")
+    tokens = dateOfBirth.split("-")
     
-    # if tokens.length == 3
-    #     year = tokens[0]
-    #     month = tokens[1]
-    #     day = tokens[2]
+    if tokens.length == 3
+        year = tokens[0]
+        month = tokens[1]
+        day = tokens[2]
 
-    #     dateOfBirth = "#{day}.#{month}.#{year}"
+        dateOfBirth = "#{day}.#{month}.#{year}"
 
-    # dateOfBirthDisplay.textContent = dateOfBirth
+    dateOfBirthDisplay.textContent = dateOfBirth
     return
 
 ############################################################
 export displayDateOfBirth = ->
     ## prod log "displayDateOfBirth"
-    # centerlink.classList.add("code-shown")
+    centerlink.classList.add("code-shown")
     return
 
 export displayCenterLink = ->
     ## prod log "displayCenterLink"
-    # centerlink.classList.remove("code-shown")
+    centerlink.classList.remove("code-shown")
     return
