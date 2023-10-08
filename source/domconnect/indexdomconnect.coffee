@@ -2,6 +2,7 @@ indexdomconnect = {name: "indexdomconnect"}
 
 ############################################################
 indexdomconnect.initialize = () ->
+    global.realBody = document.getElementById("real-body")
     global.content = document.getElementById("content")
     global.susdoxLogo = document.getElementById("susdox-logo")
     global.menuCloseButton = document.getElementById("menu-close-button")

@@ -7,8 +7,11 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 import * as utl from "./utilmodule.js"
 import { NetworkError, AuthenticationError } from "./errormodule.js"
-import { tokenEndpointURL, imagesEndpointURL } from "./configmodule.js"
-import { loginURL } from "./configmodule.js"
+
+import { 
+    tokenEndpointURL, imagesEndpointURL, 
+    screeningsEndpointURL, loginURL 
+    } from "./configmodule.js"
 
 ############################################################
 postData = (url, data) ->
@@ -94,6 +97,10 @@ export getImages = (credentials) ->
     #     "/img/umschaden-logo.png"
     #     "/img/karner-logo.jpg"
     # ]
+
+export getScreenings = (credentials) ->
+    ## prod log "getScreenings"
+    return postData(screeningsEndpointURL, credentials)
 
 ############################################################
 export loginWithRedirect = (body) ->

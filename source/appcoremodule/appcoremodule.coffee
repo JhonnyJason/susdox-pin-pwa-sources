@@ -16,6 +16,8 @@ import * as account from "./accountmodule.js"
 import * as credentialsFrame from "./credentialsframemodule.js"
 import * as mainButton from "./mainbuttonmodule.js"
 
+import * as screeningsList from "./screeningslistmodule.js"
+
 import * as codeDisplay from "./codedisplaymodule.js"
 import * as usernameDisplay from "./usernamedisplaymodule.js"
 import * as menuModule from "./menumodule.js"
@@ -115,6 +117,7 @@ navStateChanged = ->
         when "codeverification"
             if urlCode? then await triggerURLCodeDetected(urlCode)
             else await nav.unmodify()
+        when "screeningslist" then triggerScreeningList()
 
     return
 
@@ -300,6 +303,17 @@ export triggerAccept = ->
         log err
         credentialsFrame.errorFeedback(err)    
     return
+
+############################################################
+export triggerScreeningList = ->
+    ## prod log "triggerScreeningList"
+    try
+        setAppState("", "screeningslist")
+        await nav.addModification("screeningslist")
+        screeningsList.updateScreenings()
+    catch err then log err
+    return
+
 
 ############################################################
 export triggerCodeReveal = ->

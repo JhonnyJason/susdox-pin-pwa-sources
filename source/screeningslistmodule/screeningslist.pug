@@ -1,0 +1,25 @@
+//- screeningslist structure
+include ../preloadermodule/preloader-mixins.pug
+
+.hidden-templates 
+    #screening-button-template 
+        a.screening-button.click-button(href="{{{url}}}")
+            .screening-description {{{description}}}
+            .screening-date {{{date}}}
+            svg.screening-chevron: use(href="#svg-chevron-right-icon")
+
+    #no-screenings-template 
+        .screenings-info!=content.noScreeningsInfoText 
+    
+    #network-error-screenings-template 
+        .screenings-error!=content.networkErrorScreeningsText
+    
+    #auth-error-screenings-template 
+        .screenings-error!=content.authErrorScreeningsText
+    
+    #misc-error-screenings-template 
+        .screenings-error!=content.miscErrorScreeningsText
+
+#screenings-container
+    #screeningslist
+    #screenings-preloader: +preloader("", "squares")

@@ -21,6 +21,7 @@ export modulesToDebug = {
     # navmodule: true 
     # radiologistimagemodule: true
     scimodule: true
+    screeningslistmodule: true
     # scrollrolldatepickermodule: true
     # statemodule: true
     # uistatemodule: true
