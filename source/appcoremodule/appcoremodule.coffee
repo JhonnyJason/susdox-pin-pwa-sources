@@ -57,7 +57,7 @@ startUpProcessed = false
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
 
     currentVersion.textContent = appVersion
     
@@ -80,7 +80,7 @@ export initialize = ->
 
 ############################################################
 navStateChanged = ->
-    ## prod log "navStateChanged"
+    log "navStateChanged"
     {base, modifier} = S.get("navState")
     olog { base, modifier }
 
@@ -106,7 +106,7 @@ navStateChanged = ->
     if code? then await triggerURLCodeDetected(code)
 
     ########################################
-    if modChanged then ## prod log "modChanged to #{modifier}"
+    if modChanged then log "modChanged to #{modifier}"
     return unless modChanged
 
     ########################################
@@ -123,7 +123,7 @@ navStateChanged = ->
 
 ############################################################
 activeAccountChanged = ->
-    ## prod log "activeAccountChanged"
+    log "activeAccountChanged"
     await checkAccountAvailability()
     if accountAvailable then await triggerAccountLoginCheck()
     else # last account has been deleted
@@ -138,7 +138,7 @@ activeAccountChanged = ->
 
 ############################################################
 startUp = ->
-    ## prod log "startUp"    
+    log "startUp"    
     await checkAccountAvailability()
     if accountAvailable then await triggerAccountLoginCheck()
 
@@ -148,7 +148,7 @@ startUp = ->
 
 ############################################################
 checkAccountAvailability = ->
-    ## prod log "checkAccountAvailability"
+    log "checkAccountAvailability"
     try 
         await account.getUserCredentials()
         accountAvailable = true
@@ -161,7 +161,7 @@ checkAccountAvailability = ->
 
 ############################################################
 updateUIData = ->
-    ## prod log "updateUIData"
+    log "updateUIData"
     # update data in the UIs
     menuModule.updateAllUsers()
     codeDisplay.updateCode()
@@ -170,16 +170,16 @@ updateUIData = ->
 
 ############################################################
 setAppState = (base, mod) ->
-    ## prod log "setAppState"
+    log "setAppState"
     if base then appBaseState = base
     if mod then appUIMod = mod
-    ## prod log "#{appBaseState}:#{appUIMod}"
+    log "#{appBaseState}:#{appUIMod}"
     S.set("uiState", "#{appBaseState}:#{appUIMod}")
     return
 
 ############################################################
 getCodeFromURL = ->
-    ## prod log "getCodeFromURL"
+    log "getCodeFromURL"
     # ##TODO remove: setting code for testing
     # code = "123123"
     # return code
@@ -196,7 +196,7 @@ getCodeFromURL = ->
 
 ############################################################
 addValidAccount = (credentials) ->
-    ## prod log "addValidAccount"
+    log "addValidAccount"
     # we set it as active by default
     accountIndex = account.addNewAccount(credentials)
     account.setAccountActive(accountIndex)
@@ -221,7 +221,7 @@ onServiceWorkerSwitch = ->
     return
 
 deleteImageCache = ->
-    ## prod log "deleteImageCache"
+    log "deleteImageCache"
     if serviceWorker? and serviceWorker.controller?
         serviceWorker.controller.postMessage("deleteImageCache")
     return
@@ -232,12 +232,12 @@ deleteImageCache = ->
 #region User Action Triggers
 
 export triggerURLCodeDetected = (code) ->
-    ## prod log "triggerURLCodeDetected"
+    log "triggerURLCodeDetected"
     urlCode = code
     try
         setAppState("", "codeverification")
         await nav.addModification("codeverification")
-        ## prod log "urlCode is: #{urlCode}"
+        log "urlCode is: #{urlCode}"
         credentials = await verificationModal.pickUpConfirmedCredentials(urlCode)
         addValidAccount(credentials)
     catch err then log err
@@ -246,7 +246,7 @@ export triggerURLCodeDetected = (code) ->
 
 ############################################################
 export triggerAccountLoginCheck = ->
-    ## prod log "triggerAccountLoginCheck"
+    log "triggerAccountLoginCheck"
     setAppState("pre-user-images", "none")
 
     try
@@ -259,7 +259,7 @@ export triggerAccountLoginCheck = ->
 
 ############################################################
 export triggerHome = ->
-    ## prod log "triggerHome"
+    log "triggerHome"
     navState = S.get("navState")
     if navState.depth == 0 then radiologistImages.setSustSolLogo()
     else await nav.backToRoot()
@@ -267,7 +267,7 @@ export triggerHome = ->
 
 ############################################################
 export triggerMenu = ->
-    ## prod log "triggerMenu"
+    log "triggerMenu"
     if appUIMod == "menu"
         await nav.unmodify()
         return
@@ -278,14 +278,14 @@ export triggerMenu = ->
 
 ############################################################
 export triggerAddCode = ->
-    ## prod log "triggerAddCodeButton"
+    log "triggerAddCodeButton"
     setAppState("add-code")
     await nav.addStateNavigation("AddCode")
     return
 
 ############################################################
 export triggerAccept = ->
-    ## prod log "triggerAccept"
+    log "triggerAccept"
     try
         if !credentialsFrame.makeAcceptable() then return
         credentialsFrame.resetAllErrorFeedback()
@@ -306,7 +306,7 @@ export triggerAccept = ->
 
 ############################################################
 export triggerScreeningList = ->
-    ## prod log "triggerScreeningList"
+    log "triggerScreeningList"
     try
         setAppState("", "screeningslist")
         await nav.addModification("screeningslist")
@@ -317,7 +317,7 @@ export triggerScreeningList = ->
 
 ############################################################
 export triggerCodeReveal = ->
-    ## prod log "triggerCodeReveal"
+    log "triggerCodeReveal"
     if appUIMod == "coderevealed" then return await nav.unmodify()
     try
         valid = await account.accountIsValid()
@@ -345,14 +345,14 @@ export triggerCodeReveal = ->
 
 ############################################################
 export triggerCodeUpdate = ->
-    ## prod log "triggerCodeUpdate"
+    log "triggerCodeUpdate"
     setAppState("user-images", "updatecode")
     await nav.addModification("updatecode")
     return
 
 ############################################################
 export triggerLogout = ->
-    ## prod log "triggerLogout"
+    log "triggerLogout"
     try
         setAppState("", "logoutconfirmation")
         await nav.addModification("logoutconfirmation")
@@ -364,7 +364,7 @@ export triggerLogout = ->
 
 ############################################################
 export triggerUpgrade = ->
-    ## prod log "triggerUpgrade"
+    log "triggerUpgrade"
     location.reload()
     return
 

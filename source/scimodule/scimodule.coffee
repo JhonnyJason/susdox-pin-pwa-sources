@@ -86,7 +86,7 @@ getData = (url, data) ->
 
 ############################################################
 export getImages = (credentials) ->
-    ## prod log "getImages"
+    log "getImages"
     return postData(imagesEndpointURL, credentials)
     # return getData(imagesEndpointURL, credentials)
     
@@ -99,12 +99,12 @@ export getImages = (credentials) ->
     # ]
 
 export getScreenings = (credentials) ->
-    ## prod log "getScreenings"
+    log "getScreenings"
     return postData(screeningsEndpointURL, credentials)
 
 ############################################################
 export loginWithRedirect = (body) ->
-    ## prod log "loginWithRedirect"
+    log "loginWithRedirect"
     method = "POST"
     mode = 'cors'
     redirect =  'follow'
@@ -160,7 +160,7 @@ export loginRequest = (body) ->
 #region deprecated Code
 # ############################################################
 # export getCredentials = (token, dateOfBirth) ->
-#     ## prod log "getCredentials"
+#     log "getCredentials"
 #     response = await getData(tokenEndpointURL, { token, dateOfBirth })
 #     if response.error?
 #         msg = "Error in response on getCredentials - token: '#{token}' | dateOfBirth: '#{dateOfBirth}'"
@@ -180,7 +180,7 @@ export loginRequest = (body) ->
 
 # ############################################################
 # export getUUID = (dateOfBirth, code) ->
-#     ## prod log "getUUID"
+#     log "getUUID"
 #     response = await getData(tokenEndpointURL, { dateOfBirth, code })
 #     if response.error? then throw new InvalidUserError()
 #     return response.uuid

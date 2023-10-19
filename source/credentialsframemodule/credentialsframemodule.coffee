@@ -47,7 +47,7 @@ accountToUpdate = null
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
     loginCodeInput.addEventListener("keydown", loginCodeInputKeyDowned)
     loginCodeInput.addEventListener("keyup", loginCodeInputKeyUpped)
     
@@ -60,7 +60,7 @@ export initialize = ->
 
 ############################################################
 loginCodeInputKeyDowned = (evt) ->
-    # ## prod log "loginCodeInputKeyDowned"
+    # log "loginCodeInputKeyDowned"
     
     # 13 is enter
     if evt.keyCode == 13
@@ -95,10 +95,10 @@ loginCodeInputKeyDowned = (evt) ->
 
 ############################################################
 loginCodeInputKeyUpped = (evt) ->
-    # ## prod log "loginCodeInputKeyUpped"
+    # log "loginCodeInputKeyUpped"
     
     rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
-    ## prod log "rawCode #{rawCode}"
+    log "rawCode #{rawCode}"
     newCode = ""
     # filter out all the illegal characters
     for c in rawCode when utl.isAlphanumericString(c)
@@ -111,7 +111,7 @@ loginCodeInputKeyUpped = (evt) ->
 
     codeTokens = []
     
-    ## prod log "newCode #{newCode}"
+    log "newCode #{newCode}"
     if rLen > 0
         codeTokens.push(newCode.slice(0,3))
     if rLen > 3
@@ -128,7 +128,7 @@ export getAccountToUpdate = -> accountToUpdate
 
 ############################################################
 export extractCredentials = ->
-    ## prod log "extractCredentials"
+    log "extractCredentials"
     code = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
     # dateOfBirth = loginBirthdayInput.value
     dateOfBirth = datePicker.value
@@ -147,28 +147,28 @@ export extractCredentials = ->
 
     loginBody = await utl.loginRequestBody(credentials)
     response = await sci.loginRequest(loginBody)
-    ## prod log "#{response}"
+    log "#{response}"
 
     return credentials
 
 
 ############################################################
 export makeAcceptable = ->
-    ## prod log "makeAcceptable"
+    log "makeAcceptable"
     if datePicker.isOn then datePicker.acceptCurrentPositions()
     if datePicker.isOn then return false
     return true
 
 ############################################################
 export resetAllErrorFeedback = ->
-    ## prod log "resetAllErrorFeedback"
+    log "resetAllErrorFeedback"
     userFeedback.innerHTML = ""
     credentialsframeContainer.classList.remove("error")
     return
 
 ############################################################
 export errorFeedback = (error) ->
-    ## prod log "errorFeedback"
+    log "errorFeedback"
 
     if error instanceof NetworkError
         credentialsframeContainer.classList.add("error")
@@ -193,7 +193,7 @@ export errorFeedback = (error) ->
 ############################################################
 #region UI States handles
 export prepareForCodeUpdate = ->
-    ## prod log "prepareForCodeUpdate"
+    log "prepareForCodeUpdate"
     accountToUpdate = account.getAccountObject()
     # olog accountToUpdate
 
@@ -202,7 +202,7 @@ export prepareForCodeUpdate = ->
     return
 
 export prepareForAddCode = ->
-    ## prod log "prepareForAddCode"
+    log "prepareForAddCode"
     accountToUpdate = null
     datePicker.reset()
     loginCodeInput.value = ""

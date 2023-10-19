@@ -30,7 +30,7 @@ updateButton = document.getElementById("invalidcodemodal-update-button")
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
     core = new ModalCore(invalidcodemodal)
     core.connectDefaultElements()
 
@@ -42,7 +42,7 @@ export initialize = ->
 
 ############################################################
 updateButtonClicked = (evnt) ->
-    ## prod log "updateButtonClicked"
+    log "updateButtonClicked"
     if core.modalPromise? and !promiseConsumed
         core.modalPromise.catch(()->return)
         # core.modalPromise.catch((err) -> log("unconsumed: #{err}"))
@@ -52,7 +52,7 @@ updateButtonClicked = (evnt) ->
 
 ############################################################
 export promptCodeDeletion = ->
-    ## prod log "promptCodeDeletion"
+    log "promptCodeDeletion"
     promiseConsumed = true
     return core.modalPromise
 
@@ -60,7 +60,7 @@ export promptCodeDeletion = ->
 #region UI State Manipulation
 
 export turnUpModal = (reason) ->
-    ## prod log "turnUpModal"
+    log "turnUpModal"
     return if core.modalPromise? # already up
 
     accountObj = account.getAccountObject()
@@ -75,7 +75,7 @@ export turnUpModal = (reason) ->
     return
 
 export turnDownModal = (reason) ->
-    ## prod log "turnDownModal"
+    log "turnDownModal"
     if core.modalPromise? and !promiseConsumed 
         core.modalPromise.catch(()->return)
         # core.modalPromise.catch((err) -> log("unconsumed: #{err}"))

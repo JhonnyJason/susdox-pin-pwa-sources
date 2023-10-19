@@ -24,7 +24,7 @@ allImageElements = []
 
 ############################################################
 setPosition = (idx) ->
-    ## prod log "setPosition #{idx}"
+    log "setPosition #{idx}"
     imageIndex = (idx + allImages.length) % allImages.length 
 
     leftImage = getImageElement(idx - 1)
@@ -45,9 +45,9 @@ getImageElement = (idx) ->
     return allImageElements[idx].cloneNode()
 
 createImageElement = (idx) ->
-    ## prod log "createImageElement"
+    log "createImageElement"
     idx = (idx + allImages.length) % allImages.length
-    ## prod log "idx: #{idx}"
+    log "idx: #{idx}"
     # olog allImages
     
     image = document.createElement("img")
@@ -60,21 +60,21 @@ shift = (direction) -> setPosition(imageIndex + direction)
 
 ############################################################
 export shiftLeft = ->
-    ## prod log "shiftLeft"
+    log "shiftLeft"
     direction = 1
     shift(direction)
     return
 
 ############################################################
 export shiftRight = ->
-    ## prod log "shiftRight"
+    log "shiftRight"
     direction = -1
     shift(direction)
     return
 
 ############################################################
 export reset = ->
-    ## prod log "reset"
+    log "reset"
     imageIndex = 0
     allImages = []
     allImageElements = []
@@ -82,10 +82,10 @@ export reset = ->
 
 ############################################################
 export loadImages = ->
-    ## prod log "loadImages"
+    log "loadImages"
     try imageURLs = account.getRadiologistImages()
     catch err
-        ## prod log "Error in loadImages: #{err.message}" 
+        log "Error in loadImages: #{err.message}" 
         imageURLs = null
 
     # olog {imageURLs}
@@ -103,7 +103,7 @@ export loadImages = ->
 
 ############################################################
 export setSustSolLogo = ->
-    ## prod log "setSustSolLogo"
+    log "setSustSolLogo"
     if imageIndex == (allImages.length - 1) then return
     if cubeModule.isInTransition() then return
 
@@ -120,6 +120,6 @@ export setSustSolLogo = ->
 
 ############################################################
 export sustSolRotateCompleted = ->
-    ## prod log "sustSolRotateCompleted"
+    log "sustSolRotateCompleted"
     setPosition(-1)
     return

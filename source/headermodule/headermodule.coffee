@@ -9,7 +9,7 @@ import * as app from "./appcoremodule.js"
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
     susdoxLogo.addEventListener("click", susdoxLogoClicked)
     menuButton.addEventListener("click", menuButtonClicked)
     menuCloseButton.addEventListener("click", menuCloseButtonClicked)
@@ -17,17 +17,17 @@ export initialize = ->
 
 ############################################################
 susdoxLogoClicked = ->
-    ## prod log "susdoxLogoClicked"
+    log "susdoxLogoClicked"
     app.triggerHome()
     return
 
 menuButtonClicked = ->
-    ## prod log "menuButtonClicked"
+    log "menuButtonClicked"
     app.triggerMenu()
     return
 
 menuCloseButtonClicked = ->
-    ## prod log "menuCloseButtonClicked"
+    log "menuCloseButtonClicked"
     app.triggerMenu()
     return
 

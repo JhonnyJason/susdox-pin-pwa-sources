@@ -25,18 +25,18 @@ applyState = {}
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
     S.addOnChangeListener("uiState", applyUIState)
     return
 
 ############################################################
 applyUIState = ->
-    ## prod log "applyUIState"
+    log "applyUIState"
     uiState = S.get("uiState")
     applyFunction = applyState[uiState]
     if typeof applyFunction == "function" then return applyFunction()
          
-    # ## prod log "on applyUIState: uiState '#{uiState}' did not have an apply function!"
+    # log "on applyUIState: uiState '#{uiState}' did not have an apply function!"
     throw new Error("on applyUIState: uiState '#{uiState}' did not have an apply function!")
     return
 
@@ -91,6 +91,7 @@ applyState["no-code:codeverification"] = ->
 ############################################################
 #region add-code states
 applyState["add-code:none"] = ->
+    content.setToAddCodeState()
     credentialsFrame.prepareForAddCode()
     resetAllModifications()
     return

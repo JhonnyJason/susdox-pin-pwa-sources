@@ -16,7 +16,7 @@ codeButton = document.getElementById("code-button")
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
     addCodeButton.addEventListener("click", addCodeButtonClicked)
     acceptButton.addEventListener("click", acceptButtonClicked)
     codeButton.addEventListener("click", codeButtonClicked)
@@ -24,19 +24,19 @@ export initialize = ->
 
 ############################################################
 addCodeButtonClicked = (evnt) ->
-    ## prod log "addCodeButtonClicked"
+    log "addCodeButtonClicked"
     app.triggerAddCode()
     return
 
 ############################################################
 codeButtonClicked = (evnt) ->
-    ## prod log "codeButtonClicked"
+    log "codeButtonClicked"
     app.triggerCodeReveal()
     return
 
 ############################################################
 export acceptButtonClicked = (evnt) ->
-    ## prod log "acceptButtonClicked"
+    log "acceptButtonClicked"
     acceptButton.classList.add("disabled")
     await app.triggerAccept()
     acceptButton.classList.remove("disabled")

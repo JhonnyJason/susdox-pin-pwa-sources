@@ -20,7 +20,7 @@ savedPlaceholder = ""
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
     # usernameEditButton.addEventListener("click", editButtonClicked)
     usernamedisplay.addEventListener("keydown", usernamedisplayKeyDowned)
     # usernamedisplay.addEventListener("blur", usernamedisplayBlurred)
@@ -38,7 +38,7 @@ stopEditing = ->
 
 ############################################################
 applyUsername = (name) ->
-    ## prod log "applyUsername"
+    log "applyUsername"
     return if currentUsername == name
 
     currentUsername = name
@@ -48,7 +48,7 @@ applyUsername = (name) ->
 
 ############################################################
 usernamedisplayBlurred = (evnt) ->
-    ## prod log "usernamedisplayBlurred"
+    log "usernamedisplayBlurred"
     applyUsername(usernamedisplay.value)
     stopEditing()
     return
@@ -56,7 +56,7 @@ usernamedisplayBlurred = (evnt) ->
 
 ############################################################
 usernamedisplayKeyDowned = (evnt) ->
-    ## prod log "usernamedisplayKeyDowned"
+    log "usernamedisplayKeyDowned"
     
     # 13 is enter
     if evnt.keyCode == 13
@@ -70,27 +70,27 @@ usernamedisplayKeyDowned = (evnt) ->
 
 ############################################################
 editButtonClicked = (evnt) ->
-    ## prod log "editButtonClicked"
+    log "editButtonClicked"
     # usernamedisplay.setAttribute("contenteditable", true)
     # window.getSelection().selectAllChildren(usernamedisplay)
     return
 
 ############################################################
 setUsername = (name) ->
-    ## prod log "setUsername"
+    log "setUsername"
     currentUsername = name
     usernamedisplay.value = name
     return
 
 setDefaultName = (defaultName) ->
-    ## prod log "setDefaultName"
+    log "setDefaultName"
     if defaultName? then usernamedisplay.setAttribute("placeholder", defaultName)
     else usernamedisplay.setAttribute("placeholder", savedPlaceholder)
     return
 
 ############################################################
 export updateUsername = ->
-    ## prod log "updateUsername"
+    log "updateUsername"
     try
         accountObj = account.getAccountObject()
         usernamedisplayContainer.classList.remove("no-username")

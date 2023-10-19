@@ -17,7 +17,7 @@ initialize = ->
     return
 
 calculateArgon2 = (pin,birthdate) ->
-    # ## prod log "calculateArgon2"
+    # log "calculateArgon2"
     salt = birthdate + "SUSDOX"
 
     hash = sodium.crypto_pwhash(
@@ -28,7 +28,7 @@ calculateArgon2 = (pin,birthdate) ->
         67108864,  # Use 64MB memory
         sodium.crypto_pwhash_ALG_ARGON2ID13	# Hash algorithm: argon2id
     )
-    # ## prod log "finished calculation!"
+    # log "finished calculation!"
     hashHex = bytesToHex(hash)
     return hashHex
 

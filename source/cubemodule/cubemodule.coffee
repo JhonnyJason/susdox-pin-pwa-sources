@@ -59,7 +59,7 @@ noTouch = true
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
     arrowLeft.addEventListener("click", arrowLeftClicked)
     arrowRight.addEventListener("click", arrowRightClicked)
     cube.addEventListener("transitionend", cubeTransitionEnded)
@@ -81,7 +81,7 @@ export initialize = ->
 
 ############################################################
 mouseDowned = (evnt) ->
-    ## prod log "mouseDowned"
+    log "mouseDowned"
     return if noTouch
 
     # touchStartX = evnt.clientX
@@ -90,7 +90,7 @@ mouseDowned = (evnt) ->
     return
 
 touchStarted = (evnt) ->
-    ## prod log "touchStarted"
+    log "touchStarted"
     return if noTouch
 
     return unless evnt.touches.length == 1
@@ -118,7 +118,7 @@ mouseUpped = ->
 mouseMoved = (evnt) ->
     return if noTouch
 
-    # ## prod log "mouaseMoved"
+    # log "mouaseMoved"
     return if transitioning
     return unless touching 
     x = evnt.clientX
@@ -139,7 +139,7 @@ mouseMoved = (evnt) ->
 touchMoved = (evnt) ->
     return if noTouch
 
-    # ## prod log "touchMoved"
+    # log "touchMoved"
     return if transitioning
     return unless touching
     x = evnt.touches[0].clientX
@@ -157,11 +157,11 @@ touchMoved = (evnt) ->
 
 ############################################################
 cubeTransitionEnded = (evnt) ->
-    ## prod log "cubeTransitionEnded"
+    log "cubeTransitionEnded"
     if actionAfterRotation? then actionAfterRotation()
     actionAfterRotation = null
     if cubePosition == -1 or cubePosition == 4
-        ## prod log "cubePosition: #{cubePosition}"
+        log "cubePosition: #{cubePosition}"
         content.classList.add("no-transition")
         content.classList.remove("position-#{cubePosition}")
         cubePosition = (cubePosition + 4) % 4
@@ -173,7 +173,7 @@ cubeTransitionEnded = (evnt) ->
 
 ############################################################
 arrowLeftClicked = (evnt) ->
-    ## prod log "arrowLeftClicked"
+    log "arrowLeftClicked"
     return if transitioning
     transitioning =  true
     touching = false
@@ -183,7 +183,7 @@ arrowLeftClicked = (evnt) ->
 
 ############################################################
 arrowRightClicked = (evnt) ->
-    ## prod log "arrowRightClicked"
+    log "arrowRightClicked"
     return if transitioning
     transitioning = true
     touching = false
@@ -204,7 +204,7 @@ snapBack = ->
 
 ############################################################
 addRotationTilt = (tilt) ->
-    ## prod log "addRotationTilt"
+    log "addRotationTilt"
     switch cubePosition
         when -1 then baseRotation = -90
         when 0 then baseRotation = 0
@@ -212,7 +212,7 @@ addRotationTilt = (tilt) ->
         when 2 then baseRotation = 180
         when 3 then baseRotation = 270
         when 4 then baseRotation = -360
-        else ## prod log "cubePosition not in regular range(0-3): #{cubePosition}"
+        else log "cubePosition not in regular range(0-3): #{cubePosition}"
     
     rotation = baseRotation + tilt
 
@@ -274,7 +274,7 @@ export setCurrentRightElement = (el) ->
 
 ############################################################
 export reset = ->
-    ## prod log "reset"
+    log "reset"
     noTouch = true
     positionClass = "position-#{cubePosition}"
     cubePosition = 0

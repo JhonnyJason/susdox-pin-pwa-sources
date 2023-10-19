@@ -1,7 +1,6 @@
 import * as accountmodule from "./accountmodule.js"
 import * as appcoremodule from "./appcoremodule.js"
 import * as centerbuttonmodule from "./centerbuttonmodule.js"
-import * as centerlinkmodule from "./centerlinkmodule.js"
 import * as codedisplaymodule from "./codedisplaymodule.js"
 import * as configmodule from "./configmodule.js"
 import * as contentmodule from "./contentmodule.js"
@@ -27,7 +26,6 @@ Modules = {
     accountmodule,
     appcoremodule,
     centerbuttonmodule,
-    centerlinkmodule,
     codedisplaymodule,
     configmodule,
     contentmodule,

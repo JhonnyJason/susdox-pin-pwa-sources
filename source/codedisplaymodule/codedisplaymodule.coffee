@@ -9,9 +9,6 @@ import * as S from "./statemodule.js"
 import * as account from "./accountmodule.js"
 
 ############################################################
-import * as centerlinkModule from "./centerlinkmodule.js"
-
-############################################################
 isRevealed = false
 ############################################################
 currentCode = ""
@@ -33,11 +30,10 @@ setCode = (code) ->
 
 ############################################################
 export updateCode = ->
-    ## prod log "updateCode"
+    log "updateCode"
     try
         credentials = account.getUserCredentials()
         setCode(credentials.code)
-        centerlinkModule.updateDateOfBirth(credentials.dateOfBirth)
         if await account.accountIsValid()
             codedisplayContainer.classList.remove("invalid-code")
         else
@@ -46,20 +42,17 @@ export updateCode = ->
         log err    
         codedisplayContainer.classList.remove("invalid-code")
         setCode("")
-        centerlinkModule.updateDateOfBirth("")
     return
 
 ############################################################
 export hideCode = ->
-    ## prod log "hideCode"
-    centerlinkModule.displayCenterLink()
+    log "hideCode"
     codedisplayContainer.classList.remove("show-code")
     isRevealed = false
     return
 
 export revealCode = ->
-    ## prod log "revealCode"
-    centerlinkModule.displayDateOfBirth()
+    log "revealCode"
     codedisplayContainer.classList.add("show-code")
     isRevealed = true
     return

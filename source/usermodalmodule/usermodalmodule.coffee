@@ -11,7 +11,7 @@ import * as codeverificationModal from "./codeverificationmodal.js"
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
     logoutModal.initialize()
     invalidcodeModal.initialize()
     codeverificationModal.initialize()

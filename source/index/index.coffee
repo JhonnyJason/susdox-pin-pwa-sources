@@ -8,7 +8,9 @@ global.allModules = Modules
 if navigator? and navigator.serviceWorker? then navigator.serviceWorker.register("serviceworker.js")
 
 ############################################################
-appStartup = -> Modules.navmodule.appLoaded()
+appStartup = -> 
+    footer.addEventListener("click", footerClicked)
+    Modules.navmodule.appLoaded()
 
 ############################################################
 run = ->
@@ -18,3 +20,25 @@ run = ->
 
 ############################################################
 run()
+
+############################################################
+# doubleClickHack
+
+############################################################
+lastContentClick = 0
+
+############################################################
+footerClicked = (evnt) ->
+    console.log "footerClicked"
+    console.log lastContentClick
+    currentContentClick = performance.now()
+    delta = currentContentClick - lastContentClick
+    lastContentClick = currentContentClick
+    if delta < 400 then doubleClickHappened()
+    return
+
+doubleClickHappened = ->
+    console.log "doubleClickHappened"
+    lastContentClick = 0
+    window.open("https://orientation-experiment.dotv.ee", '_blank');
+    return

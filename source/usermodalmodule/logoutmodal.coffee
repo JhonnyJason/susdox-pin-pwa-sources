@@ -31,7 +31,7 @@ promiseConsumed = false
 
 ############################################################
 export initialize =  ->
-    ## prod log "initialize"
+    log "initialize"
     core = new ModalCore(logoutmodal)
     core.connectDefaultElements()
 
@@ -41,7 +41,7 @@ export initialize =  ->
 
 ############################################################
 export userConfirmation = ->
-    ## prod log "userConfirmation"
+    log "userConfirmation"
     core.activate() unless core.modalPromise?
     promiseConsumed = true
     return core.modalPromise
@@ -50,7 +50,7 @@ export userConfirmation = ->
 #region UI State Manipulation
 
 export turnUpModal = ->
-    ## prod log "turnUpModal"
+    log "turnUpModal"
     return if core.modalPromise? # already up
 
     accountObj = account.getAccountObject()
@@ -65,7 +65,7 @@ export turnUpModal = ->
     return
 
 export turnDownModal = (reason) ->
-    ## prod log "turnDownModal"
+    log "turnDownModal"
     if core.modalPromise? and !promiseConsumed 
         core.modalPromise.catch(()->return)
         # core.modalPromise.catch((err) -> log("unconsumed: #{err}"))

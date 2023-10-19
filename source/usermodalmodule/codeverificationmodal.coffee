@@ -48,7 +48,7 @@ core = null
 
 ############################################################
 export initialize = ->
-    ## prod log "initialize"
+    log "initialize"
     core = new ModalCore(codeverificationmodal)
     core.connectDefaultElements()
     # confirm button is not default modal element
@@ -64,14 +64,14 @@ export initialize = ->
 ############################################################
 #region Internal Functions
 makeAcceptable = ->
-    ## prod log "makeAcceptable"
+    log "makeAcceptable"
     if datePicker.isOn then datePicker.acceptCurrentPositions()
     if datePicker.isOn then return false
     return true
 
 ############################################################
 confirmButtonClicked = ->
-    ## prod log "confirmButtonClicked"
+    log "confirmButtonClicked"
     confirmButton.classList.add("disabled")
     try
         if !makeAcceptable() then return
@@ -95,7 +95,7 @@ confirmButtonClicked = ->
 
 ############################################################
 errorFeedback = (error) ->
-    ## prod log "errorFeedback"
+    log "errorFeedback"
     log error
 
     # NetworkError, InputError, ValidationError, ExpiredTokenError, InvalidTokenError
@@ -123,7 +123,7 @@ errorFeedback = (error) ->
 
 ############################################################
 resetAllErrorFeedback = ->
-    ## prod log "resetAllErrorFeedback"
+    log "resetAllErrorFeedback"
     codeverificationContent.classList.remove("error")
     codeverificationBirthdayInput.classList.remove("error")
     userFeedback.innerHTML = ""
@@ -133,7 +133,7 @@ resetAllErrorFeedback = ->
 
 ############################################################
 export pickUpConfirmedCredentials = (givenCode) ->
-    ## prod log "pickUpConfirmedCredentials"
+    log "pickUpConfirmedCredentials"
     code = givenCode
     promiseConsumed = true
     return core.modalPromise
@@ -142,14 +142,14 @@ export pickUpConfirmedCredentials = (givenCode) ->
 #region UI State Manipulation
 
 export turnUpModal =  ->
-    ## prod log "turnUpModal"
+    log "turnUpModal"
     return if core.modalPromise? # already up
     promiseConsumed = false
     core.activate()
     return
 
 export turnDownModal = (reason) ->
-    ## prod log "turnDownModal"
+    log "turnDownModal"
     if core.modalPromise? and !promiseConsumed 
         core.modalPromise.catch(()->return)
         # core.modalPromise.catch((err) -> log("unconsumed: #{err}"))

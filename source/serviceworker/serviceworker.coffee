@@ -55,46 +55,48 @@ urlMatchOptions = {
 
 ############################################################
 onRegister = ->
-    # ## prod-c ## prod log "onRegister"
+    # ## prod-c log "onRegister"
+    # #uncomment for production - comment for testing
     self.addEventListener('activate', activateEventHandler)
     self.addEventListener('fetch', fetchEventHandler)
     self.addEventListener('install', installEventHandler)
+    # #end uncomment for production
     self.addEventListener('message', messageEventHandler)
 
     # clients = await self.clients.matchAll({ includeUncontrolled: true })
     # message = "postRegister"
     # client.postMessage(message) for client in clients  
 
-    # ## prod-c ## prod log "postRegister: found #{clients.length} clients!"
+    # ## prod-c log "postRegister: found #{clients.length} clients!"
     return
 
 ############################################################
 #region Event Handlers
 activateEventHandler = (evnt) ->
-    # ## prod-c ## prod log "activateEventHandler"
+    # ## prod-c log "activateEventHandler"
     evnt.waitUntil(self.clients.claim())
-    # ## prod-c ## prod log "clients have been claimed!"
+    # ## prod-c log "clients have been claimed!"
     return
 
  
 fetchEventHandler = (evnt) -> 
-    # ## prod-c ## prod log "fetchEventHandler"
+    # ## prod-c log "fetchEventHandler"
     # log evnt.request.url
     evnt.respondWith(cacheThenNetwork(evnt.request))
     return
 
 installEventHandler = (evnt) -> 
-    # ## prod-c ## prod log "installEventHandler"
+    # ## prod-c log "installEventHandler"
     self.skipWaiting()
-    # ## prod-c ## prod log "skipped waiting :-)"
+    # ## prod-c log "skipped waiting :-)"
     evnt.waitUntil(installAppCache())
     return
 
 messageEventHandler = (evnt) ->
-    ## prod-c ## prod log "messageEventHandler"
-    ## prod-c ## prod log "typeof data is #{typeof evnt.data}"
+    ## prod-c log "messageEventHandler"
+    ## prod-c log "typeof data is #{typeof evnt.data}"
     # log JSON.stringify(evnt.data, null, 4)
-    ## prod-c ## prod log "I am version #{appVersion}!"
+    ## prod-c log "I am version #{appVersion}!"
 
     # Commands to be executed
     if evnt.data == "tellMeVersion"
@@ -112,16 +114,16 @@ messageEventHandler = (evnt) ->
 ############################################################
 #region helper functions
 installAppCache = ->
-    # ## prod-c ## prod log "installAppCache"
+    # ## prod-c log "installAppCache"
     try
         await deleteCaches(cachesToDelete)
         cache = await caches.open(appCacheName)
         return cache.addAll(fixedAppFiles)
-    catch err then ## prod-c ## prod log "Error on installAppCache: #{err.message}"
+    catch err then ## prod-c log "Error on installAppCache: #{err.message}"
     return
 
 cacheThenNetwork = (request) ->
-    # ## prod-c ## prod log "cacheThenNetwork"
+    # ## prod-c log "cacheThenNetwork"
     try cacheResponse = await caches.match(request, urlMatchOptions)
     catch err then log err
     if cacheResponse? then return cacheResponse
@@ -130,16 +132,16 @@ cacheThenNetwork = (request) ->
 
 ############################################################
 deleteCaches = (cacheNames) ->
-    # ## prod-c ## prod log "deleteCaches"
+    # ## prod-c log "deleteCaches"
     promise = caches.delete(name) for name in cacheNames
     try return await Promise.all(promises)
-    catch err then ## prod-c ## prod log "Error in deleteCaches: #{err.message}"
+    catch err then ## prod-c log "Error in deleteCaches: #{err.message}"
     return  
     
 
 ############################################################
 handleCacheMiss = (request) ->
-    # ## prod-c ## prod log "handleCacheMiss"
+    # ## prod-c log "handleCacheMiss"
     url = new URL(request.url)
     if isOptionalAppFile(url.pathname) then return handleAppFileMiss(request)
     if fontEndings.test(url.pathname) then return handleFontMiss(request)
@@ -148,24 +150,24 @@ handleCacheMiss = (request) ->
     
 ############################################################
 handleAppFileMiss = (request) ->
-    # ## prod-c ## prod log "handleAppFileMiss"
+    # ## prod-c log "handleAppFileMiss"
     # log request.url
     try return await fetchAndCache(request, appCacheName)
-    catch err then ## prod-c ## prod log "Error on handleAppFileMiss: #{err.message}"
+    catch err then ## prod-c log "Error on handleAppFileMiss: #{err.message}"
     return
 
 handleImageMiss = (request) ->
-    # ## prod-c ## prod log "handleImageMiss"
+    # ## prod-c log "handleImageMiss"
     # log request.url
     try return await fetchAndCache(request, imageCacheName)
-    catch err then ## prod-c ## prod log "Error on handleImageMiss: #{err.message}"
+    catch err then ## prod-c log "Error on handleImageMiss: #{err.message}"
     return
 
 handleFontMiss = (request) ->
-    # ## prod-c ## prod log "handleFontMiss"
+    # ## prod-c log "handleFontMiss"
     # log request.url
     try return await fetchAndCache(request, fontCacheName)
-    catch err then ## prod-c ## prod log "Error on fontImageMiss: #{err.message}"
+    catch err then ## prod-c log "Error on fontImageMiss: #{err.message}"
     return
 
 ############################################################
@@ -177,7 +179,7 @@ fetchAndCache = (request, cacheName) ->
 
 ############################################################
 isOptionalAppFile = (pathname) ->
-    # ## prod-c ## prod log "isOptionalAppFile"
+    # ## prod-c log "isOptionalAppFile"
     # log pathname
     if optionalAppFiles.includes(pathname) then return true
     else return false

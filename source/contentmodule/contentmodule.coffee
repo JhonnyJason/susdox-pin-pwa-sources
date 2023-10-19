@@ -11,7 +11,7 @@ import * as cubeModule from "./cubemodule.js"
 ############################################################
 #region State Setter Functions
 export setToDefaultState = ->
-    ## prod log "setToDefaultState"
+    log "setToDefaultState"
     # await cubeModule.waitForTransition()
 
     content.classList.remove("preload")
@@ -25,7 +25,7 @@ export setToDefaultState = ->
 
 ############################################################
 export setToAddCodeState = ->
-    ## prod log "setToAddCodeState"
+    log "setToAddCodeState"
     # await cubeModule.waitForTransition()
 
     content.classList.remove("preload")
@@ -39,7 +39,7 @@ export setToAddCodeState = ->
 
 ############################################################
 export setToPreUserImagesState = ->
-    ## prod log "setToPreUserImagesState"
+    log "setToPreUserImagesState"
     # await cubeModule.waitForTransition()
 
     content.classList.remove("preload")
@@ -53,7 +53,7 @@ export setToPreUserImagesState = ->
 
 ############################################################
 export setToUserImagesState = ->
-    ## prod log "setToUserImagesState"
+    log "setToUserImagesState"
     await cubeModule.waitForTransition()
 
     content.classList.remove("preload")
