@@ -127,7 +127,7 @@ activeAccountChanged = ->
     await checkAccountAvailability()
     if accountAvailable then await triggerAccountLoginCheck()
     else # last account has been deleted
-        setAppState("no-code")
+        setAppState("no-code","none")
         deleteImageCache()
 
     await triggerHome()
@@ -251,7 +251,7 @@ export triggerAccountLoginCheck = ->
 
     try
         valid = await account.accountIsValid()
-        if valid then await account.updateImages()
+        if valid then await account.updateData()
     catch err then log err
     
     setAppState("user-images", "none")
@@ -287,7 +287,7 @@ export triggerAddCode = ->
 export triggerAccept = ->
     log "triggerAccept"
     try
-        if !credentialsFrame.makeAcceptable() then return
+        if !credentialsFrame.makeAcceptable() then return #input is not acceptable
         credentialsFrame.resetAllErrorFeedback()
         credentials = await credentialsFrame.extractCredentials()
         accountToUpdate = credentialsFrame.getAccountToUpdate()
@@ -350,16 +350,22 @@ export triggerCodeUpdate = ->
     await nav.addModification("updatecode")
     return
 
+logoutIsTriggered = false
 ############################################################
 export triggerLogout = ->
     log "triggerLogout"
+    return if logoutIsTriggered
     try
+        logoutIsTriggered = true
         setAppState("", "logoutconfirmation")
         await nav.addModification("logoutconfirmation")
         await logoutModal.userConfirmation()
         account.deleteAccount()
     catch err then log err
-    finally await nav.unmodify()
+    finally
+        log "now we would trigger nav.unmodify()" 
+        # await nav.unmodify()
+        logoutIsTriggered = false
     return
 
 ############################################################

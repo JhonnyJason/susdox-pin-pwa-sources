@@ -9,7 +9,7 @@ import * as utl from "./utilmodule.js"
 import { NetworkError, AuthenticationError } from "./errormodule.js"
 
 import { 
-    tokenEndpointURL, imagesEndpointURL, 
+    tokenEndpointURL, dataEndpointURL, 
     screeningsEndpointURL, loginURL 
     } from "./configmodule.js"
 
@@ -85,12 +85,12 @@ getData = (url, data) ->
     return
 
 ############################################################
-export getImages = (credentials) ->
-    log "getImages"
-    return postData(imagesEndpointURL, credentials)
-    # return getData(imagesEndpointURL, credentials)
+export getRadiologistsData = (credentials) ->
+    log "getRadiologistsData"
+    return postData(dataEndpointURL, credentials)
+    # return getData(dataEndpointURL, credentials)
     
-    # try await postData(imagesEndpointURL, { uuid })
+    # try await postData(dataEndpointURL, { uuid })
     # catch err then log err
 
     # return [

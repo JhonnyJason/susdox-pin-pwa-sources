@@ -71,12 +71,17 @@ export getAccountsInfo = ->
 ############################################################
 export addNewAccount = (credentials) ->
     log "addNewAccount"
+    name = credentials.name
+    if name? then delete credentials["name"]
+
     accountIndex = allAccounts.length
     accountObj = {}
     accountObj.userCredentials = credentials
     accountObj.radiologistImages = []
+    accountObj.radiologistAddresses = []    
     # accountObj.label = "Benutzer #{accountIndex + 1}"
     accountObj.label = ""
+    accountObj.name = name
     allAccounts.push(accountObj)
     S.save("allAccounts")
     noAccount = false
@@ -151,7 +156,7 @@ export deleteAccount = (index) ->
     allAccounts.splice(index, 1)
     accountValidity.splice(index, 1)
 
-    if allAccounts.length == 0 
+    if allAccounts.length == 0
         noAccount = true
         activeAccount = NaN
         S.save("activeAccount", NaN)
@@ -188,8 +193,8 @@ export saveLabelEdit = (label, index) ->
     return
 
 ############################################################
-export updateImages = (index) ->
-    log "updateImages"
+export updateData = (index) ->
+    log "updateData"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
@@ -198,14 +203,22 @@ export updateImages = (index) ->
 
     try
         oldImages = accountObj.radiologistImages
+        oldAddresses = accountObj.radiologistAddresses
         credentials = accountObj.userCredentials
-        allImages = new Set(oldImages)
 
-        newImages = await sci.getImages(credentials)
+        allImages = new Set(oldImages)
+        allADdresses = new Set(oldAddresses)
+
+        newData = await sci.getRadiologistsData(credentials) 
+        olog { newData }
         
-        allImages.add(image) for image in newImages
+        for d in newData ## TODO figure out the right way to retrieve the data
+            allImages.add(d.image)
+            allAddresses.add(d.address)
+
         accountObj.radiologistImages = [...allImages]
+        accountObj.radiologistAddresses = [...allADdresses]
         S.save("allAccounts")
-    catch err then log "Error on updateImages: #{err.message}"
+    catch err then log "Error on updateData: #{err.message}"
     return
 

@@ -1,9 +1,9 @@
 ############################################################
-export imagesEndpointURL =  "https://www.bilder-befunde.at/pwa-api/api/v1/data/" # parameter -> geb + code
+export dataEndpointURL =  "https://www.bilder-befunde.at/pwa-api/api/v1/data/" # parameter -> geb + code
 export screeningsEndpointURL = "https://www.bilder-befunde.at/pwa-api/api/v1/studies/" # parameter -> geb + code
 export loginURL = "https://www.bilder-befunde.at/pwa-api/api/v1/credentials/"
 
-export appVersion = "v0.0.8d"
+export appVersion = "v0.0.8p"
 
 
 ## delete?

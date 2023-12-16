@@ -147,8 +147,8 @@ export extractCredentials = ->
 
     loginBody = await utl.loginRequestBody(credentials)
     response = await sci.loginRequest(loginBody)
-    log "#{response}"
-
+    if response? and response.name? then credentials.name = response.name 
+    
     return credentials
 
 
