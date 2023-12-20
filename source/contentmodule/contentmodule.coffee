@@ -5,7 +5,7 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as radiologistImages from "./radiologistimagemodule.js"
+import * as radiologistImages from "./radiologistdatamodule.js"
 import * as cubeModule from "./cubemodule.js"
 
 ############################################################
@@ -62,7 +62,7 @@ export setToUserImagesState = ->
     content.classList.add("user-images")
     
     cubeModule.allowTouch()
-    radiologistImages.loadImages()
+    radiologistImages.loadData()
     return
 
 #endregion

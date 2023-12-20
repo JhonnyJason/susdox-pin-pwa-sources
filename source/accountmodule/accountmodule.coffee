@@ -62,6 +62,19 @@ export getRadiologistImages = (index) ->
 
     return accountObj.radiologistImages
 
+export getRadiologistAddresses = (index) ->
+    log "getRadiologistAddresses"
+    if noAccount then throw new Error("No User Account Available!")
+    if !index? then index = activeAccount
+    if index >= allAccounts.length then throw new Error("No account by index: #{index}")
+
+    accountObj = allAccounts[index]
+    
+    # olog accountObj
+
+    return accountObj.radiologistAddresses
+
+
 export getAccountsInfo = ->
     log "getAccountsInfo"
     return { activeAccount, allAccounts, accountValidity }
@@ -207,17 +220,20 @@ export updateData = (index) ->
         credentials = accountObj.userCredentials
 
         allImages = new Set(oldImages)
-        allADdresses = new Set(oldAddresses)
+        allAddresses = new Set(oldAddresses)
 
         newData = await sci.getRadiologistsData(credentials) 
         olog { newData }
         
-        for d in newData ## TODO figure out the right way to retrieve the data
-            allImages.add(d.image)
-            allAddresses.add(d.address)
+        for key,value of newData ## TODO figure out the right way to retrieve the data
+            olog { key, value }
+            allImages.add(value[0])
+            allAddresses.add(value[1])
+
+        olog { allImages, allAddresses }
 
         accountObj.radiologistImages = [...allImages]
-        accountObj.radiologistAddresses = [...allADdresses]
+        accountObj.radiologistAddresses = [...allAddresses]
         S.save("allAccounts")
     catch err then log "Error on updateData: #{err.message}"
     return

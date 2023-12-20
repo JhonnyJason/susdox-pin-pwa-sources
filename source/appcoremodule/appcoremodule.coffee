@@ -22,7 +22,7 @@ import * as codeDisplay from "./codedisplaymodule.js"
 import * as usernameDisplay from "./usernamedisplaymodule.js"
 import * as menuModule from "./menumodule.js"
 
-import * as radiologistImages from "./radiologistimagemodule.js"
+import * as radiologistImages from "./radiologistdatamodule.js"
 
 ############################################################
 import * as verificationModal from "./codeverificationmodal.js"
@@ -354,17 +354,17 @@ logoutIsTriggered = false
 ############################################################
 export triggerLogout = ->
     log "triggerLogout"
+    setAppState("", "logoutconfirmation")
     return if logoutIsTriggered
     try
         logoutIsTriggered = true
-        setAppState("", "logoutconfirmation")
-        await nav.addModification("logoutconfirmation")
+        await nav.addModification("logoutconfirmation")    
         await logoutModal.userConfirmation()
         account.deleteAccount()
     catch err then log err
     finally
         log "now we would trigger nav.unmodify()" 
-        # await nav.unmodify()
+        await nav.unmodify()
         logoutIsTriggered = false
     return
 

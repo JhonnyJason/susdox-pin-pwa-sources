@@ -4,7 +4,7 @@ import { addModulesToDebug } from "thingy-debug"
 export modulesToDebug = {
 
     accountmodule: true
-    appcoremodule: true
+    # appcoremodule: true
     # centerlinkmodule: true
     # configmodule: true
     # codedisplaymodule: true
@@ -18,8 +18,8 @@ export modulesToDebug = {
     # mainbuttonmodule: true
     # menumodule: true
     # modalcore: true
-    navmodule: true 
-    # radiologistimagemodule: true
+    # navmodule: true 
+    radiologistdatamodule: true
     scimodule: true
     # screeningslistmodule: true
     # scrollrolldatepickermodule: true

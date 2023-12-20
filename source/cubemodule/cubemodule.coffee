@@ -5,7 +5,9 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as radiologistImages from "./radiologistimagemodule.js"
+import * as radiologistData from "./radiologistdatamodule.js"
+import * as address from "./footermodule.js"
+
 
 ############################################################
 #region DOM cache
@@ -177,7 +179,7 @@ arrowLeftClicked = (evnt) ->
     return if transitioning
     transitioning =  true
     touching = false
-    actionAfterRotation = radiologistImages.shiftLeft
+    actionAfterRotation = radiologistData.shiftLeft
     rotateLeft()
     return    
 
@@ -187,7 +189,7 @@ arrowRightClicked = (evnt) ->
     return if transitioning
     transitioning = true
     touching = false
-    actionAfterRotation = radiologistImages.shiftRight    
+    actionAfterRotation = radiologistData.shiftRight    
     rotateRight()
     return
 
@@ -276,8 +278,12 @@ export setCurrentRightElement = (el) ->
 export reset = ->
     log "reset"
     noTouch = true
-    positionClass = "position-#{cubePosition}"
+    # why would it be in this  order here??
+    # positionClass = "position-#{cubePosition}"
+    # cubePosition = 0
+    
     cubePosition = 0
+    positionClass = "position-#{cubePosition}"
 
     currentFront = cubeFront  
     currentLeft = cubeLeft
@@ -305,6 +311,7 @@ export reset = ->
     #security backstop as sometimes the transitionEnd event is not fired
     setTimeout(cubeTransitionEnded, 350)
     return
+    
 ############################################################
 export allowTouch = -> noTouch = false
 
@@ -313,7 +320,7 @@ export rotateToSustSolLeft = ->
     if transitioning then throw new Error("transitioning")
     transitioning = true
     touching = false
-    actionAfterRotation = radiologistImages.sustSolRotateCompleted    
+    actionAfterRotation = radiologistData.sustSolRotateCompleted    
     # cubePosition = 0
     rotateRight()
     return
