@@ -10,17 +10,14 @@ import * as radiologistData from "./radiologistdatamodule.js"
 ############################################################
 #region DOM cache
 
-footer = document.getElementById("footer")
+footer = document.getElementById("address-display")
 
 ############################################################
-footer0 = document.getElementById("footer-0")
-footer1 = document.getElementById("footer-1")
-footer2 = document.getElementById("footer-2")
-footer3 = document.getElementById("footer-3")
+footer0 = document.getElementById("display-0")
+footer1 = document.getElementById("display-1")
+footer2 = document.getElementById("display-2")
 
 ############################################################
-## TODO figure out if this is needed
-sustsolCubeImage = document.getElementById("sustsol-cube-image")
 sustSolAddress = "SustSol GmbH - 8044 Graz, Mariatroster Strasse 378b/7"
 
 #endregion
@@ -32,9 +29,8 @@ footerPosition = 0
 
 ############################################################
 footerLeft = footer0  
-footerMiddle = footer1
+footerShown = footer1
 footerRight = footer2
-footerHidden = footer3
 
 #endregion
 
@@ -44,33 +40,29 @@ footerHidden = footer3
 ## rotation functions - called by cubemodule
 ############################################################
 export rotateLeft = ->
-    content.classList.remove("no-transition")
-    cubeElement.removeAttribute("style")
-    content.classList.remove("position-#{cubePosition}")
-    cubePosition++
-    content.classList.add("position-#{cubePosition}")
-
-    temp = currentFront
-    currentFront = currentLeft
-    currentLeft = currentBack
-    currentBack = currentRight
-    currentRight = temp
-    setCurrentFrontElement(sustsolCubeImage)
+    footer.classList.remove("no-transition")
+    footer.classList.remove("position-#{footerPosition}")
+    footerPosition++
+    footer.classList.add("position-#{footerPosition}")
     return
 
 export rotateRight = ->
-    cubeElement.removeAttribute("style")
-    content.classList.remove("no-transition")
-    content.classList.remove("position-#{cubePosition}")
-    cubePosition--
-    content.classList.add("position-#{cubePosition}")
+    footer.classList.remove("no-transition")
+    footer.classList.remove("position-#{footerPosition}")
+    footerPosition--
+    footer.classList.add("position-#{footerPosition}")
+    return
 
-    temp = currentFront
-    currentFront = currentRight
-    currentRight = currentBack
-    currentBack = currentLeft
-    currentLeft = temp
-    setCurrentFrontElement(sustsolCubeImage)
+
+############################################################
+export postRotationCorrection = ->
+    log "postRotationCorrection"
+    footer.classList.add("no-transition")
+    log "footerPosition: #{footerPosition}"
+
+    footer.classList.remove("position-#{footerPosition}")
+    footerPosition = 0
+    footer.classList.add("position-#{footerPosition}")
     return
 
 ## set addresses from outsite - radiologistDataModule
@@ -80,16 +72,13 @@ export setLeftAddress = (address) ->
     return
 
 export setShownAddress = (address) ->
-    footerMiddle.textContent = address
+    footerShown.textContent = address
     return
 
 export setRightAddress = (address) ->
     footerRight.textContent = address
     return
 
-export setHiddenAddress = (address) ->
-    footerHdden.textContent = address
-    return
 
 ############################################################
 export reset = ->
@@ -97,12 +86,9 @@ export reset = ->
     footerPosition = 0
     positionClass = "position-#{footerPosition}"
 
-    footerLeft = footer0  
-    footerMiddle = footer1
-    footerRight = footer2
-    footerHidden = footer3
-
+    setLeftAddress(sustSolAddress)
     setShownAddress(sustSolAddress)
+    setRightAddress(sustSolAddress)
     return
 
 #endregion

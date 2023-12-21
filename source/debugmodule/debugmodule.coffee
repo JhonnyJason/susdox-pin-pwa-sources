@@ -13,6 +13,7 @@ export modulesToDebug = {
     # credentialsframemodule: true
     # cubemodule: true
     # errorfeedbackmodule: true
+    footermodule: true
     # invalidcodemodal: true
     # logoutmodal: true
     # mainbuttonmodule: true

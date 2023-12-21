@@ -137,14 +137,17 @@ export setSustSolLogo = ->
     if cubeModule.isInTransition() then return
 
     leftImage = getImageElement(imageIndex - 1)
+    leftAddress = getAddress(imageIndex - 1)
     sustSolLogoImage = getImageElement(-1)
     cubeModule.setCurrentLeftElement(sustSolLogoImage)
-    
+    footer.setLeftAddress(sustSolAddress)
+
+
     try cubeModule.rotateToSustSolLeft()
     catch err
         log err
         cubeModule.setCurrentLeftElement(leftImage)
-
+        footer.setLeftAddress(leftAddress)
     return
 
 ############################################################

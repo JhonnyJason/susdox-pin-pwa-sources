@@ -79,7 +79,7 @@ export initialize = ->
     return
 
 ############################################################
-#region Event Listeners
+#region Event Listenerscurrent
 
 ############################################################
 mouseDowned = (evnt) ->
@@ -162,6 +162,7 @@ cubeTransitionEnded = (evnt) ->
     log "cubeTransitionEnded"
     if actionAfterRotation? then actionAfterRotation()
     actionAfterRotation = null
+    address.postRotationCorrection()
     if cubePosition == -1 or cubePosition == 4
         log "cubePosition: #{cubePosition}"
         content.classList.add("no-transition")
@@ -235,7 +236,10 @@ rotateLeft = ->
     currentLeft = currentBack
     currentBack = currentRight
     currentRight = temp
+
     setCurrentFrontElement(sustsolCubeImage)
+    
+    address.rotateLeft()
     return
 
 rotateRight = ->
@@ -251,6 +255,8 @@ rotateRight = ->
     currentBack = currentLeft
     currentLeft = temp
     setCurrentFrontElement(sustsolCubeImage)
+
+    address.rotateRight()
     return
 
 #endregion
@@ -278,12 +284,13 @@ export setCurrentRightElement = (el) ->
 export reset = ->
     log "reset"
     noTouch = true
-    # why would it be in this  order here??
-    # positionClass = "position-#{cubePosition}"
-    # cubePosition = 0
-    
-    cubePosition = 0
     positionClass = "position-#{cubePosition}"
+    cubePosition = 0
+
+    # finishReset uses positionClass
+    ## probably we want to remove the old positionClass
+    # cubePosition = 0
+    # positionClass = "position-#{cubePosition}"
 
     currentFront = cubeFront  
     currentLeft = cubeLeft
@@ -291,6 +298,7 @@ export reset = ->
     currentRight = cubeRight
 
     setCurrentFrontElement(sustsolCubeImage)
+    address.reset()
 
     transitionResolve = null
     transitionPromise = new Promise (resolve) ->
