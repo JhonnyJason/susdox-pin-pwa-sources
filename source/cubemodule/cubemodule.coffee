@@ -45,6 +45,7 @@ currentRight = cubeRight
 ############################################################
 actionAfterRotation = null
 transitioning = false
+resetting = false
 # transitionResolve = null
 transitionPromise = null
 
@@ -177,6 +178,11 @@ cubeTransitionEnded = (evnt) ->
 ############################################################
 arrowLeftClicked = (evnt) ->
     log "arrowLeftClicked"
+    # olog {
+    #     cubePosition,
+    #     transitioning,
+    #     resetting
+    # }
     return if transitioning
     transitioning =  true
     touching = false
@@ -187,6 +193,11 @@ arrowLeftClicked = (evnt) ->
 ############################################################
 arrowRightClicked = (evnt) ->
     log "arrowRightClicked"
+    # olog {
+    #     cubePosition,
+    #     transitioning,
+    #     resetting
+    # }
     return if transitioning
     transitioning = true
     touching = false
@@ -283,6 +294,13 @@ export setCurrentRightElement = (el) ->
 ############################################################
 export reset = ->
     log "reset"
+    # olog {
+    #     cubePosition,
+    #     transitioning,
+    #     resetting
+    # }
+    if resetting then oldResetFinish = actionAfterRotation
+
     noTouch = true
     positionClass = "position-#{cubePosition}"
     cubePosition = 0
@@ -298,6 +316,7 @@ export reset = ->
     currentRight = cubeRight
 
     setCurrentFrontElement(sustsolCubeImage)
+    content.classList.add("position-#{cubePosition}")
     address.reset()
 
     transitionResolve = null
@@ -307,13 +326,18 @@ export reset = ->
     transitionPromise.fullfill = transitionResolve
 
     finishReset = ->
+        log "finishReset"
+        if oldResetFinish? then oldResetFinish()
+        # olog {positionClass, cubePosition, transitioning, resetting}
         content.classList.remove("no-transition")
         content.classList.remove(positionClass)
         setCurrentBackElement(imagesPreloader)
         setCurrentLeftElement("")
         setCurrentRightElement("")
+        resetting = false
 
     transitioning = true
+    resetting = true
     actionAfterRotation = finishReset
 
     #security backstop as sometimes the transitionEnd event is not fired

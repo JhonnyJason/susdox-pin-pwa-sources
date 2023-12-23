@@ -3,7 +3,7 @@ import { addModulesToDebug } from "thingy-debug"
 ############################################################
 export modulesToDebug = {
 
-    accountmodule: true
+    # accountmodule: true
     # appcoremodule: true
     # centerlinkmodule: true
     # configmodule: true
@@ -13,15 +13,15 @@ export modulesToDebug = {
     # credentialsframemodule: true
     # cubemodule: true
     # errorfeedbackmodule: true
-    footermodule: true
+    # footermodule: true
     # invalidcodemodal: true
     # logoutmodal: true
     # mainbuttonmodule: true
     # menumodule: true
     # modalcore: true
     # navmodule: true 
-    radiologistdatamodule: true
-    scimodule: true
+    # radiologistdatamodule: true
+    # scimodule: true
     # screeningslistmodule: true
     # scrollrolldatepickermodule: true
     # statemodule: true
