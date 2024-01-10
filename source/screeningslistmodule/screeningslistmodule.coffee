@@ -6,7 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import M from "mustache"
-import { waitMS } from "./utilmodule.js"
+import * as utl from "./utilmodule.js"
 
 import {NetworkError, AuthenticationError} from "./errormodule.js"
 
@@ -53,6 +53,7 @@ export initialize = ->
 retrieveScreenings = ->
     log "retrieveScreenings"
     credentials = account.getUserCredentials()
+    credentials = await utl.hashedCredentials(credentials)
     screeningsObj = await sci.getScreenings(credentials)
     result = []
     result.push obj for label,obj of screeningsObj

@@ -221,7 +221,8 @@ export updateData = (index) ->
 
         allImages = new Set(oldImages)
         allAddresses = new Set(oldAddresses)
-
+        
+        credentials = await utl.hashedCredentials(credentials)
         newData = await sci.getRadiologistsData(credentials) 
         olog { newData }
         
