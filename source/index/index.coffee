@@ -9,7 +9,7 @@ if navigator? and navigator.serviceWorker? then navigator.serviceWorker.register
 
 ############################################################
 appStartup = -> 
-    footer.addEventListener("click", footerClicked)
+    # footer.addEventListener("click", footerClicked)
     Modules.navmodule.appLoaded()
 
 ############################################################
@@ -24,21 +24,21 @@ run()
 ############################################################
 # doubleClickHack
 
-############################################################
-lastContentClick = 0
+# ############################################################
+# lastContentClick = 0
 
-############################################################
-footerClicked = (evnt) ->
-    console.log "footerClicked"
-    console.log lastContentClick
-    currentContentClick = performance.now()
-    delta = currentContentClick - lastContentClick
-    lastContentClick = currentContentClick
-    if delta < 400 then doubleClickHappened()
-    return
+# ############################################################
+# footerClicked = (evnt) ->
+#     console.log "footerClicked"
+#     console.log lastContentClick
+#     currentContentClick = performance.now()
+#     delta = currentContentClick - lastContentClick
+#     lastContentClick = currentContentClick
+#     if delta < 400 then doubleClickHappened()
+#     return
 
-doubleClickHappened = ->
-    console.log "doubleClickHappened"
-    lastContentClick = 0
-    window.open("https://orientation-experiment.dotv.ee", '_blank');
-    return
+# doubleClickHappened = ->
+#     console.log "doubleClickHappened"
+#     lastContentClick = 0
+#     window.open("https://orientation-experiment.dotv.ee", '_blank');
+#     return
