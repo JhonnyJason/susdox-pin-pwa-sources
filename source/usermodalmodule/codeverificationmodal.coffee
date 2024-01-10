@@ -85,6 +85,7 @@ confirmButtonClicked = ->
         olog credentials
         loginBody = await utl.loginRequestBody(credentials)
         response = await sci.loginRequest(loginBody)
+        if response? and response.name? then credentials.name = response.name 
         log response
 
         resetAllErrorFeedback()

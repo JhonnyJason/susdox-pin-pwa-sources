@@ -239,7 +239,7 @@ export triggerURLCodeDetected = (code) ->
         await nav.addModification("codeverification")
         log "urlCode is: #{urlCode}"
         credentials = await verificationModal.pickUpConfirmedCredentials(urlCode)
-        addValidAccount(credentials)
+        await addValidAccount(credentials)
     catch err then log err
     finally await nav.unmodify()
     return
@@ -376,5 +376,3 @@ export triggerUpgrade = ->
 
 
 #endregion
-
-
