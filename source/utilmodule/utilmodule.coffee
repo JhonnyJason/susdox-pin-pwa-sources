@@ -190,7 +190,7 @@ export loginRequestBody = (credentials) ->
     if code.length == 8 and (code.indexOf("at")==0) then code = code.slice(2)
     if code.length == 9 or code.length == 6 then hashedPw = await argon2HashPw(code, username)
     else throw new Error("Unexpected code Length!")
-    # olog { hashedPw }
+    olog { hashedPw }
 
     return {username, hashedPw, isMedic, rememberMe}
 

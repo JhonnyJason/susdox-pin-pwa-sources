@@ -28,7 +28,7 @@ export modulesToDebug = {
     # uistatemodule: true
     # usermodalmodule: true
     # usernamedisplaymodule: true
-    # utilmodule: true
+    utilmodule: true
 
 }
     
