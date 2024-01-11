@@ -1,8 +1,8 @@
 ############################################################
 #region debug
-# import { createLogFunctions, debugOn } from "thingy-debug"
-# {log, olog} = createLogFunctions("argon2worker")
-# debugOn("argon2worker")
+import { createLogFunctions, debugOn } from "thingy-debug"
+{log, olog} = createLogFunctions("argon2worker")
+debugOn("argon2worker")
 #endregion
 
 import libsodium from "libsodium-wrappers-sumo"
@@ -19,7 +19,8 @@ initialize = ->
 calculateArgon2 = (pin,birthdate) ->
     # log "calculateArgon2"
     salt = birthdate + "SUSDOX"
-
+    
+    # olog {pin, salt}
     hash = sodium.crypto_pwhash(
         32,        # Output size in bytes
         pin,       # Will be converted to a UTF-8 Uint8Array by sodium.js
