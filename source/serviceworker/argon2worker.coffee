@@ -19,7 +19,6 @@ initialize = ->
 calculateArgon2 = (pin,birthdate) ->
     # log "calculateArgon2"
     salt = birthdate + "SUSDOX"
-    
     # olog {pin, salt}
     hash = sodium.crypto_pwhash(
         32,        # Output size in bytes
