@@ -80,12 +80,22 @@ export getAccountsInfo = ->
     return { activeAccount, allAccounts, accountValidity }
 
 ############################################################
+findExistingAccount = (credentials) ->
+    log "findExistingAccount"
+    newCredString = JSON.stringify(credentials)
+    for account,index in allAccounts
+        credString = JSON.stringify(account.userCredentials)
+        if credString == newCredString then return index 
+    return null
 
 ############################################################
 export addNewAccount = (credentials) ->
     log "addNewAccount"
     name = credentials.name
     if name? then delete credentials["name"]
+
+    accountIndex = findExistingAccount(credentials)
+    if accountIndex? then return accountIndex
 
     accountIndex = allAccounts.length
     accountObj = {}

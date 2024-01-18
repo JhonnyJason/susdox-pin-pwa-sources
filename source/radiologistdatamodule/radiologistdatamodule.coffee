@@ -133,6 +133,7 @@ export loadData = ->
 ############################################################
 export setSustSolLogo = ->
     log "setSustSolLogo"
+    if allImages.length == 0 then return
     if imageIndex == (allImages.length - 1) then return
     if cubeModule.isInTransition() then return
 

@@ -22,7 +22,7 @@ import * as codeDisplay from "./codedisplaymodule.js"
 import * as usernameDisplay from "./usernamedisplaymodule.js"
 import * as menuModule from "./menumodule.js"
 
-import * as radiologistImages from "./radiologistdatamodule.js"
+import * as radiologistData from "./radiologistdatamodule.js"
 
 ############################################################
 import * as verificationModal from "./codeverificationmodal.js"
@@ -261,7 +261,7 @@ export triggerAccountLoginCheck = ->
 export triggerHome = ->
     log "triggerHome"
     navState = S.get("navState")
-    if navState.depth == 0 then radiologistImages.setSustSolLogo()
+    if navState.depth == 0 then radiologistData.setSustSolLogo()
     else await nav.backToRoot()
     return
 
