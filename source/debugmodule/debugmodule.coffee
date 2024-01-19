@@ -20,7 +20,7 @@ export modulesToDebug = {
     # menumodule: true
     # modalcore: true
     # navmodule: true 
-    radiologistdatamodule: true
+    # radiologistdatamodule: true
     # scimodule: true
     # screeningslistmodule: true
     # scrollrolldatepickermodule: true
