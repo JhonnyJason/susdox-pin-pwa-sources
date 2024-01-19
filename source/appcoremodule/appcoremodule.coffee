@@ -297,8 +297,9 @@ export triggerAccept = ->
             # we just updated an account - switch credentials and save
             accountToUpdate.userCredentials = credentials
             account.saveAllAccounts()
-            await nav.unmodify()
-    
+            # await nav.unmodify()
+        await nav.backToRoot()
+        
     catch err
         log err
         credentialsFrame.errorFeedback(err)    
