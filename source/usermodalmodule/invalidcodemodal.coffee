@@ -65,7 +65,8 @@ export turnUpModal = (reason) ->
 
     accountObj = account.getAccountObject()
     cObj = {}
-    if accountObj.label == "" then cObj.label = unnamedText
+    if accountObj.label == "" and accountObj.name? then cObj.label = accountObj.name  
+    else if accountObj.label == "" then cObj.label = unnamedText
     else cObj.label = accountObj.label
 
     messageElement.innerHTML = M.render(messageTemplate, cObj)
