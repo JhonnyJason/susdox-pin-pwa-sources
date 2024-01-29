@@ -135,37 +135,11 @@ export accountIsValid = (index) ->
     if !index? then index = activeAccount
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
 
-    if typeof accountValidity[index] == "boolean" 
+    if typeof accountValidity[index] == "boolean"
         return accountValidity[index]
-    
-    # account is valid when loginRequest succeeds
-    try
-        credentials = allAccounts[index].userCredentials
-        loginBody = await utl.loginRequestBody(credentials)
-        response = await sci.loginRequest(loginBody)
 
-        log "LoginRequest was successful!"
-        log typeof response
-        if typeof response == "object" then olog response
-        else log response
-        
-        # log "throwing Fake auth Error!"
-        # throw new AuthenticationError("Fake auth Error!")
-
-        if typeof response == "object" and response.name? 
-            allAccounts[index].name = response.name
-            S.save("allAccounts")
-
-        accountValidity[index] = true
-    catch err
-        log "Error on accountIsValid: #{err.message}"
-        # only on auth error, we know it is invalid
-        # for any non-auth error we act as if it was valid
-        if err instanceof AuthenticationError 
-            accountValidity[index] = false
-            return false
-
-    return true
+    throw new Error("Account validity has not been set yet!")
+    return
 
 export deleteAccount = (index) ->
     log "deleteAccount"
@@ -234,9 +208,11 @@ export updateData = (index) ->
         
         credentials = await utl.hashedCredentials(credentials)
         newData = await sci.getRadiologistsData(credentials) 
+        accountValidity[index] = true
+
         olog { newData }
         
-        for key,value of newData ## TODO figure out the right way to retrieve the data
+        for key,value of newData
             olog { key, value }
             allImages.add(value[0])
             allAddresses.add(value[1])
@@ -246,6 +222,15 @@ export updateData = (index) ->
         accountObj.radiologistImages = [...allImages]
         accountObj.radiologistAddresses = [...allAddresses]
         S.save("allAccounts")
-    catch err then log "Error on updateData: #{err.message}"
+
+    catch err
+        log "Error on updateData: #{err.message}"
+        # only on auth error, we know it is invalid
+        # for any non-auth error we act as if it was valid
+        if err instanceof AuthenticationError 
+            accountValidity[index] = false
+        else 
+            accountValidity[index] = true
+
     return
 

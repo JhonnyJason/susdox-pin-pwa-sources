@@ -125,7 +125,7 @@ navStateChanged = ->
 activeAccountChanged = ->
     log "activeAccountChanged"
     await checkAccountAvailability()
-    if accountAvailable then await triggerAccountLoginCheck()
+    if accountAvailable then await prepareAccount()
     else # last account has been deleted
         setAppState("no-code","none")
         deleteImageCache()
@@ -140,7 +140,7 @@ activeAccountChanged = ->
 startUp = ->
     log "startUp"    
     await checkAccountAvailability()
-    if accountAvailable then await triggerAccountLoginCheck()
+    if accountAvailable then await prepareAccount()
 
     updateUIData()
     startUpProcessed = true
@@ -245,13 +245,14 @@ export triggerURLCodeDetected = (code) ->
     return
 
 ############################################################
-export triggerAccountLoginCheck = ->
-    log "triggerAccountLoginCheck"
+export prepareAccount = ->
+    log "prepareAccount"
     setAppState("pre-user-images", "none")
 
     try
-        valid = await account.accountIsValid()
-        if valid then await account.updateData()
+        await account.updateData()
+        # valid = await account.accountIsValid()
+        # if valid then await account.updateData()
     catch err then log err
     
     setAppState("user-images", "none")
