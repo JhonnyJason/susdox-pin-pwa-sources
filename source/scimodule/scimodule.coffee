@@ -17,9 +17,11 @@ import {
 postData = (url, data) ->
     method = "POST"
     mode = 'cors'
-    # redirect =  'follow'
     credentials = 'include'
     
+    ## this most probably is not needed but to make the request exactly the same as  the login request...
+    redirect = 'manual'
+
     # json body
     headers = { 'Content-Type': 'application/json' }
     body = JSON.stringify(data)
@@ -33,7 +35,7 @@ postData = (url, data) ->
     # options = { method, mode, redirect, credentials, headers, body }
     options = { method, mode, credentials, headers, body }
 
-    try 
+    try
         response = await fetch(url, options)
         if response.ok then return await response.json()
         
