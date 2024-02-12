@@ -19,8 +19,6 @@ postData = (url, data) ->
     mode = 'cors'
     credentials = 'include'
 
-    ## this most probably is not needed but to make the request exactly the same as  the login request...
-    redirect = 'manual'
 
     # json body
     headers = { 'Content-Type': 'application/json' }
@@ -32,11 +30,15 @@ postData = (url, data) ->
     # formData.append(lbl, d) for lbl,d of data
     # body = formData.toString()
 
-    # options = { method, mode, redirect, credentials, headers, body }
     options = { method, mode, credentials, headers, body }
+
+    ## this most probably is not needed but to make the request exactly the same as  the login request...
+    redirect = 'manual'
+    options = { method, mode, redirect, credentials, headers, body }
 
     try
         response = await fetch(url, options)
+        console.log(response.status)
         
         if response.ok then return await response.json()
         
