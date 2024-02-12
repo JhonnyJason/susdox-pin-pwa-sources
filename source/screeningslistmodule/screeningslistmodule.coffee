@@ -86,6 +86,9 @@ export updateScreenings = ->
             return
         if err instanceof NetworkError
             screeningslist.innerHTML = networkErrorScreeningsTemplate
+            ## TODO remove only for fixing the iOS bug
+            errorDetailsHTML = "<div class='screenings-error'>#{err.message}</div>"
+            screeningslist.innerHTML = errorDetailsHTML
             return
         screeningslist.innerHTML = miscErrorScreeningsTemplate
     finally screeningsContainer.classList.remove("preload")

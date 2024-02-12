@@ -43,7 +43,7 @@ postData = (url, data) ->
 
     catch err
         if err.status == 401 then throw new AuthenticationError(err.message)
-        throw new NetworkError(err.message)
+        throw new NetworkError("#{err.message}. Code: #{err.status}")
     return
 
 ############################################################
@@ -68,7 +68,7 @@ getData = (url, data) ->
         throw error
     catch err
         if err.status == 401 then throw new AuthenticationError(err.message)
-        throw new NetworkError(err.message)
+        throw new NetworkError("#{err.message}. Code: #{err.status}")
         # baseMsg = "Error! GET API request could not receive a JSON response!"
         
         # try 
@@ -103,31 +103,6 @@ export getScreenings = (credentials) ->
     return postData(screeningsEndpointURL, credentials)
 
 ############################################################
-export loginWithRedirect = (body) ->
-    log "loginWithRedirect"
-    method = "POST"
-    mode = 'cors'
-    redirect =  'follow'
-    credentials = 'include'
-    
-    headers = { 'Content-Type': 'application/json' }
-    body = JSON.stringify(body)
-
-    fetchOptions = { method, mode, redirect, credentials, headers, body }
-
-    try 
-        response = await fetch(loginURL, fetchOptions)
-        if response.ok then return await response.text()
-        
-        error = new Error("#{await response.text()}")
-        error.status = response.status
-        throw error
-    catch err
-        if err.status == 401 then throw new AuthenticationError(err.message)
-        throw new NetworkError(err.message)
-    return
-
-############################################################
 export loginRequest = (body) ->
     method = "POST"
     mode = 'cors'
@@ -153,11 +128,39 @@ export loginRequest = (body) ->
         throw error
     catch err
         if err.status == 401 then throw new AuthenticationError(err.message)
-        throw new NetworkError(err.message)
+        throw new NetworkError("#{err.message}. Code: #{err.status}")
     return
 
 ############################################################
 #region deprecated Code
+
+############################################################
+export loginWithRedirect = (body) ->
+    log "loginWithRedirect"
+    method = "POST"
+    mode = 'cors'
+    redirect =  'follow'
+    credentials = 'include'
+    
+    headers = { 'Content-Type': 'application/json' }
+    body = JSON.stringify(body)
+
+    fetchOptions = { method, mode, redirect, credentials, headers, body }
+
+    try 
+        response = await fetch(loginURL, fetchOptions)
+        if response.ok then return await response.text()
+        
+        error = new Error("#{await response.text()}")
+        error.status = response.status
+        throw error
+    catch err
+        if err.status == 401 then throw new AuthenticationError(err.message)
+        throw new NetworkError("#{err.message}. Code: #{err.status}")
+    return
+
+
+
 # ############################################################
 # export getCredentials = (token, dateOfBirth) ->
 #     log "getCredentials"
