@@ -33,7 +33,7 @@ postData = (url, data) ->
     options = { method, mode, credentials, headers, body }
 
     ## test
-    options = { method, mode, headers, body }
+    options = { method, headers, body }
 
     try
         console.log(url)
