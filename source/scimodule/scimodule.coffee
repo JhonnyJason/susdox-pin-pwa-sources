@@ -32,9 +32,8 @@ postData = (url, data) ->
 
     options = { method, mode, credentials, headers, body }
 
-    ## this most probably is not needed but to make the request exactly the same as  the login request...
-    redirect = 'manual'
-    options = { method, mode, redirect, credentials, headers, body }
+    ## test
+    options = { method, mode, headers, body }
 
     try
         console.log(url)

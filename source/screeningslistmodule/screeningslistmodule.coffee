@@ -91,6 +91,9 @@ export updateScreenings = ->
             screeningslist.innerHTML = errorDetailsHTML
             return
         screeningslist.innerHTML = miscErrorScreeningsTemplate
+        ## TODO remove only for fixing the iOS bug
+        errorDetailsHTML = "<div class='screenings-error'>#{err.message}</div>"
+        screeningslist.innerHTML = errorDetailsHTML
     finally screeningsContainer.classList.remove("preload")
     return
 
