@@ -18,7 +18,7 @@ postData = (url, data) ->
     method = "POST"
     mode = 'cors'
     credentials = 'include'
-    
+
     ## this most probably is not needed but to make the request exactly the same as  the login request...
     redirect = 'manual'
 
@@ -37,6 +37,7 @@ postData = (url, data) ->
 
     try
         response = await fetch(url, options)
+        
         if response.ok then return await response.json()
         
         error = new Error("#{await response.text()}")
