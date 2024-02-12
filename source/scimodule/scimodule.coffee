@@ -37,9 +37,10 @@ postData = (url, data) ->
     options = { method, mode, redirect, credentials, headers, body }
 
     try
+        console.log(url)
         response = await fetch(url, options)
         console.log(response.status)
-        
+
         if response.ok then return await response.json()
         
         error = new Error("#{await response.text()}")
@@ -123,7 +124,9 @@ export loginRequest = (body) ->
 
     olog fetchOptions
     try 
+        console.log(loginURL)
         response = await fetch(loginURL, fetchOptions)
+        console.log(response.status)
         # if response.ok then return await response.text()
         ## TODO: use json from response
         if response.ok then return await response.json()
