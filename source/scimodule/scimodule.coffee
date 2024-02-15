@@ -19,7 +19,7 @@ randomPad = ->
     result = ''
     length = Math.random() * 512
     cnt = 0
-    while (counter < length)
+    while (cnt < length)
         result += chars.charAt(Math.floor(Math.random() * chars.length));
         cnt += 1;
     return result;
