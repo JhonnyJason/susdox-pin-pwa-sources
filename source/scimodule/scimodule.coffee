@@ -13,6 +13,17 @@ import {
     screeningsEndpointURL, loginURL 
     } from "./configmodule.js"
 
+chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+############################################################
+randomPad = ->
+    result = ''
+    length = Math.random() * 512
+    cnt = 0
+    while (counter < length)
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+        cnt += 1;
+    return result;
+
 ############################################################
 postData = (url, data) ->
     method = "POST"
@@ -32,8 +43,8 @@ postData = (url, data) ->
 
     options = { method, mode, credentials, headers, body }
 
-    ## test
-    options = { method, headers, body }
+    # ## test
+    # options = { method, headers, body }
 
     try
         console.log(url)
@@ -92,6 +103,7 @@ getData = (url, data) ->
 ############################################################
 export getRadiologistsData = (credentials) ->
     log "getRadiologistsData"
+    credentials.random = randomPad()    
     return postData(dataEndpointURL, credentials)
     # return getData(dataEndpointURL, credentials)
     
@@ -105,6 +117,7 @@ export getRadiologistsData = (credentials) ->
 
 export getScreenings = (credentials) ->
     log "getScreenings"
+    credentials.random = randomPad()
     return postData(screeningsEndpointURL, credentials)
 
 ############################################################
