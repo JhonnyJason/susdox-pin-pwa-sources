@@ -44,7 +44,7 @@ postData = (url, data) ->
     options = { method, mode, credentials, headers, body }
 
     # ## test
-    # options = { method, headers, body }
+    options = { method, mode, headers, body }
 
     try
         console.log(url)
