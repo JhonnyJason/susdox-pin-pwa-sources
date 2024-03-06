@@ -134,6 +134,8 @@ export loginRequest = (body) ->
     
     fetchOptions = { method, mode, redirect, credentials, headers, body }
 
+    # fetchOptions = { method, mode, redirect, credentials, headers, body }
+
     olog fetchOptions
     try 
         console.log(loginURL)
