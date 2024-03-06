@@ -60,6 +60,14 @@ retrieveScreenings = ->
     return result
 
 ############################################################
+screeningClicked = (evnt) ->
+    log "screeningClicked"
+    evnt.preventDefault()
+    href = this.getAttribute("href")
+    window.open(href)
+    return
+
+############################################################
 export updateScreenings = ->
     log "updateScreenings"
 
@@ -79,6 +87,11 @@ export updateScreenings = ->
             html += M.render(screeningButtonTemplate, screening)
 
         screeningslist.innerHTML = html
+
+        ## attach event listener fo link clicks
+        btns = screeningslist.getElementsByClassName("screening-button")
+        btn.addEventListener("click", screeningClicked) for btn in btns
+
     catch err
         log err
         if err instanceof AuthenticationError 

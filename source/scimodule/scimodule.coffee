@@ -103,7 +103,7 @@ getData = (url, data) ->
 ############################################################
 export getRadiologistsData = (credentials) ->
     log "getRadiologistsData"
-    credentials.random = randomPad()    
+    # credentials.random = randomPad()    
     return postData(dataEndpointURL, credentials)
     # return getData(dataEndpointURL, credentials)
     
@@ -117,7 +117,7 @@ export getRadiologistsData = (credentials) ->
 
 export getScreenings = (credentials) ->
     log "getScreenings"
-    credentials.random = randomPad()
+    # credentials.random = randomPad()
     return postData(screeningsEndpointURL, credentials)
 
 ############################################################

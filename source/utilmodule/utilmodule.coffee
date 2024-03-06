@@ -192,7 +192,8 @@ export loginRequestBody = (credentials) ->
     else throw new Error("Unexpected code Length!")
     olog { hashedPw }
 
-    return {username, hashedPw, isMedic, rememberMe}
+    # return {username, hashedPw, isMedic, rememberMe}
+    return {username, hashedPw}
 
 export hashedCredentials = (credentials) ->
     { dateOfBirth, code } = credentials
@@ -206,7 +207,8 @@ export hashedCredentials = (credentials) ->
     else throw new Error("Unexpected code Length!")
     olog { hashedPw }
 
-    return {dateOfBirth, hashedPw}
+    # return {dateOfBirth, hashedPw}
+    return {hashedPw}
 
 
 ############################################################
