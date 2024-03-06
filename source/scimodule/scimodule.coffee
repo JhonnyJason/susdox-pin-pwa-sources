@@ -28,6 +28,7 @@ randomPad = ->
 postData = (url, data) ->
     method = "POST"
     mode = 'cors'
+    redirect =  'manual'
     credentials = 'include'
 
 
@@ -44,7 +45,7 @@ postData = (url, data) ->
     options = { method, mode, credentials, headers, body }
 
     # ## test
-    options = { method, mode, headers, body }
+    options = { method, mode, redirect, credentials, headers, body }
 
     try
         console.log(url)

@@ -208,7 +208,7 @@ export hashedCredentials = (credentials) ->
     olog { hashedPw }
 
     # return {dateOfBirth, hashedPw}
-    return {hashedPw}
+    return {username, hashedPw}
 
 
 ############################################################
