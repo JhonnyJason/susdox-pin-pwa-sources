@@ -41,11 +41,14 @@ postData = (url, data) ->
     # formData = new URLSearchParams()
     # formData.append(lbl, d) for lbl,d of data
     # body = formData.toString()
-    
+
     # options = { method, mode, credentials, headers, body }
 
     # ## test
     options = { method, mode, redirect, credentials, headers, body }
+    
+    log "postData"
+    olog options
 
     try
         console.log(url)
@@ -144,7 +147,9 @@ export loginRequest = (body) ->
 
     # fetchOptions = { method, mode, redirect, credentials, headers, body }
 
+    log "loginRequest"
     olog fetchOptions
+    
     try 
         console.log(loginURL)
         response = await fetch(loginURL, fetchOptions)
