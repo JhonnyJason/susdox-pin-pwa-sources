@@ -53,11 +53,11 @@ export initialize = ->
 retrieveScreenings = ->
     log "retrieveScreenings"
     credentials = account.getUserCredentials()
-    credentials = await utl.hashedCredentials(credentials)
-    screeningsObj = await sci.getScreenings(credentials)
-    # body = await utl.loginRequestBody(credentials)
-    # resp = await sci.loginRequest(body)
-    # screeningsObj = {}
+    # credentials = await utl.hashedCredentials(credentials)
+    # screeningsObj = await sci.getScreenings(credentials)
+    body = await utl.loginRequestBody(credentials)
+    resp = await sci.loginRequest(body)
+    screeningsObj = {}
     result = []
     result.push obj for label,obj of screeningsObj
     return result
