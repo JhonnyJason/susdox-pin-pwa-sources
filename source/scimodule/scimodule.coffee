@@ -104,7 +104,11 @@ getData = (url, data) ->
 export getRadiologistsData = (credentials) ->
     log "getRadiologistsData"
     # credentials.random = randomPad()    
-    return postData(dataEndpointURL, credentials)
+    
+    # return postData(dataEndpointURL, credentials)
+    credentials.endpoint = "data"
+    return postData(loginURL, credentials)
+
     # return getData(dataEndpointURL, credentials)
     
     # try await postData(dataEndpointURL, { uuid })
@@ -118,7 +122,9 @@ export getRadiologistsData = (credentials) ->
 export getScreenings = (credentials) ->
     log "getScreenings"
     # credentials.random = randomPad()
-    return postData(screeningsEndpointURL, credentials)
+    # return postData(screeningsEndpointURL, credentials)
+    credentials.endpoint = "studies"
+    return postData(loginURL, credentials)
 
 ############################################################
 export loginRequest = (body) ->
