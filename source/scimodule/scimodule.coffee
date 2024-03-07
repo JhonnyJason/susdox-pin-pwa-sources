@@ -48,6 +48,7 @@ postData = (url, data) ->
     options = { method, mode, redirect, credentials, headers, body }
     
     log "postData"
+    olog body
     olog options
 
     try
@@ -107,6 +108,7 @@ getData = (url, data) ->
 ############################################################
 export getRadiologistsData = (credentials) ->
     log "getRadiologistsData"
+    olog credentials
     # credentials.random = randomPad()    
     
     # return postData(dataEndpointURL, credentials)
@@ -125,6 +127,7 @@ export getRadiologistsData = (credentials) ->
 
 export getScreenings = (credentials) ->
     log "getScreenings"
+    olog credentials
     # credentials.random = randomPad()
     # return postData(screeningsEndpointURL, credentials)
     credentials.endpoint = "studies"
@@ -148,8 +151,9 @@ export loginRequest = (body) ->
     # fetchOptions = { method, mode, redirect, credentials, headers, body }
 
     log "loginRequest"
+    olog body
     olog fetchOptions
-    
+
     try 
         console.log(loginURL)
         response = await fetch(loginURL, fetchOptions)
