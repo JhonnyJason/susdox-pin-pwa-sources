@@ -41,7 +41,6 @@ postData = (url, data) ->
     # formData = new URLSearchParams()
     # formData.append(lbl, d) for lbl,d of data
     # body = formData.toString()
-
     options = { method, mode, credentials, headers, body }
 
     # ## test

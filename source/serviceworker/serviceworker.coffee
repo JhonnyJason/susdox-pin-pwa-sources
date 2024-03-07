@@ -69,7 +69,7 @@ onRegister = ->
 
     # ## prod-c log "postRegister: found #{clients.length} clients!"
     return
-
++
 ############################################################
 #region Event Handlers
 activateEventHandler = (evnt) ->
