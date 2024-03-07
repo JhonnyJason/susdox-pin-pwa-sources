@@ -48,7 +48,7 @@ postData = (url, data) ->
     options = { method, mode, redirect, credentials, headers, body }
     
     log "postData"
-    # olog body
+    olog body
     olog options
 
     try
