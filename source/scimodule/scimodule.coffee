@@ -47,9 +47,9 @@ postData = (url, data) ->
     # ## test
     options = { method, mode, redirect, credentials, headers, body }
     
-    log "postData"
-    olog body
-    olog options
+    # log "postData"
+    # olog body
+    # olog options
 
     try
         console.log(url)
@@ -150,9 +150,9 @@ export loginRequest = (body) ->
 
     # fetchOptions = { method, mode, redirect, credentials, headers, body }
 
-    log "loginRequest"
-    olog body
-    olog fetchOptions
+    # log "loginRequest"
+    # olog body
+    # olog fetchOptions
 
     try 
         console.log(loginURL)
