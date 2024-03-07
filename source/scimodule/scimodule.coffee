@@ -41,7 +41,8 @@ postData = (url, data) ->
     # formData = new URLSearchParams()
     # formData.append(lbl, d) for lbl,d of data
     # body = formData.toString()
-    options = { method, mode, credentials, headers, body }
+    
+    # options = { method, mode, credentials, headers, body }
 
     # ## test
     options = { method, mode, redirect, credentials, headers, body }
@@ -107,7 +108,7 @@ export getRadiologistsData = (credentials) ->
     
     # return postData(dataEndpointURL, credentials)
     credentials.endpoint = "data"
-    return postData(loginURL, credentials)
+    return await postData(loginURL, credentials)
 
     # return getData(dataEndpointURL, credentials)
     
@@ -124,7 +125,7 @@ export getScreenings = (credentials) ->
     # credentials.random = randomPad()
     # return postData(screeningsEndpointURL, credentials)
     credentials.endpoint = "studies"
-    return postData(loginURL, credentials)
+    return await postData(loginURL, credentials)
 
 ############################################################
 export loginRequest = (body) ->
@@ -136,6 +137,7 @@ export loginRequest = (body) ->
     
     # json body
     headers = { 'Content-Type': 'application/json' }
+    body.endpoint = "credentials"
     body = JSON.stringify(body)
     
     fetchOptions = { method, mode, redirect, credentials, headers, body }
