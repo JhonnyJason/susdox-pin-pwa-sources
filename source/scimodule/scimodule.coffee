@@ -47,9 +47,9 @@ postData = (url, data) ->
     # ## test
     options = { method, mode, redirect, credentials, headers, body }
     
-    log "postData"
+    # log "postData"
     olog body
-    olog options
+    # olog options
 
     try
         console.log(url)
@@ -111,9 +111,9 @@ export getRadiologistsData = (credentials) ->
     # olog credentials
     # credentials.random = randomPad()    
     
-    # return postData(dataEndpointURL, credentials)
-    credentials.endpoint = "data"
-    return await postData(loginURL, credentials)
+    return postData(dataEndpointURL, credentials)
+    # credentials.endpoint = "data"
+    # return await postData(loginURL, credentials)
 
     # return getData(dataEndpointURL, credentials)
     
@@ -129,9 +129,9 @@ export getScreenings = (credentials) ->
     log "getScreenings"
     # olog credentials
     # credentials.random = randomPad()
-    # return postData(screeningsEndpointURL, credentials)
-    credentials.endpoint = "studies"
-    return await postData(loginURL, credentials)
+    return postData(screeningsEndpointURL, credentials)
+    # credentials.endpoint = "studies"
+    # return await postData(loginURL, credentials)
 
 ############################################################
 export loginRequest = (body) ->
@@ -143,16 +143,16 @@ export loginRequest = (body) ->
     
     # json body
     headers = { 'Content-Type': 'application/json' }
-    body.endpoint = "credentials"
+    # body.endpoint = "credentials"
     body = JSON.stringify(body)
     
     fetchOptions = { method, mode, redirect, credentials, headers, body }
 
     # fetchOptions = { method, mode, redirect, credentials, headers, body }
 
-    log "loginRequest"
-    # olog body
-    olog fetchOptions
+    # log "loginRequest"
+    olog body
+    # olog fetchOptions
 
     try 
         console.log(loginURL)
