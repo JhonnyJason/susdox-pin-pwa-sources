@@ -111,7 +111,7 @@ export getRadiologistsData = (credentials) ->
     # olog credentials
     # credentials.random = randomPad()    
     
-    return postData(dataEndpointURL, credentials)
+    return await postData(dataEndpointURL, credentials)
     # credentials.endpoint = "data"
     # return await postData(loginURL, credentials)
 
@@ -129,7 +129,7 @@ export getScreenings = (credentials) ->
     log "getScreenings"
     # olog credentials
     # credentials.random = randomPad()
-    return postData(screeningsEndpointURL, credentials)
+    return await postData(screeningsEndpointURL, credentials)
     # credentials.endpoint = "studies"
     # return await postData(loginURL, credentials)
 
