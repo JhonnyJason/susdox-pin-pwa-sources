@@ -28,8 +28,9 @@ export modulesToDebug = {
     # uistatemodule: true
     # usermodalmodule: true
     # usernamedisplaymodule: true
-    # utilmodule: true
+    utilmodule: true
 
+#5925246f6da38edaf7975206b04dbf9af4841f8fb01123c898939236c397e394
 }
     
 
