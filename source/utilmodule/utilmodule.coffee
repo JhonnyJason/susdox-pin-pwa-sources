@@ -207,8 +207,8 @@ export hashedCredentials = (credentials) ->
     else throw new Error("Unexpected code Length!")
     olog { hashedPw, username, dateOfBirth }
 
-    return {dateOfBirth, hashedPw}
-    # return {username, hashedPw}
+    # return {dateOfBirth, hashedPw}
+    return {username, hashedPw}
 
 
 ############################################################
