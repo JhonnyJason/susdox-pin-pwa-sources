@@ -28,8 +28,8 @@ randomPad = ->
 postData = (url, data) ->
     method = "POST"
     mode = 'cors'
-    redirect =  'manual'
-    credentials = 'include'
+    # redirect =  'manual'
+    # credentials = 'include'
 
 
     # json body
@@ -45,8 +45,9 @@ postData = (url, data) ->
     # options = { method, mode, credentials, headers, body }
 
     # ## test
-    options = { method, mode, redirect, credentials, headers, body }
-    
+    # options = { method, mode, redirect, credentials, headers, body }
+    options = { method, mode, headers, body }
+
     log "postData"
     olog body
     olog options
@@ -137,8 +138,8 @@ export getScreenings = (credentials) ->
 export loginRequest = (body) ->
     method = "POST"
     mode = 'cors'
-    redirect =  'manual'
-    credentials = 'include'
+    # redirect =  'manual'
+    # credentials = 'include'
     # credentials = 'omit'
     
     # json body
@@ -146,9 +147,9 @@ export loginRequest = (body) ->
     # body.endpoint = "credentials"
     body = JSON.stringify(body)
     
-    fetchOptions = { method, mode, redirect, credentials, headers, body }
-
     # fetchOptions = { method, mode, redirect, credentials, headers, body }
+
+    fetchOptions = { method, mode, headers, body }
 
     log "loginRequest"
     olog body
