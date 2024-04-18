@@ -86,6 +86,54 @@ menu-icon-size = 25px
         margin-left: 0
         display: block
 
+
+#menu-bottom-group
+    position absolute
+    bottom 20px
+    padding 0 10px
+    left 0
+
+
+#menu-pwa-install-button:hover
+    background-color alpha(cd-darkblue, 0.6)
+
+#menu-pwa-install-button
+    border-radius 3px
+    display none
+    background-color cd-darkblue
+    color #fff
+    @extends .click-button
+
+    .top
+        padding 8px 15px 
+        display flex
+        align-items: center
+
+
+    #pwa-install-icon
+        width: menu-icon-size
+        height: menu-icon-size
+
+    #pwa-install-label
+        line-height: 150%
+        font-size: 20px
+        margin-left 15px
+        // funny specific issue here...
+        position relative
+        top 1px
+
+    #pwa-install-subtext
+        padding 0 20px 10px 20px
+        font-size: 12pt
+        color #e0e0e0
 .menu-on
     #menu
         transform translateX(0)
+
+.installable
+    #menu-pwa-install-button
+        display block
+    
+// @media all and (display-mode: standalone)
+//     #menu
+//         background-color: black

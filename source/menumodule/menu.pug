@@ -28,3 +28,10 @@ nav#menu.no-user
             //- #to-version-icon.menu-icon: svg: use(href="#svg-chevron-right-icon")
             #to-version-icon.menu-icon: svg: use(href="#svg-arrow-right-icon")
             #new-version.menu-label v0.1.y
+    //- .menu-group
+    #menu-bottom-group
+        a#menu-pwa-install-button
+            .top 
+                #pwa-install-icon: svg: use(href="#svg-phone-download-icon")
+                #pwa-install-label=content.menuPWAInstallLabel
+            #pwa-install-subtext=content.menuPWAInstallSubtext

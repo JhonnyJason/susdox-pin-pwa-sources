@@ -8,10 +8,12 @@ import * as credentialsframemodule from "./credentialsframemodule.js"
 import * as cubemodule from "./cubemodule.js"
 import * as debugmodule from "./debugmodule.js"
 import * as errormodule from "./errormodule.js"
+import * as footermodule from "./footermodule.js"
 import * as headermodule from "./headermodule.js"
 import * as mainbuttonmodule from "./mainbuttonmodule.js"
 import * as menumodule from "./menumodule.js"
 import * as navmodule from "./navmodule.js"
+import * as pwainstallmodule from "./pwainstallmodule.js"
 import * as radiologistdatamodule from "./radiologistdatamodule.js"
 import * as scimodule from "./scimodule.js"
 import * as screeningslistmodule from "./screeningslistmodule.js"
@@ -33,10 +35,12 @@ Modules = {
     cubemodule,
     debugmodule,
     errormodule,
+    footermodule,
     headermodule,
     mainbuttonmodule,
     menumodule,
     navmodule,
+    pwainstallmodule,
     radiologistdatamodule,
     scimodule,
     screeningslistmodule,

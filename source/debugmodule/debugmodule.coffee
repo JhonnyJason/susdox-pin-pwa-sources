@@ -5,6 +5,7 @@ export modulesToDebug = {
 
     # accountmodule: true
     # appcoremodule: true
+    pwainstallmodule: true
     # centerlinkmodule: true
     # configmodule: true
     # codedisplaymodule: true
@@ -29,7 +30,6 @@ export modulesToDebug = {
     # usermodalmodule: true
     # usernamedisplaymodule: true
     # utilmodule: true
-
 
 }
     
