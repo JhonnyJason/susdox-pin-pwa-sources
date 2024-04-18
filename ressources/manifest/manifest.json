@@ -33,5 +33,9 @@
     "personalization",
     "security",
     "utilities"
-  ]
+  ],
+  "related_applications": [{
+    "platform": "webapp",
+    "url": "https://pin-pwa-dev.bilder-befunde.at/manifest.json"
+  }]
 }
