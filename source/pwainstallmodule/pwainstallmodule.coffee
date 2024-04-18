@@ -37,9 +37,10 @@ export initialize = ->
     pwainstallHowtoBackground.addEventListener("click", howtoBackgroundClicked)
     window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt)
     window.addEventListener("appinstalled", onAppInstalled)
+
     window.matchMedia('(display-mode: standalone)').addEventListener("change",onDisplayModeChange)
     
-    checkDisplayMode()
+    checkAppInstallation()
     checkIfInstalled()
     checkEnvironment()
     decideOnHowTo()
@@ -47,7 +48,23 @@ export initialize = ->
     setTimeout(showButtonManually, 5000)
 
     olog {env, howToToShow}
+    
+    showDebugInfo()
     return
+
+############################################################
+showDebugInfo = ->
+    str1 = JSON.stringify(env, null, 4)
+    str2 = "howToToShow: #{howToToShow}"
+    str3 = window.navigator.userAgent.toLowerCase()
+    html = """
+    <p>#{str1}</p>
+    <p>#{str2}</p>
+    <p>#{str3}</p>
+    """
+    document.getElementById("pwainstall-debug").innerHTML = html
+    return 
+
 
 ############################################################
 onBeforeInstallPrompt = (e) ->
@@ -87,12 +104,17 @@ howtoBackgroundClicked = (evnt) ->
     return
 
 ############################################################
-checkDisplayMode = ->
-    log "checkDisplayMode"
-    isStandalone = window.matchMedia('(display-mode: standalone)').matches
+checkAppInstallation = ->
+    log "checkAppInstallation"
+    if window.matchMedia('(display-mode: standalone)').matches
+        env.inApp = true
+    if window.matchMedia('(installed: yes)').matches
+        env.inApp = true
+    
+    if document.referrer.startsWith('android-app://') 
+        env.inApp = true
 
-    if document.referrer.startsWith('android-app://') then env.inApp = true
-    if (navigator.standalone || isStandalone) then env.inApp = true
+    if navigator.standalone  then env.inApp = true
     return
 
 onDisplayModeChange = (evnt) ->
@@ -122,6 +144,7 @@ checkIfInstalled = ->
 checkEnvironment = ->
     log "checkEnvironment"
     userAgent = window.navigator.userAgent.toLowerCase()
+    log userAgent
 
     containsFirefox = userAgent.indexOf("firefox") > -1 
     containsSafari = userAgent.indexOf("safari") > -1
