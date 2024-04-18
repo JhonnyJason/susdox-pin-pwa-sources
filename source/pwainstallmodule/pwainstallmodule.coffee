@@ -48,7 +48,7 @@ export initialize = ->
     setTimeout(showButtonManually, 5000)
 
     # howToToShow = "ios"
-    olog {env, howToToShow}
+    olog {env, howToToShow, appIsInstalled}
     
     # showDebugInfo()
     return
@@ -76,6 +76,7 @@ onBeforeInstallPrompt = (e) ->
     howToToShow = null
     deferredInstallPrompt = e
 
+    log "So adding Installbutton ;-)"
     menu.setInstallableOn()    
     return
 
@@ -143,6 +144,7 @@ checkIfInstalled = ->
         appIsInstalled = true   
     return
 
+############################################################
 checkEnvironment = ->
     log "checkEnvironment"
     userAgent = window.navigator.userAgent.toLowerCase()
@@ -228,8 +230,11 @@ showHowTo = ->
 ############################################################
 showButtonManually = ->
     log "showButtonManually"
+    log "appIsInstalled: #{appIsInstalled}"
     return if appIsInstalled
+    log "howToToShow: #{howToToShow}"
     return unless howToToShow?
+    log "So adding Installbutton ;-)"
     menu.setInstallableOn()
     return
 

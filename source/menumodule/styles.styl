@@ -133,7 +133,17 @@ menu-icon-size = 25px
 .installable
     #menu-pwa-install-button
         display block
-    
+
+
+@media (display-mode: standalone)
+    #menu-pwa-install-button
+        display none
+
+    .installable
+        #menu-pwa-install-button
+            display none
+
+
 // @media all and (display-mode: standalone)
 //     #menu
 //         background-color: black
