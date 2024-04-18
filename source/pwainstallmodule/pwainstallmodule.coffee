@@ -175,6 +175,16 @@ checkEnvironment = ->
 
 decideOnHowTo = ->
     log "decideOnHowTo"
+    
+    # TODO remove when we have more HowTos
+    if env.os == "ios"#for now we only show HowTos for ios
+        howToToShow = "ios"
+        return
+    else
+        howToToShow = null
+        return
+
+    ##The real code when we have all HowTos
     if env.os == "android" and env.browser == "firefox"
         howToToShow = "firefox-android"
         return
@@ -191,8 +201,6 @@ decideOnHowTo = ->
         howToToShow = "mac"
         return
 
-    # TODO remove when we have more HowTos
-    if howToToShow != "ios" then howToToShow = null
     return
 
 ############################################################
