@@ -218,6 +218,7 @@ showHowTo = ->
 ############################################################
 showButtonManually = ->
     log "showButtonManually"
+    return if appIsInstalled
     return unless howToToShow?
     menu.setInstallableOn()
     return
@@ -226,6 +227,7 @@ showButtonManually = ->
 ############################################################
 export promptForInstallation = ->
     log "promptForInstallation"
+    return if appIsInstalled
     if howToToShow? then return showHowTo()
     return unless deferredInstallPrompt?
 
