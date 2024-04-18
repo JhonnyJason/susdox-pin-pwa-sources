@@ -46,7 +46,6 @@ export initialize = ->
 
     setTimeout(showButtonManually, 5000)
 
-    howToToShow = "ios"
     olog {env, howToToShow}
     return
 
