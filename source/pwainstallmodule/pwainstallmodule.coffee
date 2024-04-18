@@ -149,6 +149,7 @@ checkEnvironment = ->
     containsFirefox = userAgent.indexOf("firefox") > -1 
     containsSafari = userAgent.indexOf("safari") > -1
     containsChrome = userAgent.indexOf("chrome") > -1
+    containsCRIOS = userAgent.indexOf("crios") > -1
     containsOPR = userAgent.indexOf("opr") > -1
     containsAndroid = userAgent.indexOf("android") > -1 
     containsMacintosh = userAgent.indexOf("macintosh") > -1
@@ -164,6 +165,7 @@ checkEnvironment = ->
     if containsFirefox then env.browser = "firefox"
     if containsOPR then env.browser = "opera"
     else if containsChrome and containsSafari then env.browser = "chrome"
+    else if containsCRIOS and containsSafari then env.browser = "chrome"
     else if containsSafari then env.browser = "safari"
     else env.browser = "other"
 
