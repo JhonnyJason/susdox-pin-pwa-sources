@@ -47,6 +47,7 @@ export initialize = ->
 
     setTimeout(showButtonManually, 5000)
 
+    # howToToShow = "ios"
     olog {env, howToToShow}
     
     # showDebugInfo()
@@ -70,6 +71,7 @@ showDebugInfo = ->
 onBeforeInstallPrompt = (e) ->
     log "beforeInstallPrompt"
     e.preventDefault()
+    # return
 
     howToToShow = null
     deferredInstallPrompt = e

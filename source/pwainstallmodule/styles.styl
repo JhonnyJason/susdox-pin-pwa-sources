@@ -43,7 +43,8 @@
     position relative
     bottom -20px
     margin-left auto
-    margin-right 100px
+    margin-right calc(80px + 3vw)
+
 
 .bottom-decoration
     position relative
@@ -97,6 +98,11 @@
     .bottom-decoration
         display block
 
+@media screen and (max-width: 1000px)
+    .top-decoration
+        margin-right 110px
+
+    // margin-right 110px
 
 // #pwainstall-debug 
 //     height 100%

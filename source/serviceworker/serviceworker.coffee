@@ -60,7 +60,7 @@ onRegister = ->
     self.addEventListener('activate', activateEventHandler)
     self.addEventListener('fetch', fetchEventHandler)
     self.addEventListener('install', installEventHandler)
-    # #end uncomment for production
+    # # #end uncomment for production
     self.addEventListener('message', messageEventHandler)
 
     # clients = await self.clients.matchAll({ includeUncontrolled: true })
@@ -69,7 +69,7 @@ onRegister = ->
 
     # ## prod-c log "postRegister: found #{clients.length} clients!"
     return
-+
+
 ############################################################
 #region Event Handlers
 activateEventHandler = (evnt) ->
