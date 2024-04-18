@@ -49,7 +49,7 @@ export initialize = ->
 
     olog {env, howToToShow}
     
-    showDebugInfo()
+    # showDebugInfo()
     return
 
 ############################################################
