@@ -11,6 +11,7 @@ import M from "mustache"
 import * as app from "./appcoremodule.js"
 import * as accountModule from "./accountmodule.js"
 import * as pwaInstall from "./pwainstallmodule.js"
+import * as triggers from "./navtriggers.js"
 
 ############################################################
 #region DOM Cache
@@ -55,7 +56,7 @@ userEntryClicked = (evnt) ->
     {activeAccount} = accountModule.getAccountsInfo()
     userIndex = parseInt(userIndex)
 
-    if userIndex == activeAccount then app.triggerHome()
+    if userIndex == activeAccount then triggers.home()
 
     accountModule.setAccountActive(userIndex) unless userIndex == NaN
     return
@@ -70,13 +71,13 @@ addCodeClicked = (evnt) ->
 logoutClicked = (evnt) ->
     log "logoutClicked"
     evnt.stopPropagation()
-    app.triggerLogout()
+    triggers.logout()
     return
 
 menuVersionClicked = (evnt) ->
     log "menuVersionClicked"
     evnt.stopPropagation()
-    app.triggerUpgrade()
+    triggers.reload()
     return
 
 pwaInstallClicked = (evnt) ->

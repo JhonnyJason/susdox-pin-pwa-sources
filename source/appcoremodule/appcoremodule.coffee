@@ -6,10 +6,15 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 #region Imported Modules
-import * as S from "./statemodule.js"
+
+import * as nav from "navhandler"
 
 ############################################################
-import * as nav from "./navmodule.js"
+import * as S from "./statemodule.js"
+import * as uiState from "./uistatemodule.js"
+import * as trigger from "./navtriggers.js"
+
+############################################################
 import * as account from "./accountmodule.js"
 
 ############################################################
@@ -51,13 +56,12 @@ appUIMod = "none"
 urlCode = null
 
 ############################################################
-checkedURLForCode = false
 accountAvailable = false
-startUpProcessed = false
 
 ############################################################
 export initialize = ->
     log "initialize"
+    nav.initialize(loadAppWithNavState, setNavState, true)
 
     currentVersion.textContent = appVersion
     
@@ -67,8 +71,8 @@ export initialize = ->
             serviceWorker.controller.postMessage("App is version: #{appVersion}!")
         serviceWorker.addEventListener("message", onServiceWorkerMessage)
         serviceWorker.addEventListener("controllerchange", onServiceWorkerSwitch)
-
-    S.addOnChangeListener("navState", navStateChanged)
+    
+    # S.addOnChangeListener("navState", navStateChanged)
     S.addOnChangeListener("activeAccount", activeAccountChanged)
     return
 
@@ -78,22 +82,55 @@ export initialize = ->
 ############################################################
 #region Event Listeners
 
+loadAppWithNavState = (navState) ->
+    log "loadAppWithNavState"
+    baseState = navState.base
+    modifier = navState.modifier
+    context = navState.context
+
+    code = getCodeFromURL()
+    await startUp()
+
+    ########################################
+    # Apply States
+    switch baseState
+        when "RootState"
+            if accountAvailable then baseState = "user-images"
+            else baseState = "no-code"
+        when "AddCode" then baseState = "add-code"
+    
+    ########################################
+    if code? then await triggerURLCodeDetected(code) # Really??
+
+    ########################################
+    # Apply reverted modifications
+    switch modifier
+        when "logoutconfirmation" then triggerLogout()
+        when "invalidcode" then triggerCodeReveal()
+        when "codeverification"
+            if urlCode? then await triggerURLCodeDetected(urlCode)
+            else await nav.unmodify()
+        when "screeningslist" then triggerScreeningList()
+
+    ########################################
+    setAppState(baseState, modifier)    
+    return
+
 ############################################################
-navStateChanged = ->
-    log "navStateChanged"
-    {base, modifier} = S.get("navState")
-    olog { base, modifier }
+setNavState = (navState) ->
+    log "setNavState"
+    base = navState.base
+    modifier = navState.modifier
+    context = navState.context
+    
+    S.save("navState", navState)
 
     # Check if the original navigation caused the mod to change    
     modChanged = modifier != appUIMod
 
     # reset always
     accountToUpdate = null
-    ## Check if we got a code for a new Account
-    code = getCodeFromURL()
-
-    if !startUpProcessed then await startUp()
-
+    
     ########################################
     # Apply States
     switch base
@@ -102,12 +139,6 @@ navStateChanged = ->
             else setAppState("no-code", modifier)
         when "AddCode" then setAppState("add-code", modifier)
     
-    ########################################
-    if code? then await triggerURLCodeDetected(code)
-
-    ########################################
-    if modChanged then log "modChanged to #{modifier}"
-    return unless modChanged
 
     ########################################
     # Apply reverted modifications
@@ -143,7 +174,6 @@ startUp = ->
     if accountAvailable then await prepareAccount()
 
     updateUIData()
-    startUpProcessed = true
     return
 
 ############################################################
@@ -173,8 +203,11 @@ setAppState = (base, mod) ->
     log "setAppState"
     if base then appBaseState = base
     if mod then appUIMod = mod
+
+
     log "#{appBaseState}:#{appUIMod}"
-    S.set("uiState", "#{appBaseState}:#{appUIMod}")
+    # S.set("uiState", "#{appBaseState}:#{appUIMod}")
+    uiState.applyUIState(appBaseState, appUIMod)
     return
 
 ############################################################
@@ -259,33 +292,13 @@ export prepareAccount = ->
     return
 
 ############################################################
-export triggerHome = ->
-    log "triggerHome"
-    navState = S.get("navState")
-    if navState.depth == 0 then radiologistData.setSustSolLogo()
-    else await nav.backToRoot()
-    return
 
 ############################################################
-export triggerMenu = ->
-    log "triggerMenu"
-    if appUIMod == "menu"
-        await nav.unmodify()
-        return
-    
-    setAppState("", "menu")
-    await nav.addModification("menu")
-    return
 
 ############################################################
-export triggerAddCode = ->
-    log "triggerAddCodeButton"
-    setAppState("add-code")
-    await nav.addStateNavigation("AddCode")
-    return
 
 ############################################################
-export triggerAccept = ->
+export triggerAccept = -> ## TODO checkout how to deal with it...
     log "triggerAccept"
     try
         if !credentialsFrame.makeAcceptable() then return #input is not acceptable
@@ -318,7 +331,7 @@ export triggerScreeningList = ->
 
 
 ############################################################
-export triggerCodeReveal = ->
+export triggerCodeReveal = -> # to check out how do deal with it...
     log "triggerCodeReveal"
     if appUIMod == "coderevealed" then return await nav.unmodify()
     try
@@ -346,15 +359,16 @@ export triggerCodeReveal = ->
     return
 
 ############################################################
-export triggerCodeUpdate = ->
+export triggerCodeUpdate = -> # to Process ?
     log "triggerCodeUpdate"
     setAppState("user-images", "updatecode")
     await nav.addModification("updatecode")
     return
 
 logoutIsTriggered = false
+
 ############################################################
-export triggerLogout = ->
+export triggerLogout = -> # to Process
     log "triggerLogout"
     setAppState("", "logoutconfirmation")
     return if logoutIsTriggered
@@ -369,12 +383,5 @@ export triggerLogout = ->
         await nav.unmodify()
         logoutIsTriggered = false
     return
-
-############################################################
-export triggerUpgrade = ->
-    log "triggerUpgrade"
-    location.reload()
-    return
-
 
 #endregion

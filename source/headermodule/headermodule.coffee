@@ -5,7 +5,7 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as app from "./appcoremodule.js"
+import * as trigger from "./navtriggers.js"
 
 ############################################################
 export initialize = ->
@@ -18,17 +18,17 @@ export initialize = ->
 ############################################################
 susdoxLogoClicked = ->
     log "susdoxLogoClicked"
-    app.triggerHome()
+    trigger.home()
     return
 
 menuButtonClicked = ->
     log "menuButtonClicked"
-    app.triggerMenu()
+    trigger.menu(on)
     return
 
 menuCloseButtonClicked = ->
     log "menuCloseButtonClicked"
-    app.triggerMenu()
+    trigger.menu(off)
     return
 
 

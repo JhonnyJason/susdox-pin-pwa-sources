@@ -2,6 +2,7 @@ import Modules from "./allmodules"
 import domconnect from "./indexdomconnect"
 domconnect.initialize()
 
+import { appLoaded } from "navhandler"
 global.allModules = Modules
 
 ############################################################
@@ -10,7 +11,8 @@ if navigator? and navigator.serviceWorker? then navigator.serviceWorker.register
 ############################################################
 appStartup = -> 
     # footer.addEventListener("click", footerClicked)
-    Modules.navmodule.appLoaded()
+    appLoaded()
+    return
 
 ############################################################
 run = ->
