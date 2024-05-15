@@ -23,32 +23,41 @@ applyModifier = {}
 ############################################################
 currentBase = null
 currentModifier = null
+currentContext = null
 
 ############################################################
 #region Base State Application Functions
 
-applyBaseState["no-code"] = ->
-    content.setToDefaultState()
+applyBaseState["no-code"] = (ctx) ->
+    content.setToDefaultState(ctx)
     return
 
-applyBaseState["add-code"] = ->
-    content.setToAddCodeState()
+applyBaseState["add-code"] = (ctx) ->
+    content.setToAddCodeState(ctx)
     return
 
-applyBaseState["request-code"] = ->
-    content.setToRequestCodeState()
+applyBaseState["update-code"] = (ctx) ->
+    content.setToUpdateCodeState(ctx)
     return
 
-applyBaseState["pre-user-images"] = ->
-    content.setToPreUserImagesState()
+applyBaseState["request-code"] = (ctx) ->
+    content.setToRequestCodeState(ctx)
     return
 
-applyBaseState["user-images"] = ->
-    content.setToUserImagesState()    
+applyBaseState["request-update-code"] = (ctx) ->
+    content.setToRequestUpdateCodeState(ctx)
     return
 
-applyBaseState["screeningslist"] = ->
-    content.showScreeningsList()
+applyBaseState["pre-user-images"] = (ctx) ->
+    content.setToPreUserImagesState(ctx)
+    return
+
+applyBaseState["user-images"] = (ctx) ->
+    content.setToUserImagesState(ctx)    
+    return
+
+applyBaseState["screenings-list"] = (ctx) ->
+    content.showScreeningsList(ctx)
     return
 
 
@@ -66,52 +75,44 @@ resetAllModifications = ->
 ############################################################
 #region Modifier State Application Functions
 
-applyModifier["none"] = ->
+applyModifier["none"] = (ctx) ->
     resetAllModifications()
     return
 
-applyModifier["menu"] = ->
+applyModifier["menu"] = (ctx) ->
     resetAllModifications()
     menu.setMenuOn()
     return
 
-applyModifier["codeverification"] = ->
-    resetAllModifications()
+applyModifier["codeverification"] = (ctx) ->
+    resetAllModifications(ctx)
     codeverificationModal.turnUpModal()
     return
 
-applyModifier["logoutconfirmation"] = ->
+applyModifier["logoutconfirmation"] = (ctx) ->
     resetAllModifications()
     logoutModal.turnUpModal()
     return
 
-applyModifier["invalidcode"] = ->
+applyModifier["invalidcode"] = (ctx) ->
     resetAllModifications()
     invalidcodeModal.turnUpModal()
     return
 
-applyModifier["updatecode"] = ->
-    resetAllModifications()
-    content.setToAddCodeState()
-    return
-
-applyModifier["coderevealed"] = ->
+applyModifier["coderevealed"] = (ctx) ->
     resetAllModifications()
     codeDisplay.revealCode()
     return
-
-# applyModifier["screeningslist"] = ->
-#     resetAllModifications()
-#     screeningsList.show()
-#     return
 
 #endregion
 
 
 ############################################################
 #region exported general Application Functions
-export applyUIState = (base, modifier) ->
+export applyUIState = (base, modifier, ctx) ->
     log "applyUIState"
+    currentContext = ctx
+
     if base? then applyUIStateBase(base)
     if modifier? then applyUIStateModifier(modifier)
     return
@@ -124,7 +125,7 @@ export applyUIStateBase = (base) ->
     if typeof applyBaseFunction != "function" then throw new Error("on applyUIStateBase: base '#{base}' apply function did not exist!")
 
     currentBase = base
-    applyBaseFunction()
+    applyBaseFunction(currentContext)
     return
 
 ############################################################
@@ -135,12 +136,12 @@ export applyUIStateModifier = (modifier) ->
     if typeof applyUIStateModifier != "function" then throw new Error("on applyUIStateModifier: modifier '#{modifier}' apply function did not exist!")
 
     currentModifier = modifier
-    applyModifierFunction()
+    applyModifierFunction(currentContext)
     return
 
 ############################################################
 export getModifier = -> currentModifier
 export getBase = -> currentBase
-
+export getContext = -> currentContext
 
 #endregion

@@ -47,6 +47,23 @@ export setToAddCodeState = ->
     return
 
 ############################################################
+export setToUpdateCodeState = ->
+    log "setToUpdateCodeState"
+    # await cubeModule.waitForTransition()
+    cubeModule.reset()
+    radiologistImages.reset()
+    screeningsList.hide()
+    # requestFrame.reset()
+    credentialsFrame.prepareForCodeUpdate()
+
+    content.classList.remove("preload")
+    content.classList.add("add-code")
+    content.classList.remove("pre-user-images")
+    content.classList.remove("user-images")
+    content.classList.remove("request-code")
+    return
+
+############################################################
 export setToRequestCodeState = ->
     log "setToRequestCodeState"
     # await cubeModule.waitForTransition()
@@ -56,6 +73,24 @@ export setToRequestCodeState = ->
     radiologistImages.reset()
     # credentialsFrame.reset() ## no need to reset here!
     requestFrame.prepareForRequest()
+
+    content.classList.remove("preload")
+    content.classList.remove("add-code")
+    content.classList.remove("pre-user-images")
+    content.classList.remove("user-images")
+    content.classList.add("request-code")
+    return
+
+############################################################
+export setToRequestUpdateCodeState = ->
+    log "setToRequestUpdateCodeState"
+    # await cubeModule.waitForTransition()
+    screeningsList.hide()
+    cubeModule.reset()
+    cubeModule.setRequestCodeFrame() # must be before requestFrame.prepareForRequest, otherwise the Frame is not in the DOM
+    radiologistImages.reset()
+    # credentialsFrame.reset() ## no need to reset here!
+    requestFrame.prepareForUpdateRequest()
 
     content.classList.remove("preload")
     content.classList.remove("add-code")

@@ -31,15 +31,19 @@ export logout = ->
 
 ############################################################
 export addCode = ->
-    return await nav.toBase("AddCode")
+    return await nav.toBaseAt("add-code", null, 1)
 
 ############################################################
 export codeUpdate = ->
-    return await nav.toMod("updatecode")
+    return await nav.toBaseAt("update-code", null, 1)
 
 ############################################################
 export requestCode = ->
     return await nav.toBase("request-code")
+
+############################################################
+export requestUpdateCode = ->
+    return await nav.toBase("request-update-code")
 
 ############################################################
 export codeReveal = (toReveal) ->
@@ -47,8 +51,12 @@ export codeReveal = (toReveal) ->
     else return nav.toMod("none")
 
 ############################################################
+export invalidCode = ->
+    return nav.toMod("invalidcode")
+
+############################################################
 export screeningsList = ->
-    return nav.toBase("screeningslist")
+    return nav.toBase("screenings-list")
 
 ############################################################
 export reload = ->

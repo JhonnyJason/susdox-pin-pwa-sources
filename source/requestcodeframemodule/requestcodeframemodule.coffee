@@ -171,9 +171,9 @@ export requestCode = ->
 
         olog requestObj
         response = await sci.requestCode(requestObj)
-        # if response? then nav.toBaseAt("AddCode", null, 1)
+        # if response? then nav.toBaseAt("add-code", null, 1)
 
-        nav.toBaseAt("AddCode", null, 1)
+        nav.toBaseAt("add-code", null, 1)
     catch err
         log err
         errorFeedback(err)
@@ -223,11 +223,26 @@ export prepareForRequest = ->
     if !datePickerIsInitialized ## because the element was not in DOM it was not initialized before
         datePicker.initialize() 
         datePickerIsInitialized = true
-        
+    
+
     dateOfBirth = credentialsFrame.getBirthdayValue()
     log dateOfBirth
     if dateOfBirth? and dateOfBirth then datePicker.setValue(dateOfBirth)
     else datePicker.reset()
+    return
+
+export prepareForUpdateRequest = ->
+    log "prepareForUpdateRequest"
+    resetAllErrorFeedback()
+    if !datePickerIsInitialized ## because the element was not in DOM it was not initialized before
+        datePicker.initialize() 
+        datePickerIsInitialized = true
+    
+    accountToUpdate = account.getAccountObject()
+    # olog accountToUpdate
+    
+    datePicker.setValue(accountToUpdate.userCredentials.dateOfBirth)
+    datePicker.freeze()
     return
 
 ############################################################

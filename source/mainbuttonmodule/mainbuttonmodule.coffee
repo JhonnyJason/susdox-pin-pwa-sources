@@ -6,6 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as triggers from "./navtriggers.js"
+import * as account from "./accountmodule.js"
 import * as credentialsFrame from "./credentialsframemodule.js"
 import * as requestcodeFrame from "./requestcodeframemodule.js"
 import * as uiState from "./uistatemodule.js"
@@ -34,25 +35,34 @@ addCodeButtonClicked = (evnt) ->
 ############################################################
 codeButtonClicked = (evnt) ->
     log "codeButtonClicked"
-    toReveal = !("coderevealed" == uiState.getModifier()) 
+    toReveal = !("coderevealed" == uiState.getModifier())
+    if toReveal
+        valid = await account.accountIsValid()
+        log valid
+        if !valid then return triggers.invalidCode()
+
     triggers.codeReveal(toReveal)
     return
 
 ############################################################
 requestCodeButtonClicked = (evnt) ->
     log "requestCodeButtonClicked"
-    triggers.requestCode()
+    currentBase = uiState.getBase()
+    if currentBase == "add-code" then triggers.requestCode()
+    if currentBase == "update-code" then triggers.requestUpdateCode()
     return
 
 ############################################################
 export acceptButtonClicked = (evnt) ->
     log "acceptButtonClicked"
     acceptButton.classList.add("disabled")
+    currentBase = uiState.getBase()
 
-    if "add-code" == uiState.getBase()
-        await credentialsFrame.acceptInput()
-    if "request-code" == uiState.getBase()
-        await requestcodeFrame.requestCode()
+    switch currentBase
+        when "add-code", "update-code" 
+            await credentialsFrame.acceptInput()
+        when "request-code", "request-update-code" 
+            await requestcodeFrame.requestCode()
     
     acceptButton.classList.remove("disabled")
     return

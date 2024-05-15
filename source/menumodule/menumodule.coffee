@@ -8,7 +8,6 @@ import { createLogFunctions } from "thingy-debug"
 import M from "mustache"
 
 ############################################################
-import * as app from "./appcoremodule.js"
 import * as accountModule from "./accountmodule.js"
 import * as pwaInstall from "./pwainstallmodule.js"
 import * as triggers from "./navtriggers.js"
@@ -44,7 +43,7 @@ export initialize = ->
 #region event Listeners
 menuFrameClicked = (evnt) ->
     log "menuFrameClicked"
-    app.triggerMenu()
+    triggers.menuOn(false)
     return
 
 userEntryClicked = (evnt) ->

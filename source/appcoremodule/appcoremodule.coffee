@@ -60,8 +60,8 @@ accountAvailable = false
 ############################################################
 export initialize = ->
     log "initialize"
-    nav.initialize(loadAppWithNavState, setNavState, true)
-    # nav.initialize(loadAppWithNavState, setNavState)
+    # nav.initialize(loadAppWithNavState, setNavState, true)
+    nav.initialize(loadAppWithNavState, setNavState)
 
     currentVersion.textContent = appVersion
     
@@ -84,16 +84,16 @@ setUIState = (base, mod, ctx) ->
         when "RootState"
             if accountAvailable then base = "user-images"
             else base = "no-code"
-        when "AddCode" then base = "add-code"    
-        when "screeningslist" 
-            if appBaseState != "screeningslist" then screeningsList.updateScreenings()
+        when "screenings-list" 
+            if appBaseState != "screenings-list" 
+                screeningsList.updateScreenings()
 
     ########################################
     setAppState(base, mod)
 
     switch mod
         when "logoutconfirmation" then confirmLogoutProcess()
-        when "invalidcode" then codeRevealProcess()
+        when "invalidcode" then invalidCodeProcess()
         when "codeverification"
             if urlCode? then await urlCodeDetectedProcess()
             else nav.toMod("none")
@@ -260,48 +260,32 @@ urlCodeDetectedProcess = ->
 ############################################################
 confirmLogoutProcess = ->
     log "confirmLogoutProcess"
-    # return if logoutIsTriggered
     try
-        # logoutIsTriggered = true
-        # await nav.addModification("logoutconfirmation")    
         await logoutModal.userConfirmation()
         account.deleteAccount()
     catch err then log err
     finally nav.toRoot(true)
-        # log "now we would trigger nav.unmodify()" 
-        # await nav.unmodify()
-        # logoutIsTriggered = false
     return
 
 ############################################################
-export codeRevealProcess = ->
-    log "codeRevealProcess"
+invalidCodeProcess = ->
+    log "invalidCodeProcess"
     try
-        valid = await account.accountIsValid()
-
-        if !valid ## TODO: check if this is correct
-            await nav.toMod("invalidcode")
-            deleteCode = await invalidcodeModal.promptCodeDeletion()
-
-            if deleteCode
-                account.deleteAccount()
-                return
-
-            await nav.toMod("coderevealed")
-        
+        deleteCode = await invalidcodeModal.promptCodeDeletion()
+        if deleteCode then return account.deleteAccount()
+        triggers.codeReveal(true)
     catch err
         log err
         switch err
             when "updateButtonClicked" then triggers.codeUpdate()
             when "click-catcher", "modal-cancel-button", "modal-close-button"
-                await nav.toMod("coderevealed")
+                triggers.codeReveal(true)
     return
 
 ############################################################
-export triggerCodeUpdate = -> # to Process ?
-    log "triggerCodeUpdate"
-    setAppState("user-images", "updatecode")
-    await nav.addModification("updatecode")
+export codeUpdateProcess = ->
+    log "codeUpdateProcess"
+
     return
 
 

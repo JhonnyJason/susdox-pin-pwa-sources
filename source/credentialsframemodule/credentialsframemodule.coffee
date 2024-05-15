@@ -167,6 +167,9 @@ export getBirthdayValue = ->
     log "getBirthdayValue"
     return datePicker.value
 
+export isUpdate = -> return accountToUpdate?
+
+
 ############################################################
 export acceptInput = ->
     log "acceptInput"
@@ -239,13 +242,12 @@ export prepareForAddCode = ->
     log "prepareForAddCode"
     resetAllErrorFeedback()
     accountToUpdate = null
+    datePicker.reset()
+    loginBirthdayInput.value = ""
 
     dateOfBirth = requestCodeFrame.getBirthdayValue()
     log dateOfBirth
     if dateOfBirth? and dateOfBirth then datePicker.setValue(dateOfBirth)
-    else 
-        datePicker.reset()
-        loginBirthdayInput.value = ""
 
     loginCodeInput.value = ""
     currentCode = ""

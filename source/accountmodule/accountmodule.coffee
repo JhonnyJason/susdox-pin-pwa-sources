@@ -135,6 +135,7 @@ export setAccountValid = (index) ->
     return
 
 export accountIsValid = (index) ->
+    return false ## for testing
     log "accountIsValid"
     if noAccount then throw new Error("No User Account Available!")
     if !index? then index = activeAccount
