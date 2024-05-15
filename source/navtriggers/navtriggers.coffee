@@ -38,13 +38,17 @@ export codeUpdate = ->
     return await nav.toMod("updatecode")
 
 ############################################################
+export requestCode = ->
+    return await nav.toBase("request-code")
+
+############################################################
 export codeReveal = (toReveal) ->
     if toReveal then return nav.toMod("coderevealed")
     else return nav.toMod("none")
 
 ############################################################
 export screeningsList = ->
-    return nav.toMod("screeningslist")
+    return nav.toBase("screeningslist")
 
 ############################################################
 export reload = ->

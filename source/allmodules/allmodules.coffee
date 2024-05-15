@@ -12,9 +12,9 @@ import * as footermodule from "./footermodule.js"
 import * as headermodule from "./headermodule.js"
 import * as mainbuttonmodule from "./mainbuttonmodule.js"
 import * as menumodule from "./menumodule.js"
-import * as navmodule from "./navmodule.js"
 import * as pwainstallmodule from "./pwainstallmodule.js"
 import * as radiologistdatamodule from "./radiologistdatamodule.js"
+import * as requestcodeframemodule from "./requestcodeframemodule.js"
 import * as scimodule from "./scimodule.js"
 import * as screeningslistmodule from "./screeningslistmodule.js"
 import * as scrollrolldatepickermodule from "./scrollrolldatepickermodule.js"
@@ -39,9 +39,9 @@ Modules = {
     headermodule,
     mainbuttonmodule,
     menumodule,
-    navmodule,
     pwainstallmodule,
     radiologistdatamodule,
+    requestcodeframemodule,
     scimodule,
     screeningslistmodule,
     scrollrolldatepickermodule,

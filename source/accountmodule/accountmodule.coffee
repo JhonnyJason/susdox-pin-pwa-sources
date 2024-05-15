@@ -4,10 +4,6 @@ import { createLogFunctions } from "thingy-debug"
 {log, olog} = createLogFunctions("accountmodule")
 #endregion
 
-
-# TestString to past as allAccounts
-# [{"userCredentials":{"code": "874506", "dateOfBirth":"1959-12-24"}, "label":"Test Benutzer", "radiologistImages": []}, {"userCredentials":{"code": "874506", "dateOfBirth":"1959-12-24"}, "label":"Benutzer 2", "radiologistImages": []}]
-
 ############################################################
 import * as S from "./statemodule.js"
 import * as utl from "./utilmodule.js"
@@ -87,6 +83,15 @@ findExistingAccount = (credentials) ->
         credString = JSON.stringify(account.userCredentials)
         if credString == newCredString then return index 
     return null
+
+############################################################
+export addValidAccount = (credentials) ->
+    log "addValidAccount"
+    # we set it as active by default
+    accountIndex = addNewAccount(credentials)
+    setAccountActive(accountIndex)
+    setAccountValid(accountIndex)
+    return
 
 ############################################################
 export addNewAccount = (credentials) ->

@@ -64,9 +64,8 @@ userEntryClicked = (evnt) ->
 addCodeClicked = (evnt) ->
     log "addCodeClicked"
     evnt.stopPropagation()
-    app.triggerAddCode()
+    triggers.addCode()
     return
-
 
 logoutClicked = (evnt) ->
     log "logoutClicked"

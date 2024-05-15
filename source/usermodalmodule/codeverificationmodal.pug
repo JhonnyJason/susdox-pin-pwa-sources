@@ -14,7 +14,7 @@ include ../preloadermodule/preloader-mixins.pug
             h2.modal-header-title
             .modal-close-button.click-button: svg: use(href="#svg-cross-icon")
         .modal-content
-            label#codeverification-message=content.codeverificationMessage
+            label#codeverification-message(for="codeverification-birthday-input")=content.codeverificationMessage
             input#codeverification-birthday-input(type="date")
             #codeverification-user-feedback
             button#codeverification-confirm-button.click-button=content.usercodeverificationButtonText

@@ -13,13 +13,16 @@ import * as credentialsFrame from "./credentialsframemodule.js"
 import * as codeverificationModal from "./codeverificationmodal.js"
 import * as logoutModal from "./logoutmodal.js"
 import * as invalidcodeModal from "./invalidcodemodal.js"
-import * as screeningsList from "./screeningslistmodule.js"
 
 #endregion
 
 ############################################################
 applyBaseState = {}
 applyModifier = {}
+
+############################################################
+currentBase = null
+currentModifier = null
 
 ############################################################
 #region Base State Application Functions
@@ -32,6 +35,10 @@ applyBaseState["add-code"] = ->
     content.setToAddCodeState()
     return
 
+applyBaseState["request-code"] = ->
+    content.setToRequestCodeState()
+    return
+
 applyBaseState["pre-user-images"] = ->
     content.setToPreUserImagesState()
     return
@@ -40,18 +47,20 @@ applyBaseState["user-images"] = ->
     content.setToUserImagesState()    
     return
 
+applyBaseState["screeningslist"] = ->
+    content.showScreeningsList()
+    return
+
+
 #endregion
 
 ############################################################
 resetAllModifications = ->
     menu.setMenuOff()
-    screeningsList.hide()
     codeDisplay.hideCode()
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
-    credentialsFrame.prepareForAddCode()
-    credentialsFrame.resetAllErrorFeedback()
     return
 
 ############################################################
@@ -91,10 +100,10 @@ applyModifier["coderevealed"] = ->
     codeDisplay.revealCode()
     return
 
-applyModifier["screeningslist"] = ->
-    resetAllModifications()
-    screeningsList.show()
-    return
+# applyModifier["screeningslist"] = ->
+#     resetAllModifications()
+#     screeningsList.show()
+#     return
 
 #endregion
 
@@ -114,6 +123,7 @@ export applyUIStateBase = (base) ->
 
     if typeof applyBaseFunction != "function" then throw new Error("on applyUIStateBase: base '#{base}' apply function did not exist!")
 
+    currentBase = base
     applyBaseFunction()
     return
 
@@ -124,7 +134,13 @@ export applyUIStateModifier = (modifier) ->
 
     if typeof applyUIStateModifier != "function" then throw new Error("on applyUIStateModifier: modifier '#{modifier}' apply function did not exist!")
 
+    currentModifier = modifier
     applyModifierFunction()
     return
+
+############################################################
+export getModifier = -> currentModifier
+export getBase = -> currentBase
+
 
 #endregion

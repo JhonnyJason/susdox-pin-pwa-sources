@@ -5,7 +5,7 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as app from "./appcoremodule.js"
+import * as triggers from "./navtriggers.js"
 
 ############################################################
 export initialize = ->
@@ -17,5 +17,5 @@ export initialize = ->
 centerButtonClicked = (evnt) ->
     log "centerButtonClicked"
     evnt.preventDefault()
-    app.triggerScreeningList()
+    triggers.screeningsList()
     return

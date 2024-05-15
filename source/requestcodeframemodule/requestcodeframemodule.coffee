@@ -1,14 +1,14 @@
 ############################################################
 #region debug
 import { createLogFunctions } from "thingy-debug"
-{log, olog} = createLogFunctions("credentialsframemodule")
+{log, olog} = createLogFunctions("requestcodeframemodule")
 #endregion
 
 ############################################################
 import * as nav from "navhandler"
 
 ############################################################
-import * as requestCodeFrame from "./requestcodeframemodule.js"
+import * as credentialsFrame from "./credentialsframemodule.js"
 import * as account from "./accountmodule.js"
 import * as utl from "./utilmodule.js"
 import * as sci from "./scimodule.js"
@@ -23,45 +23,45 @@ import { ScrollRollDatepicker } from "./scrollrolldatepickermodule.js"
 ############################################################
 #region DOM Cache
 
-credentialsframeContainer = document.getElementById("credentialsframe-container")
+requestcodeframeContainer = document.getElementById("requestcodeframe-container")
 
 ############################################################
-loginCodeInput = document.getElementById("login-code-input")
-loginBirthdayInput = document.getElementById("login-birthday-input")
+birthdaySlot = document.getElementById("request-birthday-slot")
+
+############################################################
+requestPhoneInput = document.getElementById("request-phone-input")
+requestBirthdayInput = document.getElementById("request-birthday-input")
 
 ############################################################
 invalidUserErrorFeedback = document.getElementById("invalid-user-error-feedback")
 networkErrorFeedback = document.getElementById("network-error-feedback")
 inputErrorFeedback = document.getElementById("input-error-feedback")
-loginPreloader = document.getElementById("login-preloader")
+requestPreloader = document.getElementById("request-preloader")
 
 ############################################################
-userFeedback = credentialsframeContainer.getElementsByClassName("user-feedback")[0]
+userFeedback = requestcodeframeContainer.getElementsByClassName("user-feedback")[0]
 
 #endregion
 
 ############################################################
+birthdayInput = null
+
 datePicker = null
+datePickerIsInitialized = false
 
-############################################################
-currentCode = ""
-
-############################################################
-accountToUpdate = null
+phoneNumberRegex = /^\+?[0-9]+$/gm
 
 ############################################################
 export initialize = ->
     log "initialize"
-    loginPreloader = loginPreloader.parentNode.removeChild(loginPreloader)
+    requestPreloader = requestPreloader.parentNode.removeChild(requestPreloader)
 
-    loginCodeInput.addEventListener("keydown", loginCodeInputKeyDowned)
-    loginCodeInput.addEventListener("keyup", loginCodeInputKeyUpped)
-    
     options =
-        element: "login-birthday-input"
+        element: "request-birthday-input"
         height: 32
     datePicker = new ScrollRollDatepicker(options)
-    datePicker.initialize()
+
+    requestcodeframeContainer = requestcodeframeContainer.parentNode.removeChild(requestcodeframeContainer)
     return
 
 ############################################################
@@ -80,7 +80,7 @@ loginCodeInputKeyDowned = (evt) ->
     # 27 is escape
     if evt.keyCode == 27 then return
 
-    rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
+    rawCode = requestPhoneInput.value.replaceAll(" ", "").toLowerCase()
     if rawCode != currentCode then rawCode = currentCode
     rLen = rawCode.length
 
@@ -96,14 +96,14 @@ loginCodeInputKeyDowned = (evt) ->
 
     if (rLen == 3 or rLen == 6) then rawCode += "  "    
 
-    loginCodeInput.value = newValue
+    requestPhoneInput.value = newValue
     return
 
 ############################################################
 loginCodeInputKeyUpped = (evt) ->
     # log "loginCodeInputKeyUpped"
     
-    rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
+    rawCode = requestPhoneInput.value.replaceAll(" ", "").toLowerCase()
     log "rawCode #{rawCode}"
     newCode = ""
     # filter out all the illegal characters
@@ -126,33 +126,26 @@ loginCodeInputKeyUpped = (evt) ->
         codeTokens.push(newCode.slice(6))
     newValue = codeTokens.join("  ")
 
-    loginCodeInput.value = newValue
+    requestPhoneInput.value = newValue
     return
 
 ############################################################
-extractCredentials = ->
-    log "extractCredentials"
-    code = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
-    # dateOfBirth = loginBirthdayInput.value
+extractRequestInput = ->
+    log "extractRequestInput"
+    
     dateOfBirth = datePicker.value
+    phoneNumber = requestPhoneInput.value.replaceAll(/[ \-\(\)]/g, "")
+    
+    olog {phoneNumber, dateOfBirth}
 
-    # olog {code, dateOfBirth}
+    phoneNumberValid = phoneNumber.length > 6 and phoneNumber.length < 25
+    if phoneNumberValid then phoneNumberValid = phoneNumberRegex.test(phoneNumber)
 
-    if code.length == 8 and (code.indexOf("at")==0) then code = code.slice(2)
-    # log code
-
-    if !(code.length == 6 or code.length == 9) then throw new InputError("Fehler im Code!")
-    # if !utl.isBase32String(code) then throw new InputError("Fehler im Code!")
+    if !phoneNumberValid then throw new InputError("Fehler in der Telefonnummer!")
     if !dateOfBirth then throw new InputError("Kein Geburtsdatum gewählt!")
 
-    credentials = { code, dateOfBirth }
-    userFeedback.innerHTML = loginPreloader.innerHTML
-
-    loginBody = await utl.loginRequestBody(credentials)
-    response = await sci.loginRequest(loginBody)
-    if response? and response.name? then credentials.name = response.name 
-    
-    return credentials
+    userFeedback.innerHTML = requestPreloader.innerHTML
+    return {dateOfBirth, phoneNumber}
 
 
 ############################################################
@@ -167,35 +160,35 @@ export getBirthdayValue = ->
     log "getBirthdayValue"
     return datePicker.value
 
-############################################################
-export acceptInput = ->
-    log "acceptInput"
+export requestCode = ->
+    log "requestCode"
     try
         acceptable = makeAcceptable() # checks for acceptable datepicker state
         if !acceptable then return 
 
         resetAllErrorFeedback()
-        credentials = await extractCredentials() # also checks if they are valid
+        requestObj = await extractRequestInput() 
 
-        if accountToUpdate? 
-            # we just updated an account - update credentials and save
-            accountToUpdate.userCredentials = credentials
-            account.saveAllAccounts()
+        olog requestObj
+        response = await sci.requestCode(requestObj)
+        # if response? then nav.toBaseAt("AddCode", null, 1)
 
-        else account.addValidAccount(credentials)
-            
-        # update or adding an account succeeded - so back to root :-)
-        await nav.toRoot(true) 
+        nav.toBaseAt("AddCode", null, 1)
     catch err
         log err
         errorFeedback(err)
     return
 
 ############################################################
+export getRequestCodeFrame = ->
+    log "getRequestCodeFrame"
+    return requestcodeframeContainer
+
+############################################################
 export resetAllErrorFeedback = ->
     log "resetAllErrorFeedback"
     userFeedback.innerHTML = ""
-    credentialsframeContainer.classList.remove("error")
+    requestcodeframeContainer.classList.remove("error")
     return
 
 ############################################################
@@ -203,65 +196,46 @@ errorFeedback = (error) ->
     log "errorFeedback"
 
     if error instanceof NetworkError
-        credentialsframeContainer.classList.add("error")
+        requestcodeframeContainer.classList.add("error")
         userFeedback.innerHTML = networkErrorFeedback.innerHTML
         return
     
     if error instanceof InputError
-        credentialsframeContainer.classList.add("error")
+        requestcodeframeContainer.classList.add("error")
         userFeedback.innerHTML = inputErrorFeedback.innerHTML
         return
 
     if error instanceof AuthenticationError
-        credentialsframeContainer.classList.add("error")
+        requestcodeframeContainer.classList.add("error")
         userFeedback.innerHTML = invalidUserErrorFeedback.innerHTML
         return
 
-    credentialsframeContainer.classList.add("error")
+    requestcodeframeContainer.classList.add("error")
     userFeedback.innerHTML = "Unexptected Error occured!"
     return
 
 
 ############################################################
 #region UI States handles
-export prepareForCodeUpdate = ->
-    log "prepareForCodeUpdate"
+export prepareForRequest = ->
+    log "prepareForRequest"
     resetAllErrorFeedback()
-    accountToUpdate = account.getAccountObject()
-    # olog accountToUpdate
-    
-    datePicker.setValue(accountToUpdate.userCredentials.dateOfBirth)
-    datePicker.freeze()
-    return
-
-############################################################
-export prepareForAddCode = ->
-    log "prepareForAddCode"
-    resetAllErrorFeedback()
-    accountToUpdate = null
-
-    dateOfBirth = requestCodeFrame.getBirthdayValue()
+    if !datePickerIsInitialized ## because the element was not in DOM it was not initialized before
+        datePicker.initialize() 
+        datePickerIsInitialized = true
+        
+    dateOfBirth = credentialsFrame.getBirthdayValue()
     log dateOfBirth
     if dateOfBirth? and dateOfBirth then datePicker.setValue(dateOfBirth)
-    else 
-        datePicker.reset()
-        loginBirthdayInput.value = ""
-
-    loginCodeInput.value = ""
-    currentCode = ""
+    else datePicker.reset()
     return
 
 ############################################################
 export reset = ->
-    log "reset"
     resetAllErrorFeedback()
-    accountToUpdate = null
-    datePicker.reset()
-    loginBirthdayInput.value = ""
-    
-    loginCodeInput.value = ""
-    currentCode = ""
+    requestPhoneInput.value = ""
+    if datePickerIsInitialized then datePicker.reset()
+    requestBirthdayInput.value = ""
     return
-
 
 #endregion

@@ -145,6 +145,7 @@ export pickUpConfirmedCredentials = (givenCode) ->
 export turnUpModal =  ->
     log "turnUpModal"
     return if core.modalPromise? # already up
+
     promiseConsumed = false
     core.activate()
     return
@@ -157,6 +158,7 @@ export turnDownModal = (reason) ->
 
     core.reject(reason)
     promiseConsumed = false
+    resetAllErrorFeedback()
     return
 
 #endregion

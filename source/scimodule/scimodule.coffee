@@ -10,7 +10,8 @@ import { NetworkError, AuthenticationError } from "./errormodule.js"
 
 import { 
     tokenEndpointURL, dataEndpointURL, 
-    screeningsEndpointURL, loginURL 
+    screeningsEndpointURL, codeRequestURL, 
+    loginURL 
     } from "./configmodule.js"
 
 chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -28,28 +29,15 @@ randomPad = ->
 postData = (url, data) ->
     method = "POST"
     mode = 'cors'
-    # redirect =  'manual'
-    # credentials = 'include'
-
 
     # json body
     headers = { 'Content-Type': 'application/json' }
     body = JSON.stringify(data)
 
-    # urlencoded body
-    # headers = { "Content-Type": "application/x-www-form-urlencoded" }
-    # formData = new URLSearchParams()
-    # formData.append(lbl, d) for lbl,d of data
-    # body = formData.toString()
-
-    # options = { method, mode, credentials, headers, body }
-
-    # ## test
-    # options = { method, mode, redirect, credentials, headers, body }
     options = { method, mode, headers, body }
 
-    # log "postData"
-    olog body
+    # log "postData" 
+    olog body ## if we uncomment this then safari looses the body object
     # olog options
 
     try
@@ -135,20 +123,18 @@ export getScreenings = (credentials) ->
     # return await postData(loginURL, credentials)
 
 ############################################################
+export requestCode = (requestObj) ->
+    log "requestCode"
+    return await postData(codeRequestURL, requestObj)
+
+############################################################
 export loginRequest = (body) ->
     method = "POST"
     mode = 'cors'
-    # redirect =  'manual'
-    # credentials = 'include'
-    # credentials = 'omit'
-    
-    # json body
+
     headers = { 'Content-Type': 'application/json' }
-    # body.endpoint = "credentials"
     body = JSON.stringify(body)
     
-    # fetchOptions = { method, mode, redirect, credentials, headers, body }
-
     fetchOptions = { method, mode, headers, body }
 
     # log "loginRequest"

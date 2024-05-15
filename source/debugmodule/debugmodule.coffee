@@ -5,7 +5,7 @@ export modulesToDebug = {
 
     # accountmodule: true
     # appcoremodule: true
-    pwainstallmodule: true
+    # pwainstallmodule: true
     # centerlinkmodule: true
     # configmodule: true
     # codedisplaymodule: true
@@ -22,6 +22,7 @@ export modulesToDebug = {
     # modalcore: true
     # navmodule: true 
     # radiologistdatamodule: true
+    # requestcodeframemodule: true
     # scimodule: true
     # screeningslistmodule: true
     # scrollrolldatepickermodule: true

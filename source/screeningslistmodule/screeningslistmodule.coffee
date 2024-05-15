@@ -74,7 +74,7 @@ screeningClicked = (evnt) ->
 export updateScreenings = ->
     log "updateScreenings"
 
-    try 
+    try
         screeningsContainer.classList.add("preload")
         screenings = await retrieveScreenings()
         # olog screenings

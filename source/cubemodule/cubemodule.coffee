@@ -7,7 +7,7 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 import * as radiologistData from "./radiologistdatamodule.js"
 import * as address from "./footermodule.js"
-
+import * as codeRequest from "./requestcodeframemodule.js"
 
 ############################################################
 #region DOM cache
@@ -164,12 +164,14 @@ cubeTransitionEnded = (evnt) ->
     if actionAfterRotation? then actionAfterRotation()
     actionAfterRotation = null
     address.postRotationCorrection()
+    
     if cubePosition == -1 or cubePosition == 4
         log "cubePosition: #{cubePosition}"
         content.classList.add("no-transition")
         content.classList.remove("position-#{cubePosition}")
         cubePosition = (cubePosition + 4) % 4
         content.classList.add("position-#{cubePosition}")
+    
     transitioning = false
     if transitionPromise? then transitionPromise.fullfill()
     transitionPromise = null
@@ -292,6 +294,16 @@ export setCurrentRightElement = (el) ->
     return
 
 ############################################################
+export setRequestCodeFrame = ->
+    log "setRequestCodeFrame"
+    setCurrentBackElement(codeRequest.getRequestCodeFrame())
+    return
+
+export setPreUserImages = ->
+    log "setPreUserImages"
+    setCurrentBackElement(imagesPreloader)
+    return
+
 export reset = ->
     log "reset"
     # olog {
@@ -331,7 +343,7 @@ export reset = ->
         # olog {positionClass, cubePosition, transitioning, resetting}
         content.classList.remove("no-transition")
         content.classList.remove(positionClass)
-        setCurrentBackElement(imagesPreloader)
+        # setCurrentBackElement(imagesPreloader)
         setCurrentLeftElement("")
         setCurrentRightElement("")
         resetting = false
