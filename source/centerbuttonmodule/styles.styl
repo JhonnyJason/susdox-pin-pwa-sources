@@ -1,4 +1,20 @@
 // Centerbutton styles
+#request-code-button
+    opacity: 0
+    position: absolute
+    top 0
+    left 50%
+    pointer-events: none
+    transform translate(-50%, 102vh)
+    // font-size 14pt
+    text-align: center
+    background-color transparent
+    color cd-darkblue
+    text-decoration: underline
+    cursor pointer
+    transition: all 0.3s
+   
+
 #centerbutton-container
     display none
     width calc(100% - 30px)
@@ -31,7 +47,16 @@
         transform translateY(-50%)
         // vertical-align: middle
 
-
 .user-images
     #centerbutton-container
         display flex
+
+.add-code
+    #request-code-button
+        opacity: 1
+        transform translate(-50%, 10%)
+        pointer-events: all
+
+.request-code
+    #request-code-button
+        transform translate(-50%, -112%)
