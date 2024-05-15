@@ -43,7 +43,7 @@ export initialize = ->
 #region event Listeners
 menuFrameClicked = (evnt) ->
     log "menuFrameClicked"
-    triggers.menuOn(false)
+    triggers.menu(off)
     return
 
 userEntryClicked = (evnt) ->
