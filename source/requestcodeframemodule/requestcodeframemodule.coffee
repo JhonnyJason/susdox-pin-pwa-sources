@@ -54,6 +54,7 @@ phoneNumberRegex = /^\+?[0-9]+$/gm
 ############################################################
 export initialize = ->
     log "initialize"
+    requestPhoneInput.addEventListener("keydown", requestPhoneInputKeyDowned)
     requestPreloader = requestPreloader.parentNode.removeChild(requestPreloader)
 
     options =
@@ -65,68 +66,13 @@ export initialize = ->
     return
 
 ############################################################
-loginCodeInputKeyDowned = (evt) ->
+requestPhoneInputKeyDowned = (evt) ->
     # log "loginCodeInputKeyDowned"
-    
     # 13 is enter
     if evt.keyCode == 13
         evt.preventDefault()
         acceptButtonClicked()
         return    
-    # 46 is delete
-    if evt.keyCode == 46 then return    
-    # 8 is backspace
-    if evt.keyCode == 8 then return
-    # 27 is escape
-    if evt.keyCode == 27 then return
-
-    rawCode = requestPhoneInput.value.replaceAll(" ", "").toLowerCase()
-    if rawCode != currentCode then rawCode = currentCode
-    rLen = rawCode.length
-
-    codeTokens = []
-    
-    if rLen > 0
-        codeTokens.push(rawCode.slice(0,3))
-    if rLen > 3
-        codeTokens.push(rawCode.slice(3,6))
-    if rLen > 6
-        codeTokens.push(rawCode.slice(6))
-    newValue = codeTokens.join("  ")
-
-    if (rLen == 3 or rLen == 6) then rawCode += "  "    
-
-    requestPhoneInput.value = newValue
-    return
-
-############################################################
-loginCodeInputKeyUpped = (evt) ->
-    # log "loginCodeInputKeyUpped"
-    
-    rawCode = requestPhoneInput.value.replaceAll(" ", "").toLowerCase()
-    log "rawCode #{rawCode}"
-    newCode = ""
-    # filter out all the illegal characters
-    for c in rawCode when utl.isAlphanumericString(c)
-        newCode += c
-
-    rLen = newCode.length
-    if rLen > 9 then newCode = newCode.slice(0, 9)
-    currentCode = newCode
-    rLen = newCode.length
-
-    codeTokens = []
-    
-    log "newCode #{newCode}"
-    if rLen > 0
-        codeTokens.push(newCode.slice(0,3))
-    if rLen > 3
-        codeTokens.push(newCode.slice(3,6))
-    if rLen > 6
-        codeTokens.push(newCode.slice(6))
-    newValue = codeTokens.join("  ")
-
-    requestPhoneInput.value = newValue
     return
 
 ############################################################
