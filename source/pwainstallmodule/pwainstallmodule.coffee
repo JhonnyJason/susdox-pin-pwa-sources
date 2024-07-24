@@ -257,3 +257,11 @@ export promptForInstallation = ->
         else  
             log "doing nothing..."
     return
+
+############################################################
+## TODO separate out module for environment checking 
+export isMobileOS = ->
+    ## is not 100% accurate...
+    log "isMobileOS"
+    if env.os == "android" or env.os == "ios"then return true
+    return false

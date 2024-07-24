@@ -5,10 +5,19 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
+import QR from "vanillaqr"
+
+############################################################
+qrForMobile = "https://mobile-url.bilder-befunde.at"
+qrForDesktop = "https://desktop-url.bilder-befunde.at"
+qrURL = ""
+qrSize = 220
+
+############################################################
 import * as cubeModule from "./cubemodule.js"
 import * as footer from "./footermodule.js"
 import * as account from "./accountmodule.js"
-
+import {isMobileOS} from "./pwainstallmodule.js"
 
 ############################################################
 #region internal variables
@@ -65,10 +74,26 @@ createImageElement = (idx) ->
     log "idx: #{idx}"
     # olog allImages
     
+    url = allImages[idx]
+    if url == qrURL then return createQRElement()
+
     image = document.createElement("img")
-    image.src = allImages[idx]
+    image.src = url
     image.setAttribute("draggable", false)
     return image
+
+createQRElement = ->
+    log "createQRElement"
+    options = 
+        url: qrURL
+        size: qrSize
+        toTable: false
+        ecclevel: 3
+        noBorder: true
+    
+    currentQr = new QR(options)
+    return currentQr.toImage("png")
+
 
 getAddress = (idx) ->
     idx = (idx + allImages.length) % allImages.length
@@ -118,7 +143,13 @@ export loadData = ->
 
     ##if imageURLS exist also addresses exist
     if imageURLs? and imageURLs.length > 0
-        allImages = [...imageURLs, sustSolLogoURL]
+        
+        # allImages = [...imageURLs, sustSolLogoURL]
+        ## TODO separate in a more sophisticated manner
+        if isMobileOS() then qrURL = qrForMobile
+        else qrURL = qrForDesktop
+        allImages = [...imageURLs, qrURL]
+
         allAddresses = [...addresses, sustSolAddress]
         allImageElements = new Array(allImages.length)
         setPosition(imageIndex)
@@ -143,6 +174,31 @@ export setSustSolLogo = ->
     cubeModule.setCurrentLeftElement(sustSolLogoImage)
     footer.setLeftAddress(sustSolAddress)
 
+
+    try cubeModule.rotateToSustSolLeft()
+    catch err
+        log err
+        cubeModule.setCurrentLeftElement(leftImage)
+        footer.setLeftAddress(leftAddress)
+    return
+
+
+export setQRCode = ->
+    log "setQRCode"
+    ## TODO get right QR code
+
+    ## TODO adjust
+    if allImages.length == 0 then return
+    if imageIndex == (allImages.length - 1) then return
+    if cubeModule.isInTransition() then return
+
+    leftImage = getImageElement(imageIndex - 1)
+    leftAddress = getAddress(imageIndex - 1)
+    # sustSolLogoImage = getImageElement(-1)
+    # cubeModule.setCurrentLeftElement(sustSolLogoImage)
+    qrCodeElement = getImageElement(-1)
+    cubeModule.setCurrentLeftElement(qrCodeElement)
+    footer.setLeftAddress(sustSolAddress)
 
     try cubeModule.rotateToSustSolLeft()
     catch err

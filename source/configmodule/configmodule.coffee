@@ -4,7 +4,7 @@ export screeningsEndpointURL = "https://www.bilder-befunde.at/pwa-api/api/v1/stu
 export loginURL = "https://www.bilder-befunde.at/pwa-api/api/v1/credentials/"
 export codeRequestURL = "https://www.bilder-befunde.at/pwa-api/api/v1/request-code/"
 
-export appVersion = "v0.1.4e"
+export appVersion = "v0.1.4g"
 
 
 ## delete?

@@ -17,7 +17,8 @@ import {setSustSolLogo} from "./radiologistdatamodule.js"
 ############################################################
 export home = ->
     navState = S.get("navState")
-    if navState.depth == 0 then setSustSolLogo()
+    # if navState.depth == 0 then setSustSolLogo()
+    if navState.depth == 0 then setQRCode()
     else return nav.toRoot(true)
     
 ############################################################

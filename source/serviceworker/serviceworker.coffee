@@ -12,6 +12,8 @@ imageCacheName = "PIN-PWA_user-images"
 userCacheName = imageCacheName
 
 ############################################################
+# This is for the case we need to delete - usually we reuse QRcch_app and update "/" on a new install without deleting everything
+# We need to delete the cache if there is an outdated and unused file which would stay in the cache otherwise
 cachesToDelete = [
     "PIN-PWAmain"
     "PIN-PWAimages"
@@ -57,9 +59,9 @@ urlMatchOptions = {
 onRegister = ->
     # ## prod-c log "onRegister"
     # #uncomment for production - comment for testing
-    self.addEventListener('activate', activateEventHandler)
-    self.addEventListener('fetch', fetchEventHandler)
-    self.addEventListener('install', installEventHandler)
+    # self.addEventListener('activate', activateEventHandler)
+    # self.addEventListener('fetch', fetchEventHandler)
+    # self.addEventListener('install', installEventHandler)
     # # #end uncomment for production
     self.addEventListener('message', messageEventHandler)
 
