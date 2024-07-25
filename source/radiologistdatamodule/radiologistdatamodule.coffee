@@ -8,8 +8,6 @@ import { createLogFunctions } from "thingy-debug"
 import QR from "vanillaqr"
 
 ############################################################
-qrForMobile = "https://mobile-url.bilder-befunde.at"
-qrForDesktop = "https://desktop-url.bilder-befunde.at"
 qrURL = ""
 qrSize = 220
 
@@ -17,7 +15,7 @@ qrSize = 220
 import * as cubeModule from "./cubemodule.js"
 import * as footer from "./footermodule.js"
 import * as account from "./accountmodule.js"
-import {isMobileOS} from "./pwainstallmodule.js"
+import { qrURLBase } from "./configmodule.js"
 
 ############################################################
 #region internal variables
@@ -92,6 +90,7 @@ createQRElement = ->
         noBorder: true
     
     currentQr = new QR(options)
+    # return currentQr.domElement
     return currentQr.toImage("png")
 
 
@@ -143,13 +142,12 @@ export loadData = ->
 
     ##if imageURLS exist also addresses exist
     if imageURLs? and imageURLs.length > 0
-        
-        # allImages = [...imageURLs, sustSolLogoURL]
-        ## TODO separate in a more sophisticated manner
-        if isMobileOS() then qrURL = qrForMobile
-        else qrURL = qrForDesktop
-        allImages = [...imageURLs, qrURL]
 
+        userCreds = account.getUserCredentials()
+        qrURL =  qrURLBase + userCreds.code
+        allImages = [...imageURLs, qrURL]
+        # allImages = [...imageURLs, sustSolLogoURL]
+        
         allAddresses = [...addresses, sustSolAddress]
         allImageElements = new Array(allImages.length)
         setPosition(imageIndex)
