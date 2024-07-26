@@ -33,7 +33,7 @@ addCodeButtonClicked = (evnt) ->
 ############################################################
 codeButtonClicked = (evnt) ->
     log "codeButtonClicked"
-    toReveal = !("coderevealed" == uiState.getModifier())
+    toReveal = !("code-revealed" == uiState.getBase())
     if toReveal
         valid = await account.accountIsValid()
         log valid

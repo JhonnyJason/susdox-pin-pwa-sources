@@ -8,7 +8,6 @@ import { createLogFunctions } from "thingy-debug"
 #region imported UI modules
 import * as content from "./contentmodule.js"
 import * as menu from "./menumodule.js"
-import * as codeDisplay from "./codedisplaymodule.js"
 import * as credentialsFrame from "./credentialsframemodule.js"
 import * as codeverificationModal from "./codeverificationmodal.js"
 import * as logoutModal from "./logoutmodal.js"
@@ -56,6 +55,10 @@ applyBaseState["user-images"] = (ctx) ->
     content.setToUserImagesState(ctx)    
     return
 
+applyBaseState["code-revealed"] = (ctx) ->
+    content.setToCodeRevealedState(ctx)    
+    return
+
 applyBaseState["screenings-list"] = (ctx) ->
     content.showScreeningsList(ctx)
     return
@@ -66,7 +69,6 @@ applyBaseState["screenings-list"] = (ctx) ->
 ############################################################
 resetAllModifications = ->
     menu.setMenuOff()
-    codeDisplay.hideCode()
     codeverificationModal.turnDownModal("uiState changed")
     logoutModal.turnDownModal("uiState changed")
     invalidcodeModal.turnDownModal("uiState changed")
@@ -99,10 +101,11 @@ applyModifier["invalidcode"] = (ctx) ->
     invalidcodeModal.turnUpModal()
     return
 
-applyModifier["coderevealed"] = (ctx) ->
-    resetAllModifications()
-    codeDisplay.revealCode()
-    return
+# applyModifier["coderevealed"] = (ctx) ->
+#     resetAllModifications()
+#     codeDisplay.revealCode()
+#     cubemodule.setCodeRevealed()
+#     return
 
 #endregion
 

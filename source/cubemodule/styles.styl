@@ -1,7 +1,7 @@
 // cube styles
-/*===================================================================
+/*=========================================================
  Arrow Styles
-===================================================================*/
+=========================================================*/
 #arrow-left
     position absolute
     top 50%
@@ -23,7 +23,7 @@
 #hidden-front-side
     display none
 
-/*===================================================================*/
+/*=========================================================*/
 .pre-user-images
     #arrow-left
         transform translate(0, -50%)
@@ -51,9 +51,9 @@
         transform scale(0.83) rotateX(180deg)
 
 
-/*===================================================================
+/*=========================================================
  The Cube
-===================================================================*/
+=========================================================*/
 #cube-frame
     position: absolute
     top 50%
@@ -128,6 +128,7 @@
     #cube-front
     #cube-left
     #cube-back
+    #cube-top
         img
         canvas
             width 90%
@@ -150,7 +151,7 @@
         canvas
             transform rotateZ(180deg)
 
-/*===================================================================*/
+/*=========================================================*/
 .add-code
     #cube
         transform scale(0.83) rotateX(90deg)
@@ -160,7 +161,7 @@
         transform scale(0.83) rotateX(180deg) rotateY(0deg)
 
 
-/*===================================================================*/
+/*=========================================================*/
 .user-images.position--1
     #cube
         transform scale(0.83) rotateX(180deg) rotateY(-90deg)
@@ -188,3 +189,33 @@
 .user-images.no-transition
     #cube
         transition none
+
+/*=========================================================*/
+.code-revealed
+    #cube
+        transform scale(0.83) rotateX(270deg)
+
+.code-revealed.position--1
+    #cube
+        transform scale(0.83) rotateX(270deg) rotateY(-90deg)
+
+.code-revealed.position-0
+    #cube
+        transform scale(0.83) rotateX(270deg) rotateY(0deg)
+
+.code-revealed.position-1
+    #cube
+        transform scale(0.83) rotateX(270deg) rotateY(90deg)
+
+.code-revealed.position-2
+    #cube
+        transform scale(0.83) rotateX(270deg) rotateY(180deg)
+
+.code-revealed.position-3
+    #cube
+        transform scale(0.83) rotateX(270deg) rotateY(270deg)
+
+.code-revealed.position-4
+    #cube
+        transform scale(0.83) rotateX(270deg) rotateY(360deg)
+        

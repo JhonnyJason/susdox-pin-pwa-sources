@@ -20,7 +20,7 @@ export modulesToDebug = {
     # mainbuttonmodule: true
     # menumodule: true
     # modalcore: true
-    # navmodule: true 
+    # navtriggers: true 
     # radiologistdatamodule: true
     # requestcodeframemodule: true
     # scimodule: true

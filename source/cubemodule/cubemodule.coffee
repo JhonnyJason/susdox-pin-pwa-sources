@@ -5,9 +5,14 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
+import QR from "vanillaqr"
+
+############################################################
 import * as radiologistData from "./radiologistdatamodule.js"
 import * as address from "./footermodule.js"
 import * as codeRequest from "./requestcodeframemodule.js"
+import * as account from "./accountmodule.js"
+import {qrURLBase} from "./configmodule.js"
 
 ############################################################
 #region DOM cache
@@ -20,6 +25,7 @@ cubeFront = document.getElementById("cube-front")
 cubeLeft = document.getElementById("cube-left")
 cubeBack = document.getElementById("cube-back")
 cubeRight = document.getElementById("cube-right")
+cubeTop = document.getElementById("cube-top")
 
 ############################################################
 sustsolCubeImage = document.getElementById("sustsol-cube-image")
@@ -78,6 +84,24 @@ export initialize = ->
 
     screenWidth = window.innerWidth
     return
+
+
+
+
+############################################################
+getQrElement = ->
+    log "getQrElement"
+    userCreds = account.getUserCredentials()
+    qrURL =  qrURLBase + userCreds.code
+    options = 
+        url: qrURL
+        toTable: false
+        ecclevel: 3
+        noBorder: true
+    console.log("QRURL: "+qrURL)
+    currentQr = new QR(options)
+    # return currentQr.domElement
+    return currentQr.toImage("png")
 
 ############################################################
 #region Event Listenerscurrent
@@ -302,6 +326,12 @@ export setRequestCodeFrame = ->
 export setPreUserImages = ->
     log "setPreUserImages"
     setCurrentBackElement(imagesPreloader)
+    return
+
+export setCodeRevealed = ->   
+    log "setCodeRevealed"
+    qrElement = getQrElement()
+    cubeTop.replaceChildren(qrElement)
     return
 
 export reset = ->

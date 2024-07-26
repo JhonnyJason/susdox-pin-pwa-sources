@@ -5,13 +5,6 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import QR from "vanillaqr"
-
-############################################################
-qrURL = ""
-qrSize = 220
-
-############################################################
 import * as cubeModule from "./cubemodule.js"
 import * as footer from "./footermodule.js"
 import * as account from "./accountmodule.js"
@@ -73,26 +66,11 @@ createImageElement = (idx) ->
     # olog allImages
     
     url = allImages[idx]
-    if url == qrURL then return createQRElement()
 
     image = document.createElement("img")
     image.src = url
     image.setAttribute("draggable", false)
     return image
-
-createQRElement = ->
-    log "createQRElement"
-    options = 
-        url: qrURL
-        size: qrSize
-        toTable: false
-        ecclevel: 3
-        noBorder: true
-    
-    currentQr = new QR(options)
-    # return currentQr.domElement
-    return currentQr.toImage("png")
-
 
 getAddress = (idx) ->
     idx = (idx + allImages.length) % allImages.length
@@ -143,10 +121,10 @@ export loadData = ->
     ##if imageURLS exist also addresses exist
     if imageURLs? and imageURLs.length > 0
 
-        userCreds = account.getUserCredentials()
-        qrURL =  qrURLBase + userCreds.code
-        allImages = [...imageURLs, qrURL]
-        # allImages = [...imageURLs, sustSolLogoURL]
+        # userCreds = account.getUserCredentials()
+        # qrURL =  qrURLBase + userCreds.code
+        # allImages = [...imageURLs, qrURL]
+        allImages = [...imageURLs, sustSolLogoURL]
         
         allAddresses = [...addresses, sustSolAddress]
         allImageElements = new Array(allImages.length)
@@ -181,7 +159,7 @@ export setSustSolLogo = ->
     return
 
 
-export setQRCode = ->
+# export setQRCode = ->
     log "setQRCode"
     ## This is basically the same as setSustSolLogo
     ## TODO clean up

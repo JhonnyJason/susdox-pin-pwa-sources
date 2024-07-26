@@ -9,8 +9,8 @@ import * as nav from "navhandler"
 
 ############################################################
 import * as S from "./statemodule.js"
-# import {setSustSolLogo} from "./radiologistdatamodule.js"
-import {setQRCode} from "./radiologistdatamodule.js"
+import {setSustSolLogo} from "./radiologistdatamodule.js"
+# import {setQRCode} from "./radiologistdatamodule.js"
 
 ############################################################
 ## Navigation Action Triggers
@@ -18,8 +18,8 @@ import {setQRCode} from "./radiologistdatamodule.js"
 ############################################################
 export home = ->
     navState = S.get("navState")
-    # if navState.depth == 0 then setSustSolLogo()
-    if navState.depth == 0 then setQRCode()
+    if navState.depth == 0 then setSustSolLogo()
+    # if navState.depth == 0 then setQRCode()
     else return nav.toRoot(true)
     
 ############################################################
@@ -49,8 +49,8 @@ export requestUpdateCode = ->
 
 ############################################################
 export codeReveal = (toReveal) ->
-    if toReveal then return nav.toMod("coderevealed")
-    else return nav.toMod("none")
+    if toReveal then return nav.toBase("code-revealed")
+    else return nav.toRoot()
 
 ############################################################
 export invalidCode = ->
