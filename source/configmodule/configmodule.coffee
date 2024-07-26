@@ -6,7 +6,7 @@ export codeRequestURL = "https://www.bilder-befunde.at/pwa-api/api/v1/request-co
 
 export qrURLBase = "https://pwa.bilder-befunde.at/#"
 
-export appVersion = "v0.1.5"
+export appVersion = "v0.1.5a"
 
 
 ## delete?
