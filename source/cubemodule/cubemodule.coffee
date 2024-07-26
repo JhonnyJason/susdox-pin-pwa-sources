@@ -331,6 +331,7 @@ export setPreUserImages = ->
 export setCodeRevealed = ->   
     log "setCodeRevealed"
     qrElement = getQrElement()
+    content.classList.remove("no-transition")
     cubeTop.replaceChildren(qrElement)
     return
 
