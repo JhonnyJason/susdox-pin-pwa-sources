@@ -183,9 +183,8 @@ export setSustSolLogo = ->
 
 export setQRCode = ->
     log "setQRCode"
-    ## TODO get right QR code
-
-    ## TODO adjust
+    ## This is basically the same as setSustSolLogo
+    ## TODO clean up
     if allImages.length == 0 then return
     if imageIndex == (allImages.length - 1) then return
     if cubeModule.isInTransition() then return

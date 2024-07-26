@@ -9,7 +9,8 @@ import * as nav from "navhandler"
 
 ############################################################
 import * as S from "./statemodule.js"
-import {setSustSolLogo} from "./radiologistdatamodule.js"
+# import {setSustSolLogo} from "./radiologistdatamodule.js"
+import {setQRCode} from "./radiologistdatamodule.js"
 
 ############################################################
 ## Navigation Action Triggers
