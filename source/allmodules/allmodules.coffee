@@ -7,6 +7,7 @@ import * as contentmodule from "./contentmodule.js"
 import * as credentialsframemodule from "./credentialsframemodule.js"
 import * as cubemodule from "./cubemodule.js"
 import * as debugmodule from "./debugmodule.js"
+import * as environmentmodule from "./environmentmodule.js"
 import * as errormodule from "./errormodule.js"
 import * as footermodule from "./footermodule.js"
 import * as headermodule from "./headermodule.js"
@@ -34,6 +35,7 @@ Modules = {
     credentialsframemodule,
     cubemodule,
     debugmodule,
+    environmentmodule,
     errormodule,
     footermodule,
     headermodule,

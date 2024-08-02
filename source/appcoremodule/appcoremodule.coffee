@@ -36,6 +36,7 @@ import * as logoutModal from "./logoutmodal.js"
 ############################################################
 import { AuthenticationError } from "./errormodule.js"
 import { appVersion } from "./configmodule.js"
+import { env } from "./environmentmodule.js"
 
 #endregion
 
@@ -177,11 +178,29 @@ prepareAccount = ->
     log "prepareAccount"
     setAppState("pre-user-images", "none")
 
-    try await account.updateData()
-    catch err then log err
-    finally setAppState("user-images", "none")
-    
+    try 
+        await account.updateData()
+        ## here the credentials are available and valid
+        if env.isDesktop then return desktopRedirect()
+    catch err then log err # here credentials were invalid
+    # finally setAppState("user-images", "none")
+    setAppState("user-images", "none")
     return
+
+############################################################
+desktopRedirect = ->
+    log "desktopRedirect"
+    creds = account.getUserCredentials()
+    code = creds.code
+    dateOfBirth = creds.dateOfBirth
+    ## TODO - maybe format dateOfBirth to dd/mm/yyyy
+
+    redirectURL = "https://www.bilder-befunde.at/webview/index.php?menuid=2&autologin=pwa&input_dob=#{dateOfBirth}&input_code=#{code}"
+    
+    log redirectURL
+    ## TODO reactivate for testing:
+    return window.location.replace(redirectURL);
+    # return
 
 ############################################################
 updateUIData = ->

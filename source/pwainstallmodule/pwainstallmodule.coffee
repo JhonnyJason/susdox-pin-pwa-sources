@@ -6,15 +6,10 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as menu from "./menumodule.js"
+import { env } from "./environmentmodule.js"
 
 ############################################################
 deferredInstallPrompt = null
-
-############################################################
-# environment = NaN
-env = {
-    os: "other", browser: "other", inApp: false
-}
 
 ############################################################
 howToToShow = null
@@ -40,9 +35,7 @@ export initialize = ->
 
     window.matchMedia('(display-mode: standalone)').addEventListener("change",onDisplayModeChange)
     
-    checkAppInstallation()
     checkIfInstalled()
-    checkEnvironment()
     decideOnHowTo()
 
     setTimeout(showButtonManually, 5000)
@@ -107,19 +100,6 @@ howtoBackgroundClicked = (evnt) ->
     return
 
 ############################################################
-checkAppInstallation = ->
-    log "checkAppInstallation"
-    if window.matchMedia('(display-mode: standalone)').matches
-        env.inApp = true
-    if window.matchMedia('(installed: yes)').matches
-        env.inApp = true
-    
-    if document.referrer.startsWith('android-app://') 
-        env.inApp = true
-
-    if navigator.standalone  then env.inApp = true
-    return
-
 onDisplayModeChange = (evnt) ->
     log "onDisplayModeChange"
     if evnt.matches then env.inApp = true
@@ -145,36 +125,6 @@ checkIfInstalled = ->
     return
 
 ############################################################
-checkEnvironment = ->
-    log "checkEnvironment"
-    userAgent = window.navigator.userAgent.toLowerCase()
-    log userAgent
-
-    containsFirefox = userAgent.indexOf("firefox") > -1 
-    containsSafari = userAgent.indexOf("safari") > -1
-    containsChrome = userAgent.indexOf("chrome") > -1
-    containsCRIOS = userAgent.indexOf("crios") > -1
-    containsOPR = userAgent.indexOf("opr") > -1
-    containsAndroid = userAgent.indexOf("android") > -1 
-    containsMacintosh = userAgent.indexOf("macintosh") > -1
-    containsIPhone = userAgent.indexOf("iphone") > -1
-    containsIPad = userAgent.indexOf("ipad") > -1
-    multiTouch = navigator.maxTouchPoints > 1
-
-    if containsIPhone or containsIPad or (containsMacintosh and multiTouch) then env.os = "ios"
-    else if containsMacintosh and !multiTouch then env.os = "mac"
-    else if containsAndroid then env.os = "android"
-    else env.os = "other"
-
-    if containsFirefox then env.browser = "firefox"
-    if containsOPR then env.browser = "opera"
-    else if containsChrome and containsSafari then env.browser = "chrome"
-    else if containsCRIOS and containsSafari then env.browser = "chrome"
-    else if containsSafari then env.browser = "safari"
-    else env.browser = "other"
-
-    return
-
 decideOnHowTo = ->
     log "decideOnHowTo"
     
@@ -257,11 +207,3 @@ export promptForInstallation = ->
         else  
             log "doing nothing..."
     return
-
-############################################################
-## TODO separate out module for environment checking 
-export isMobileOS = ->
-    ## is not 100% accurate...
-    log "isMobileOS"
-    if env.os == "android" or env.os == "ios"then return true
-    return false

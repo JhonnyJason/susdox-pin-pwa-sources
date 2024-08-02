@@ -6,7 +6,6 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as radiologistImages from "./radiologistdatamodule.js"
-import * as codeDisplay from "./codedisplaymodule.js"
 import * as cubeModule from "./cubemodule.js"
 import * as screeningsList from "./screeningslistmodule.js"
 import * as credentialsFrame from "./credentialsframemodule.js"
@@ -17,7 +16,6 @@ import * as requestFrame from "./requestcodeframemodule.js"
 export setToDefaultState = ->
     log "setToDefaultState"
     # await cubeModule.waitForTransition()
-    codeDisplay.hideCode()
     cubeModule.reset()
     radiologistImages.reset()
     screeningsList.hide()
@@ -28,7 +26,7 @@ export setToDefaultState = ->
     content.classList.remove("add-code")
     content.classList.remove("pre-user-images")
     content.classList.remove("user-images")
-    content.classList.remove("code-revealed")
+    content.classList.remove("show-qr")
     content.classList.remove("request-code")
     return
 
@@ -36,7 +34,6 @@ export setToDefaultState = ->
 export setToAddCodeState = ->
     log "setToAddCodeState"
     # await cubeModule.waitForTransition()
-    codeDisplay.hideCode()
     cubeModule.reset()
     radiologistImages.reset()
     screeningsList.hide()
@@ -47,7 +44,7 @@ export setToAddCodeState = ->
     content.classList.add("add-code")
     content.classList.remove("pre-user-images")
     content.classList.remove("user-images")
-    content.classList.remove("code-revealed")
+    content.classList.remove("show-qr")
     content.classList.remove("request-code")
     return
 
@@ -55,7 +52,6 @@ export setToAddCodeState = ->
 export setToUpdateCodeState = ->
     log "setToUpdateCodeState"
     # await cubeModule.waitForTransition()
-    codeDisplay.hideCode()
     cubeModule.reset()
     radiologistImages.reset()
     screeningsList.hide()
@@ -66,7 +62,7 @@ export setToUpdateCodeState = ->
     content.classList.add("add-code")
     content.classList.remove("pre-user-images")
     content.classList.remove("user-images")
-    content.classList.remove("code-revealed")
+    content.classList.remove("show-qr")
     content.classList.remove("request-code")
     return
 
@@ -74,7 +70,6 @@ export setToUpdateCodeState = ->
 export setToRequestCodeState = ->
     log "setToRequestCodeState"
     # await cubeModule.waitForTransition()
-    codeDisplay.hideCode()
     screeningsList.hide()
     cubeModule.reset()
     cubeModule.setRequestCodeFrame() # must be before requestFrame.prepareForRequest, otherwise the Frame is not in the DOM
@@ -86,7 +81,7 @@ export setToRequestCodeState = ->
     content.classList.remove("add-code")
     content.classList.remove("pre-user-images")
     content.classList.remove("user-images")
-    content.classList.remove("code-revealed")
+    content.classList.remove("show-qr")
     content.classList.add("request-code")
     return
 
@@ -94,7 +89,6 @@ export setToRequestCodeState = ->
 export setToRequestUpdateCodeState = ->
     log "setToRequestUpdateCodeState"
     # await cubeModule.waitForTransition()
-    codeDisplay.hideCode()
     screeningsList.hide()
     cubeModule.reset()
     cubeModule.setRequestCodeFrame() # must be before requestFrame.prepareForRequest, otherwise the Frame is not in the DOM
@@ -106,7 +100,7 @@ export setToRequestUpdateCodeState = ->
     content.classList.remove("add-code")
     content.classList.remove("pre-user-images")
     content.classList.remove("user-images")
-    content.classList.remove("code-revealed")
+    content.classList.remove("show-qr")
     content.classList.add("request-code")
     return
 
@@ -114,7 +108,6 @@ export setToRequestUpdateCodeState = ->
 export setToPreUserImagesState = ->
     log "setToPreUserImagesState"
     # await cubeModule.waitForTransition()
-    codeDisplay.hideCode()
     screeningsList.hide()
     cubeModule.reset()
     cubeModule.setPreUserImages()
@@ -126,7 +119,7 @@ export setToPreUserImagesState = ->
     content.classList.remove("add-code")
     content.classList.add("pre-user-images")
     content.classList.remove("user-images")
-    content.classList.remove("code-revealed")
+    content.classList.remove("show-qr")
     content.classList.remove("request-code")    
     return
 
@@ -134,7 +127,6 @@ export setToPreUserImagesState = ->
 export setToUserImagesState = ->
     log "setToUserImagesState"
     await cubeModule.waitForTransition()
-    codeDisplay.hideCode()
     screeningsList.hide()
     cubeModule.allowTouch()
     radiologistImages.loadData()
@@ -145,14 +137,13 @@ export setToUserImagesState = ->
     content.classList.remove("add-code")
     content.classList.remove("pre-user-images")
     content.classList.add("user-images")
-    content.classList.remove("code-revealed")
+    content.classList.remove("show-qr")
     content.classList.remove("request-code")    
     return
 
-export setToCodeRevealedState = ->
+export setToShowQRState = ->
     
     await cubeModule.waitForTransition()
-    codeDisplay.revealCode()
     screeningsList.hide()
     cubeModule.setCodeRevealed()
     radiologistImages.loadData()
@@ -163,7 +154,7 @@ export setToCodeRevealedState = ->
     content.classList.remove("add-code")
     content.classList.remove("pre-user-images")
     content.classList.remove("user-images")
-    content.classList.add("code-revealed")
+    content.classList.add("show-qr")
     content.classList.remove("request-code")    
     return
         
@@ -172,7 +163,6 @@ export setToCodeRevealedState = ->
 export showScreeningsList = ->
     log "showScreeningsList"
     # await cubeModule.waitForTransition()
-    codeDisplay.hideCode()
     screeningsList.show()
     cubeModule.reset()
     radiologistImages.reset()
@@ -183,7 +173,7 @@ export showScreeningsList = ->
     content.classList.remove("add-code")
     content.classList.remove("pre-user-images")
     content.classList.remove("user-images")
-    content.classList.remove("code-revealed")
+    content.classList.remove("show-qr")
     content.classList.remove("request-code")
     return
 
