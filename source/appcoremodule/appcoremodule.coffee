@@ -12,6 +12,7 @@ import * as nav from "navhandler"
 import * as S from "./statemodule.js"
 import * as uiState from "./uistatemodule.js"
 import * as triggers from "./navtriggers.js"
+import * as utl from "./utilmodule.js"
 
 ############################################################
 import * as account from "./accountmodule.js"
@@ -32,6 +33,9 @@ import * as radiologistData from "./radiologistdatamodule.js"
 import * as verificationModal from "./codeverificationmodal.js"
 import * as invalidcodeModal from "./invalidcodemodal.js"
 import * as logoutModal from "./logoutmodal.js"
+
+############################################################
+import * as sci from "./scimodule.js"
 
 ############################################################
 import { AuthenticationError } from "./errormodule.js"
@@ -190,17 +194,23 @@ prepareAccount = ->
 ############################################################
 desktopRedirect = ->
     log "desktopRedirect"
-    creds = account.getUserCredentials()
-    code = creds.code
-    dateOfBirth = creds.dateOfBirth
-    ## TODO - maybe format dateOfBirth to dd/mm/yyyy
+    try
+        creds = account.getUserCredentials()
+        loginBody = utl.loginRequestBody(creds)
+        # code = creds.code
+        # dateOfBirth = creds.dateOfBirth
+        # ## TODO - maybe format dateOfBirth to dd/mm/yyyy
 
-    redirectURL = "https://www.bilder-befunde.at/webview/index.php?menuid=2&autologin=pwa&input_dob=#{dateOfBirth}&input_code=#{code}"
+        await sci.desktopLoginWithRedirect(loginBody)
+    catch err then log err
+    return
+
+    # redirectURL = "https://www.bilder-befunde.at/webview/index.php?menuid=2&autologin=pwa&input_dob=#{dateOfBirth}&input_code=#{code}"
     
-    log redirectURL
-    ## TODO reactivate for testing:
-    return window.location.replace(redirectURL);
-    # return
+    # log redirectURL
+    # ## TODO reactivate for testing:
+    # return window.location.replace(redirectURL);
+    # # return
 
 ############################################################
 updateUIData = ->

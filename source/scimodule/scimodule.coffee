@@ -11,7 +11,7 @@ import { NetworkError, AuthenticationError } from "./errormodule.js"
 import { 
     tokenEndpointURL, dataEndpointURL, 
     screeningsEndpointURL, codeRequestURL, 
-    loginURL 
+    loginURL, desktopLoginURL
     } from "./configmodule.js"
 
 chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -157,6 +157,31 @@ export loginRequest = (body) ->
         throw new NetworkError("#{err.message}. Code: #{err.status}")
     return
 
+
+############################################################
+export desktopLoginWithRedirect = (body) ->
+    log "desktopLoginWithRedirect"
+    method = "POST"
+    mode = 'cors'
+    redirect =  'follow'
+    
+    headers = { 'Content-Type': 'application/json' }
+    body = JSON.stringify(body)
+
+    fetchOptions = { method, mode, redirect, headers, body }
+
+    try 
+        response = await fetch(desktopLoginURL, fetchOptions)
+        if response.ok then return await response.text()
+        
+        error = new Error("#{await response.text()}")
+        error.status = response.status
+        throw error
+    catch err
+        if err.status == 401 then throw new AuthenticationError(err.message)
+        throw new NetworkError("#{err.message}. Code: #{err.status}")
+    return
+
 ############################################################
 #region deprecated Code
 
@@ -166,12 +191,11 @@ export loginWithRedirect = (body) ->
     method = "POST"
     mode = 'cors'
     redirect =  'follow'
-    credentials = 'include'
     
     headers = { 'Content-Type': 'application/json' }
     body = JSON.stringify(body)
 
-    fetchOptions = { method, mode, redirect, credentials, headers, body }
+    fetchOptions = { method, mode, redirect, headers, body }
 
     try 
         response = await fetch(loginURL, fetchOptions)
