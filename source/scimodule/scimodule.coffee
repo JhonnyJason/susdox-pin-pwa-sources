@@ -168,8 +168,9 @@ export desktopLoginWithRedirect = (body) ->
     headers = { 'Content-Type': 'application/json' }
     body = JSON.stringify(body)
 
+    # log body
     fetchOptions = { method, mode, redirect, headers, body }
-
+    # olog fetchOptions
     try 
         response = await fetch(desktopLoginURL, fetchOptions)
         if response.ok then return await response.text()

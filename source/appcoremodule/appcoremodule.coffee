@@ -196,11 +196,12 @@ desktopRedirect = ->
     log "desktopRedirect"
     try
         creds = account.getUserCredentials()
-        loginBody = utl.loginRequestBody(creds)
+        olog creds
+        loginBody = await utl.loginRequestBody(creds)
         # code = creds.code
         # dateOfBirth = creds.dateOfBirth
         # ## TODO - maybe format dateOfBirth to dd/mm/yyyy
-
+        olog loginBody
         await sci.desktopLoginWithRedirect(loginBody)
     catch err then log err
     return
