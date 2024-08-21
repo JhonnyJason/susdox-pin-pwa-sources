@@ -71,7 +71,7 @@ getData = (url, data) ->
 
     try
         response = await fetch(url, options)
-        if response.ok then return await response.text()
+        if response.ok then return await response.json()
         
         error = new Error("#{await response.text()}")
         error.status = response.status
@@ -147,6 +147,30 @@ export loginRequest = (body) ->
         console.log(response.status)
         # if response.ok then return await response.text()
         ## TODO: use json from response
+        if response.ok then return await response.json()
+        
+        error = new Error("#{await response.text()}")
+        error.status = response.status
+        throw error
+    catch err
+        if err.status == 401 then throw new AuthenticationError(err.message)
+        throw new NetworkError("#{err.message}. Code: #{err.status}")
+    return
+
+############################################################
+export desktopLogin = (body) ->
+    log "desktopLogin"
+    method = "POST"
+    mode = 'cors'
+    
+    headers = { 'Content-Type': 'application/json' }
+    body = JSON.stringify(body)
+
+    # log body
+    fetchOptions = { method, mode, headers, body }
+    # olog fetchOptions
+    try 
+        response = await fetch(desktopLoginURL, fetchOptions)
         if response.ok then return await response.json()
         
         error = new Error("#{await response.text()}")

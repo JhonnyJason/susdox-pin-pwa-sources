@@ -196,13 +196,16 @@ desktopRedirect = ->
     log "desktopRedirect"
     try
         creds = account.getUserCredentials()
-        olog creds
+        olog { creds }
         loginBody = await utl.loginRequestBody(creds)
-        # code = creds.code
-        # dateOfBirth = creds.dateOfBirth
-        # ## TODO - maybe format dateOfBirth to dd/mm/yyyy
-        olog loginBody
-        await sci.desktopLoginWithRedirect(loginBody)
+        olog { loginBody }
+        response = await sci.desktopLogin(loginBody)
+        olog { response }
+
+        if response.redirect_url?  
+            window.location.replace(response.redirect_url)
+        else throw new Error("No redirect_url in response!")
+    
     catch err then log err
     return
 
