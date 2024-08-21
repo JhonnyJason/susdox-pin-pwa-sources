@@ -41,6 +41,8 @@ menu-icon-size = 25px
         position relative
         top 1px
 
+
+//==========================================================
 #all-users
     border-top solid 1px alpha(cd-darkblue, 0.1)
     border-bottom solid 1px alpha(cd-darkblue, 0.1)
@@ -57,8 +59,18 @@ menu-icon-size = 25px
     #menu-logout
         pointer-events: none
         opacity 0.6
-        
+
+//==========================================================
+#menu-hide-qr
+    display none
+
+.show-qr 
+    #menu-show-qr
+        display none
+    #menu-hide-qr
+        display true        
     
+//==========================================================
 #menu-version
     color cd-darkblue
     opacity 0.6
@@ -93,13 +105,14 @@ menu-icon-size = 25px
         display: block
 
 
+//==========================================================
 #menu-bottom-group
     position absolute
     bottom 20px
     padding 0 10px
     left 0
 
-
+//==========================================================
 #menu-pwa-install-button:hover
     background-color alpha(cd-darkblue, 0.6)
 
@@ -140,7 +153,7 @@ menu-icon-size = 25px
     #menu-pwa-install-button
         display block
 
-
+//==========================================================
 @media (display-mode: standalone)
     #menu-pwa-install-button
         display none
