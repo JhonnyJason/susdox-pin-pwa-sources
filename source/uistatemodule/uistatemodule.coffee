@@ -96,26 +96,31 @@ applyModifier["none"] = (ctx) ->
 applyModifier["menu"] = (ctx) ->
     resetAllModifications()
     menu.setMenuOn()
+    footer.show()
     return
 
 applyModifier["codeverification"] = (ctx) ->
     resetAllModifications(ctx)
     codeverificationModal.turnUpModal()
+    footer.show()
     return
 
 applyModifier["logoutconfirmation"] = (ctx) ->
     resetAllModifications()
     logoutModal.turnUpModal()
+    footer.show()
     return
 
 applyModifier["invalidcode"] = (ctx) ->
     resetAllModifications()
     invalidcodeModal.turnUpModal()
+    footer.show()
     return
 
 applyModifier["coderevealed"] = (ctx) ->
     resetAllModifications()
     codeDisplay.revealCode()
+    footer.show()
     return
 
 #endregion
