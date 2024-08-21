@@ -8,6 +8,7 @@ indexdomconnect.initialize = () ->
     global.content = document.getElementById("content")
     global.centerbutton = document.getElementById("centerbutton")
     global.susdoxLogo = document.getElementById("susdox-logo")
+    global.headerInstallButton = document.getElementById("header-install-button")
     global.menuCloseButton = document.getElementById("menu-close-button")
     global.menuButton = document.getElementById("menu-button")
     global.pwainstallHowtoBackground = document.getElementById("pwainstall-howto-background")

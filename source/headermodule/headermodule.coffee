@@ -6,6 +6,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as trigger from "./navtriggers.js"
+import * as pwaInstall from "./pwainstallmodule.js"
 
 ############################################################
 export initialize = ->
@@ -13,6 +14,7 @@ export initialize = ->
     susdoxLogo.addEventListener("click", susdoxLogoClicked)
     menuButton.addEventListener("click", menuButtonClicked)
     menuCloseButton.addEventListener("click", menuCloseButtonClicked)
+    headerInstallButton.addEventListener("click", headerInstallButtonClicked)
     return
 
 ############################################################
@@ -33,3 +35,6 @@ menuCloseButtonClicked = ->
 
 
 
+headerInstallButtonClicked = ->
+    log "headerInstallButtonClicked"
+    pwaInstall.promptForInstallation()

@@ -113,15 +113,18 @@ checkIfInstalled = ->
         appIsInstalled = true
         return
 
-    return unless navigator.getInstalledRelatedApps?
-    log "navigator.getInstalledRelatedApps exists"
-    
-    results = await navigator.getInstalledRelatedApps()
-    olog results
-    log results.length
+    # For now we don't check if app exists outside of browser
+    # Only if we are "inApp" we donot show the install button 
 
-    if Array.isArray(results) and results.length > 0 
-        appIsInstalled = true   
+    # return unless navigator.getInstalledRelatedApps?
+    # log "navigator.getInstalledRelatedApps exists"
+    
+    # results = await navigator.getInstalledRelatedApps()
+    # olog results
+    # log results.length
+
+    # if Array.isArray(results) and results.length > 0 
+    #     appIsInstalled = true   
     return
 
 ############################################################
