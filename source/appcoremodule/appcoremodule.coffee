@@ -195,6 +195,9 @@ prepareAccount = ->
 desktopRedirect = ->
     log "desktopRedirect"
     try
+        log "desktop redirect skipped for debugging!"
+        return
+        
         creds = account.getUserCredentials()
         olog { creds }
         loginBody = await utl.loginRequestBody(creds)
