@@ -13,6 +13,7 @@ import * as credentialsFrame from "./credentialsframemodule.js"
 import * as codeverificationModal from "./codeverificationmodal.js"
 import * as logoutModal from "./logoutmodal.js"
 import * as invalidcodeModal from "./invalidcodemodal.js"
+import * as footer from "./footermodule.js"
 
 #endregion
 
@@ -30,38 +31,47 @@ currentContext = null
 
 applyBaseState["no-code"] = (ctx) ->
     content.setToDefaultState(ctx)
+    footer.show()
     return
 
 applyBaseState["add-code"] = (ctx) ->
     content.setToAddCodeState(ctx)
+    footer.show()
     return
 
 applyBaseState["update-code"] = (ctx) ->
     content.setToUpdateCodeState(ctx)
+    footer.show()
     return
 
 applyBaseState["request-code"] = (ctx) ->
     content.setToRequestCodeState(ctx)
+    footer.show()
     return
 
 applyBaseState["request-update-code"] = (ctx) ->
     content.setToRequestUpdateCodeState(ctx)
+    footer.show()
     return
 
 applyBaseState["pre-user-images"] = (ctx) ->
     content.setToPreUserImagesState(ctx)
+    footer.show()
     return
 
 applyBaseState["user-images"] = (ctx) ->
     content.setToUserImagesState(ctx)    
+    footer.show()
     return
 
 applyBaseState["show-qr"] = (ctx) ->
     content.setToShowQRState(ctx)    
+    footer.show()
     return
 
 applyBaseState["screenings-list"] = (ctx) ->
     content.showScreeningsList(ctx)
+    footer.hide()
     return
 
 

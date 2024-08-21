@@ -91,4 +91,12 @@ export reset = ->
     setRightAddress(sustSolAddress)
     return
 
+export hide = ->
+    footer.classList.add("hidden")
+    return
+
+export show = ->
+    footer.classList.remove("hidden")
+    return
+    
 #endregion
