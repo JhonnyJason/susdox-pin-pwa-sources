@@ -2,7 +2,9 @@
 header-icon-size = 35px
 header-burger-size = 30px
 
-header-install-icon-size = 25px 
+
+// header-install-icon-size = 25px 
+header-install-icon-size = 20px 
 
 #header
     background-color white
@@ -48,14 +50,15 @@ header-install-icon-size = 25px
 #header-install-button
     display none
     border-radius 3px
-    max-width: 240px
+    max-width: 200px
     width: calc(100vw - 140px)
     box-sizing: border-box
     background-color cd-darkblue
     color #fff
     @extends .click-button
 
-    padding 8px 15px 
+    // padding 8px 15px 
+    padding 6px 10px 
     align-items: center
     flex-wrap: nowrap
 
@@ -66,8 +69,10 @@ header-install-icon-size = 25px
 
     #header-install-label
         line-height: 150%
-        font-size: 20px
-        margin-left 15px
+        // font-size: 20px
+        font-size 16px
+        // margin-left 15px
+        margin-left 10px
         // funny specific issue here...
         position relative
         top 1px
