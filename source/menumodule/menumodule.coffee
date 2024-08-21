@@ -17,6 +17,7 @@ import * as triggers from "./navtriggers.js"
 menuFrame = document.getElementById("menu-frame")
 menuAddCode = document.getElementById("menu-add-code")
 menuShowQR = document.getElementById("menu-show-qr")
+menuHideQR = document.getElementById("menu-hide-qr")
 menuLogout = document.getElementById("menu-logout")
 menuVersion = document.getElementById("menu-version")
 menuPWAInstallButton = document.getElementById("menu-pwa-install-button")
@@ -36,6 +37,7 @@ export initialize = ->
     menuFrame.addEventListener("click", menuFrameClicked)
     menuAddCode.addEventListener("click", addCodeClicked)
     menuShowQR.addEventListener("click", showQRClicked)
+    menuHideQR.addEventListener("click", hideQRClicked)
     menuLogout.addEventListener("click", logoutClicked)
     menuVersion.addEventListener("click", menuVersionClicked)
     menuPWAInstallButton.addEventListener("click", pwaInstallClicked)
@@ -72,6 +74,12 @@ showQRClicked = (evnt) ->
     log "showQRClicked"
     evnt.stopPropagation()
     triggers.showQR()
+    return
+
+hideQRClicked = (evnt) ->
+    log "hideQRClicked"
+    evnt.stopPropagation()
+    triggers.home()
     return
 
 logoutClicked = (evnt) ->
