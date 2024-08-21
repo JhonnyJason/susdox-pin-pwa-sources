@@ -34,7 +34,10 @@ export initialize = ->
     window.addEventListener("appinstalled", onAppInstalled)
 
     window.matchMedia('(display-mode: standalone)').addEventListener("change",onDisplayModeChange)
-    
+ 
+    # for the case the event is not fired check the state of right  now
+    env.inApp = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone
+
     checkIfInstalled()
     decideOnHowTo()
 
