@@ -4,6 +4,7 @@ indexdomconnect = {name: "indexdomconnect"}
 indexdomconnect.initialize = () ->
     global.realBody = document.getElementById("real-body")
     global.footer = document.getElementById("footer")
+    global.addressDisplay = document.getElementById("address-display")
     global.content = document.getElementById("content")
     global.centerbutton = document.getElementById("centerbutton")
     global.susdoxLogo = document.getElementById("susdox-logo")

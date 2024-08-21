@@ -10,7 +10,8 @@ import * as radiologistData from "./radiologistdatamodule.js"
 ############################################################
 #region DOM cache
 
-footer = document.getElementById("address-display")
+addressDisplay = document.getElementById("address-display")
+footer = document.getElementById("footer")
 
 ############################################################
 footer0 = document.getElementById("display-0")
@@ -40,29 +41,29 @@ footerRight = footer2
 ## rotation functions - called by cubemodule
 ############################################################
 export rotateLeft = ->
-    footer.classList.remove("no-transition")
-    footer.classList.remove("position-#{footerPosition}")
+    addressDisplay.classList.remove("no-transition")
+    addressDisplay.classList.remove("position-#{footerPosition}")
     footerPosition++
-    footer.classList.add("position-#{footerPosition}")
+    addressDisplay.classList.add("position-#{footerPosition}")
     return
 
 export rotateRight = ->
-    footer.classList.remove("no-transition")
-    footer.classList.remove("position-#{footerPosition}")
+    addressDisplay.classList.remove("no-transition")
+    addressDisplay.classList.remove("position-#{footerPosition}")
     footerPosition--
-    footer.classList.add("position-#{footerPosition}")
+    addressDisplay.classList.add("position-#{footerPosition}")
     return
 
 
 ############################################################
 export postRotationCorrection = ->
     log "postRotationCorrection"
-    footer.classList.add("no-transition")
+    addressDisplay.classList.add("no-transition")
     log "footerPosition: #{footerPosition}"
 
-    footer.classList.remove("position-#{footerPosition}")
+    addressDisplay.classList.remove("position-#{footerPosition}")
     footerPosition = 0
-    footer.classList.add("position-#{footerPosition}")
+    addressDisplay.classList.add("position-#{footerPosition}")
     return
 
 ## set addresses from outsite - radiologistDataModule
@@ -98,5 +99,5 @@ export hide = ->
 export show = ->
     footer.classList.remove("hidden")
     return
-    
+
 #endregion
