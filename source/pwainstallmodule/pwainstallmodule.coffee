@@ -72,7 +72,7 @@ onBeforeInstallPrompt = (e) ->
     howToToShow = null
     deferredInstallPrompt = e
 
-    alert("We received the onBeroferInstallPrompt Event!")
+    # alert("We received the onBeroferInstallPrompt Event!")
     log "So adding Installbutton ;-)"
     menu.setInstallableOn()    
     return
@@ -136,8 +136,12 @@ decideOnHowTo = ->
     log "decideOnHowTo"
     
     # TODO remove when we have more HowTos
-    if env.os == "ios"#for now we only show HowTos for ios
+    #for now we only show HowTos for ios and samsung
+    if env.os == "ios"
         howToToShow = "ios"
+        return
+    else if env.browser == "samsung"
+        howToToShow = "samsung"
         return
     else
         howToToShow = null
@@ -146,6 +150,10 @@ decideOnHowTo = ->
     ##The real code when we have all HowTos
     if env.os == "android" and env.browser == "firefox"
         howToToShow = "firefox-android"
+        return
+
+    if env.os == "android" and env.browser == "samsung"
+        howToToShow = "samsung"
         return
     
     if env.os == "ios"
