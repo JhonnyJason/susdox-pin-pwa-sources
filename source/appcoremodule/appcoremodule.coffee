@@ -195,8 +195,8 @@ prepareAccount = ->
 desktopRedirect = ->
     log "desktopRedirect"
     try
-        # log "desktopRedirect skipped for debugging!"
-        # return
+        log "desktopRedirect skipped for debugging!"
+        return
 
         creds = account.getUserCredentials()
         olog { creds }

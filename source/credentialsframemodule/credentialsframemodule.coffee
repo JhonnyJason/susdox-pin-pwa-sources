@@ -104,7 +104,7 @@ loginCodeInputKeyUpped = (evt) ->
     # log "loginCodeInputKeyUpped"
     
     rawCode = loginCodeInput.value.replaceAll(" ", "").toLowerCase()
-    log "rawCode #{rawCode}"
+    # log "rawCode #{rawCode}"
     newCode = ""
     # filter out all the illegal characters
     for c in rawCode when utl.isAlphanumericString(c)
@@ -117,7 +117,7 @@ loginCodeInputKeyUpped = (evt) ->
 
     codeTokens = []
     
-    log "newCode #{newCode}"
+    # log "newCode #{newCode}"
     if rLen > 0
         codeTokens.push(newCode.slice(0,3))
     if rLen > 3
@@ -127,6 +127,8 @@ loginCodeInputKeyUpped = (evt) ->
     newValue = codeTokens.join("  ")
 
     loginCodeInput.value = newValue
+
+    if rLen == 6 then loginCodeInput.blur()
     return
 
 ############################################################
@@ -148,9 +150,14 @@ extractCredentials = ->
     credentials = { code, dateOfBirth }
     userFeedback.innerHTML = loginPreloader.innerHTML
 
-    loginBody = await utl.loginRequestBody(credentials)
-    response = await sci.loginRequest(loginBody)
-    if response? and response.name? then credentials.name = response.name 
+    log "credentials: "
+    olog credentials
+
+    try
+        loginBody = await utl.loginRequestBody(credentials)
+        response = await sci.loginRequest(loginBody)
+        if response? and response.name? then credentials.name = response.name 
+    catch err then throw err
     
     return credentials
 
@@ -179,7 +186,7 @@ export acceptInput = ->
 
         resetAllErrorFeedback()
         credentials = await extractCredentials() # also checks if they are valid
-
+        
         if accountToUpdate? 
             # we just updated an account - update credentials and save
             accountToUpdate.userCredentials = credentials
@@ -246,7 +253,8 @@ export prepareForAddCode = ->
     loginBirthdayInput.value = ""
 
     dateOfBirth = requestCodeFrame.getBirthdayValue()
-    log dateOfBirth
+    log "dateOfBirth: #{dateOfBirth}"
+    
     if dateOfBirth? and dateOfBirth then datePicker.setValue(dateOfBirth)
 
     loginCodeInput.value = ""

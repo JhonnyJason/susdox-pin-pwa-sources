@@ -48,6 +48,8 @@ export acceptButtonClicked = (evnt) ->
     acceptButton.classList.add("disabled")
     currentBase = uiState.getBase()
 
+    olog { currentBase }
+
     switch currentBase
         when "add-code", "update-code" 
             await credentialsFrame.acceptInput()
