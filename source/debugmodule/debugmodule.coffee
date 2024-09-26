@@ -11,7 +11,7 @@ export modulesToDebug = {
     # codedisplaymodule: true
     # codeverificationmodule: true
     # contentmodule: true
-    credentialsframemodule: true
+    # credentialsframemodule: true
     # cubemodule: true
     # errorfeedbackmodule: true
     # footermodule: true
@@ -23,7 +23,7 @@ export modulesToDebug = {
     # navtriggers: true 
     # radiologistdatamodule: true
     # requestcodeframemodule: true
-    scimodule: true
+    # scimodule: true
     # screeningslistmodule: true
     # scrollrolldatepickermodule: true
     # statemodule: true
