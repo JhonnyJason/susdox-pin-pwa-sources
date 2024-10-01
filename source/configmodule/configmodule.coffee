@@ -6,7 +6,7 @@ export codeRequestURL = "https://www.bilder-befunde.at/pwa-api/api/v1/request-co
 
 export desktopLoginURL = "https://www.bilder-befunde.at/pwa-api/api/v1/desktop-login/"
 
-export appVersion = "v0.1.8b"
+export appVersion = "v0.1.8c"
 
 ## not used now
 export qrURLBase = "https://pwa.bilder-befunde.at/#"

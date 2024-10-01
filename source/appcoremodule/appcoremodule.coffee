@@ -207,7 +207,7 @@ desktopRedirect = ->
         olog { response }
 
         if response.redirect_url?
-            await utl.waitMS(500)
+            await utl.waitMS(1500)
             window.location.replace(response.redirect_url)
         else throw new Error("No redirect_url in response!")
     
