@@ -27,14 +27,15 @@ export initialize = ->
 ############################################################
 addCodeButtonClicked = (evnt) ->
     log "addCodeButtonClicked"
-    evnt.preventDefault()
+    # evnt.preventDefault()
     triggers.addCode()
-    return false
+    # return false
+    return
 
 ############################################################
 codeButtonClicked = (evnt) ->
     log "codeButtonClicked"
-    evnt.preventDefault()
+    # evnt.preventDefault()
 
     toReveal = !("coderevealed" == uiState.getModifier())
     if toReveal
@@ -43,12 +44,13 @@ codeButtonClicked = (evnt) ->
         if !valid then return triggers.invalidCode()
 
     triggers.codeReveal(toReveal)
-    return false
+    # return false
+    return
 
 ############################################################
 export acceptButtonClicked = (evnt) ->
     log "acceptButtonClicked"
-    evnt.preventDefault()
+    # evnt.preventDefault()
 
     acceptButton.classList.add("disabled")
     currentBase = uiState.getBase()
@@ -62,4 +64,6 @@ export acceptButtonClicked = (evnt) ->
             await requestcodeFrame.requestCode()
     
     acceptButton.classList.remove("disabled")
-    return false
+    # return false
+    alert("acceptButtonClicked finished!")
+    return
