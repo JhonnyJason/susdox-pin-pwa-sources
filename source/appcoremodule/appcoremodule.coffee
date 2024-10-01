@@ -61,6 +61,7 @@ urlCode = null
 
 ############################################################
 accountAvailable = false
+redirected = false
 
 ############################################################
 export initialize = ->
@@ -149,6 +150,8 @@ activeAccountChanged = ->
         setAppState("no-code","none")
         deleteImageCache()
 
+    if redirected then return
+    
     nav.toRoot(true)
     updateUIData()
     return
@@ -186,7 +189,8 @@ prepareAccount = ->
     try 
         await account.updateData()
         ## here the credentials are available and valid
-        if env.isDesktop then return await desktopRedirect()
+        redirected = true
+        if env.isDesktop then return desktopRedirect()
     catch err then log err # here credentials were invalid
     # finally setAppState("user-images", "none")
     setAppState("user-images", "none")
@@ -210,6 +214,7 @@ desktopRedirect = ->
             window.location.replace(response.redirect_url)
             # window.location.assign(response.redirect_url)
             # window.location.open(response.redirect_url)
+            throw new Error("")
         else throw new Error("No redirect_url in response!")
     
     catch err then log err
