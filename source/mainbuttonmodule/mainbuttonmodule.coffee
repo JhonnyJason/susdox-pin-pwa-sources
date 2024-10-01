@@ -27,12 +27,15 @@ export initialize = ->
 ############################################################
 addCodeButtonClicked = (evnt) ->
     log "addCodeButtonClicked"
+    evnt.preventDefault()
     triggers.addCode()
     return
 
 ############################################################
 codeButtonClicked = (evnt) ->
     log "codeButtonClicked"
+    evnt.preventDefault()
+
     toReveal = !("coderevealed" == uiState.getModifier())
     if toReveal
         valid = await account.accountIsValid()
@@ -45,6 +48,8 @@ codeButtonClicked = (evnt) ->
 ############################################################
 export acceptButtonClicked = (evnt) ->
     log "acceptButtonClicked"
+    evnt.preventDefault()
+
     acceptButton.classList.add("disabled")
     currentBase = uiState.getBase()
 
