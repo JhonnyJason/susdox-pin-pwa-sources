@@ -186,7 +186,7 @@ prepareAccount = ->
     try 
         await account.updateData()
         ## here the credentials are available and valid
-        if env.isDesktop then return desktopRedirect()
+        if env.isDesktop then return await desktopRedirect()
     catch err then log err # here credentials were invalid
     # finally setAppState("user-images", "none")
     setAppState("user-images", "none")

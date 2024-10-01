@@ -65,5 +65,4 @@ export acceptButtonClicked = (evnt) ->
     
     acceptButton.classList.remove("disabled")
     # return false
-    alert("acceptButtonClicked finished!")
     return
