@@ -8,6 +8,7 @@ import { createLogFunctions } from "thingy-debug"
 import * as S from "./statemodule.js"
 import * as utl from "./utilmodule.js"
 import * as sci from "./scimodule.js"
+import { env } from "./environmentmodule.js"
 import { AuthenticationError } from "./errormodule.js"
 
 ############################################################
@@ -20,6 +21,11 @@ noAccount = true
 ############################################################
 export initialize = ->
     log "initialize"
+    if env.isDesktop
+        S.save("allAccounts", [], true)
+        S.save("activeAccount", NaN)
+        return
+
     allAccounts = S.load("allAccounts") || []
     S.save("allAccounts", allAccounts, true)
     activeAccount = parseInt(S.load("activeAccount"))
@@ -111,7 +117,7 @@ export addNewAccount = (credentials) ->
     accountObj.label = ""
     accountObj.name = name
     allAccounts.push(accountObj)
-    S.save("allAccounts")
+    S.save("allAccounts") unless env.isDesktop
     noAccount = false
     return accountIndex
 
@@ -122,7 +128,9 @@ export setAccountActive = (index) ->
     if index >= allAccounts.length then throw new Error("No account by index: #{index}")
 
     activeAccount = index
-    S.save("activeAccount", index)
+
+    if env.isDesktop then S.set("activeAccount", index)
+    else S.save("activeAccount", index)
     return
 
 export setAccountValid = (index) ->
@@ -162,26 +170,33 @@ export deleteAccount = (index) ->
     if allAccounts.length == 0
         noAccount = true
         activeAccount = NaN
-        S.save("activeAccount", NaN)
-        S.save("allAccounts")
+        if env.isDesktop
+            S.set("activeAccount", NaN)
+        else
+            S.save("activeAccount", NaN)
+            S.save("allAccounts")
         return
 
     if deleteCurrentAccount and activeAccountWasZero
-        S.save("allAccounts")
+        S.save("allAccounts") unless env.isDesktop
         S.callOutChange("activeAccount")
 
     if deleteCurrentAccount and !activeAccountWasZero
-        S.save("allAccounts")
+        S.save("allAccounts") unless env.isDesktop
         activeAccount--
-        S.save("activeAccount", activeAccount)
+
+        if env.isDesktop then S.set("activeAccount", activeAccount)
+        else S.save("activeAccount", activeAccount)
 
     if !deleteCurrentAccount and index < activeAccount
         activeAccount--
-        S.saveSilently("activeAccount", activeAccount)
-
+        if env.isDesktop
+            S.setSilently("activeAccount", activeAccount)
+        else
+            S.saveSilently("activeAccount", activeAccount)
     return
 
-export saveAllAccounts = -> S.save("allAccounts")
+export saveAllAccounts = -> S.save("allAccounts") unless env.isDesktop
     
 ############################################################
 export saveLabelEdit = (label, index) ->
@@ -192,7 +207,7 @@ export saveLabelEdit = (label, index) ->
 
     accountObj = allAccounts[index]
     accountObj.label = label
-    S.save("allAccounts")
+    S.save("allAccounts") unless env.isDesktop
     return
 
 ############################################################

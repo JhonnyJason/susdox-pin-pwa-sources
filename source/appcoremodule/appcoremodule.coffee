@@ -171,7 +171,8 @@ checkAccountAvailability = ->
         await account.getUserCredentials()
         accountAvailable = true
         return # return fast if we have an account
-    catch err then log "No Account Available"
+    catch err then log err
+    # log "No Account Available"
     
     # no account available
     accountAvailable = false
