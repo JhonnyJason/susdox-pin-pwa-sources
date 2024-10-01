@@ -151,7 +151,7 @@ activeAccountChanged = ->
         deleteImageCache()
 
     if redirected then return
-    
+
     nav.toRoot(true)
     updateUIData()
     return
@@ -189,8 +189,11 @@ prepareAccount = ->
     try 
         await account.updateData()
         ## here the credentials are available and valid
-        redirected = true
-        if env.isDesktop then return desktopRedirect()
+        
+        if env.isDesktop 
+            redirected = true
+            return desktopRedirect()
+
     catch err then log err # here credentials were invalid
     # finally setAppState("user-images", "none")
     setAppState("user-images", "none")
