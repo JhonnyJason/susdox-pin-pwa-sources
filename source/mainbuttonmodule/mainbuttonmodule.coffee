@@ -29,7 +29,7 @@ addCodeButtonClicked = (evnt) ->
     log "addCodeButtonClicked"
     evnt.preventDefault()
     triggers.addCode()
-    return
+    return false
 
 ############################################################
 codeButtonClicked = (evnt) ->
@@ -43,7 +43,7 @@ codeButtonClicked = (evnt) ->
         if !valid then return triggers.invalidCode()
 
     triggers.codeReveal(toReveal)
-    return
+    return false
 
 ############################################################
 export acceptButtonClicked = (evnt) ->
@@ -62,4 +62,4 @@ export acceptButtonClicked = (evnt) ->
             await requestcodeFrame.requestCode()
     
     acceptButton.classList.remove("disabled")
-    return
+    return false
