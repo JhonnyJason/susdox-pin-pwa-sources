@@ -207,9 +207,9 @@ desktopRedirect = ->
         olog { response }
 
         if response.redirect_url?
-            # window.location.replace(response.redirect_url)
+            window.location.replace(response.redirect_url)
             # window.location.assign(response.redirect_url)
-            window.location.open(response.redirect_url)
+            # window.location.open(response.redirect_url)
         else throw new Error("No redirect_url in response!")
     
     catch err then log err
