@@ -1,14 +1,12 @@
 menu-icon-size = 25px
 
-#menu-hidden-templates
-    display: none
-
 #menu
     width 260px
     height 100%
     overflow-y: auto
     box-sizing: border-box   
     padding 5px 15px
+    padding-bottom 150px
     position absolute
     top 0
     right 0
@@ -109,10 +107,13 @@ menu-icon-size = 25px
 
 //==========================================================
 #menu-bottom-group
+    width 240px
     position absolute
     bottom 20px
     padding 0 10px
-    left 0
+    right 0
+    transition transform 0.3s
+    transform translateX(102%)
 
 //==========================================================
 #menu-pwa-install-button:hover
@@ -149,6 +150,8 @@ menu-icon-size = 25px
         color #e0e0e0
 .menu-on
     #menu
+        transform translateX(0)
+    #menu-bottom-group
         transform translateX(0)
 
 .installable

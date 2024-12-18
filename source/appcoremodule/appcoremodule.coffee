@@ -125,6 +125,8 @@ loadAppWithNavState = (navState) ->
     if urlCode? then return nav.toMod("codeverification")
 
     setUIState(baseState, modifier, context)
+    
+    if appBaseState == "no-code" then triggers.addCode()
     return
 
 ############################################################
