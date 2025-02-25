@@ -14,11 +14,7 @@ userCacheName = imageCacheName
 ############################################################
 # This is for the case we need to delete - usually we reuse QRcch_app and update "/" on a new install without deleting everything
 # We need to delete the cache if there is an outdated and unused file which would stay in the cache otherwise
-cachesToDelete = [
-    "PIN-PWAmain"
-    "PIN-PWAimages"
-    "PIN-PWAfonts"
-]
+cachesToDelete = [ ]
 
 ############################################################
 fixedAppFiles = [
