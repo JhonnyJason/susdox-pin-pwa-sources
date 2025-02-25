@@ -312,6 +312,7 @@ confirmLogoutProcess = ->
     try
         await logoutModal.userConfirmation()
         account.deleteAccount()
+        await sci.logoutRequest()
     catch err then log err
     finally nav.toRoot(true)
     return
@@ -321,8 +322,11 @@ invalidCodeProcess = ->
     log "invalidCodeProcess"
     try
         deleteCode = await invalidcodeModal.promptCodeDeletion()
-        if deleteCode then return account.deleteAccount()
-        triggers.codeReveal(true)
+        
+        if deleteCode
+            account.deleteAccount()
+            await sci.logoutRequest()
+        else triggers.codeReveal(true)
     catch err
         log err
         switch err

@@ -1,5 +1,18 @@
 // cube styles
 /*=========================================================
+Variables
+=========================================================*/
+cube-size = 224px // must be divisible by 14
+perspective = 700px
+corrrectionScale = 0.84 // 1 - (size / 2 * persp)
+
+// cube-size = 222px // must be divisible by 6
+// perspective = 750px
+// corrrectionScale = 0.852 // 1 - (size / 2 * persp)
+
+
+
+/*=========================================================
  Arrow Styles
 =========================================================*/
 #arrow-left
@@ -39,7 +52,7 @@
         display block !important
     
     #cube
-        transform scale(0.83) rotateX(180deg)
+        transform scale(corrrectionScale) rotateX(180deg)
 
 .user-images
     #arrow-left
@@ -48,7 +61,7 @@
         transform translate(0, -50%)
     
     #cube
-        transform scale(0.83) rotateX(180deg)
+        transform scale(corrrectionScale) rotateX(180deg)
 
 
 /*=========================================================
@@ -59,11 +72,9 @@
     top 50%
     left 50%
     transform: translate(-50%, -50%)
-    // width: 220px;
-    // height: 220px;
-    width: 224px;
-    height: 224px;
-    perspective: 700px
+    width: cube-size;
+    height: cube-size;
+    perspective: perspective
     filter drop-shadow(0 0 15px alpha(black, 0.2));
     background: transparent
 
@@ -74,7 +85,7 @@
     // width: 210px
     // height: 210px
     transform-style: preserve-3d;
-    transform scale(0.83)
+    transform scale(corrrectionScale)
     transition transform 0.6s
     background transparent
     
@@ -85,23 +96,17 @@
         background-color white
 
     #cube-front
-        transform: rotateY(0deg) translateZ(112px)
-        // transform: rotateY(0deg) translateZ(122px)
+        transform: rotateY(0deg) translateZ(cube-size * 0.5)
     #cube-back
-        transform: rotateX(180deg) translateZ(112px)
-        // transform: rotateY(180deg) translateZ(122px)
+        transform: rotateX(180deg) translateZ(cube-size * 0.5)
     #cube-right
-        transform: rotateY(90deg) translateZ(112px)
-        // transform: rotateY(90deg) translateZ(122px)
+        transform: rotateY(90deg) translateZ(cube-size * 0.5)
     #cube-left
-        transform: rotateY(-90deg) translateZ(112px)
-        // transform: rotateY(-90deg) translateZ(122px)
+        transform: rotateY(-90deg) translateZ(cube-size * 0.5)
     #cube-top
-        transform: rotateX(90deg) translateZ(112px)
-        // transform: rotateY(90deg) translateZ(122px)
+        transform: rotateX(90deg) translateZ(cube-size * 0.5)
     #cube-bottom
-        transform: rotateX(-90deg) translateZ(112px)
-        // transform: rotateY(-90deg) translateZ(122px)
+        transform: rotateX(-90deg) translateZ(cube-size * 0.5)
 
     #sustsol-cube-image
         background-image: url("/img/sustsol_logo.png")
@@ -154,37 +159,37 @@
 /*=========================================================*/
 .add-code
     #cube
-        transform scale(0.83) rotateX(90deg)
+        transform scale(corrrectionScale) rotateX(90deg)
 
 .request-code
     #cube
-        transform scale(0.83) rotateX(180deg) rotateY(0deg)
+        transform scale(corrrectionScale) rotateX(180deg) rotateY(0deg)
 
 
 /*=========================================================*/
 .user-images.position--1
     #cube
-        transform scale(0.83) rotateX(180deg) rotateY(-90deg)
+        transform scale(corrrectionScale) rotateX(180deg) rotateY(-90deg)
 
 .user-images.position-0
     #cube
-        transform scale(0.83) rotateX(180deg) rotateY(0deg)
+        transform scale(corrrectionScale) rotateX(180deg) rotateY(0deg)
 
 .user-images.position-1
     #cube
-        transform scale(0.83) rotateX(180deg) rotateY(90deg)
+        transform scale(corrrectionScale) rotateX(180deg) rotateY(90deg)
 
 .user-images.position-2
     #cube
-        transform scale(0.83) rotateX(180deg) rotateY(180deg)
+        transform scale(corrrectionScale) rotateX(180deg) rotateY(180deg)
 
 .user-images.position-3
     #cube
-        transform scale(0.83) rotateX(180deg) rotateY(270deg)
+        transform scale(corrrectionScale) rotateX(180deg) rotateY(270deg)
 
 .user-images.position-4
     #cube
-        transform scale(0.83) rotateX(180deg) rotateY(360deg)
+        transform scale(corrrectionScale) rotateX(180deg) rotateY(360deg)
 
 .user-images.no-transition
     #cube
@@ -193,29 +198,29 @@
 /*=========================================================*/
 .show-qr
     #cube
-        transform scale(0.83) rotateX(270deg)
+        transform scale(corrrectionScale) rotateX(270deg)
 
 .show-qr.position--1
     #cube
-        transform scale(0.83) rotateX(270deg) rotateY(-90deg)
+        transform scale(corrrectionScale) rotateX(270deg) rotateY(-90deg)
 
 .show-qr.position-0
     #cube
-        transform scale(0.83) rotateX(270deg) rotateY(0deg)
+        transform scale(corrrectionScale) rotateX(270deg) rotateY(0deg)
 
 .show-qr.position-1
     #cube
-        transform scale(0.83) rotateX(270deg) rotateY(90deg)
+        transform scale(corrrectionScale) rotateX(270deg) rotateY(90deg)
 
 .show-qr.position-2
     #cube
-        transform scale(0.83) rotateX(270deg) rotateY(180deg)
+        transform scale(corrrectionScale) rotateX(270deg) rotateY(180deg)
 
 .show-qr.position-3
     #cube
-        transform scale(0.83) rotateX(270deg) rotateY(270deg)
+        transform scale(corrrectionScale) rotateX(270deg) rotateY(270deg)
 
 .show-qr.position-4
     #cube
-        transform scale(0.83) rotateX(270deg) rotateY(360deg)
+        transform scale(corrrectionScale) rotateX(270deg) rotateY(360deg)
         

@@ -2,11 +2,12 @@
 export dataEndpointURL =  "https://www.bilder-befunde.at/pwa-api/api/v1/data/" # parameter -> geb + code
 export screeningsEndpointURL = "https://www.bilder-befunde.at/pwa-api/api/v1/studies/" # parameter -> geb + code
 export loginURL = "https://www.bilder-befunde.at/pwa-api/api/v1/credentials/"
+export logoutURL = "https://www.bilder-befunde.at/pwa-api/api/v1/logout/"
 export codeRequestURL = "https://www.bilder-befunde.at/pwa-api/api/v1/request-code/"
 
 export desktopLoginURL = "https://www.bilder-befunde.at/pwa-api/api/v1/desktop-login/"
 
-export appVersion = "v0.1.10"
+export appVersion = "v0.1.11"
 
 ## not used now
 export qrURLBase = "https://pwa.bilder-befunde.at/#"
