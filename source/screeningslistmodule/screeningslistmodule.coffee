@@ -67,7 +67,7 @@ screeningClicked = (evnt) ->
     log "screeningClicked"
     evnt.preventDefault()
     href = this.getAttribute("href")
-    window.open(href)
+    window.open("#{href}&app=pwa_patient")
     return
 
 ############################################################
