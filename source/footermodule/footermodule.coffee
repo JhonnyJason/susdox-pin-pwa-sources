@@ -94,10 +94,12 @@ export reset = ->
 
 export hide = ->
     footer.classList.add("hidden")
+    realBody.classList.add("no-footer")
     return
 
 export show = ->
     footer.classList.remove("hidden")
+    realBody.classList.remove("no-footer")
     return
 
 #endregion

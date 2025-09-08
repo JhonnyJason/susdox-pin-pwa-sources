@@ -3,10 +3,26 @@ include ../preloadermodule/preloader-mixins.pug
 
 .hidden-templates 
     #screening-button-template 
-        a.screening-button.click-button(href="{{{url}}}")
-            .screening-description {{{description}}}
-            .screening-date {{{date}}}
-            svg.screening-chevron: use(href="#svg-chevron-right-icon")
+        //- a.screening-button.click-button(href="{{{url}}}")
+        //-     .screening-description {{{description}}}
+        //-     .screening-date {{{date}}}
+        //-     svg.screening-chevron: use(href="#svg-chevron-right-icon")
+        .screening-element
+            .header
+                .screening-description {{{description}}}
+                .screening-date {{{date}}}
+            | {{#reportURL}}
+            a.report-button.click-button(href="{{{reportURL}}}")
+                svg.screening-button-icon: use(href="#svg-report-icon")
+                | #{content.reportButtonText}
+                svg.screening-chevron: use(href="#svg-chevron-right-icon")
+            | {{/reportURL}}
+            | {{#imageURL}}
+            a.images-button.click-button(href="{{{imageURL}}}")
+                svg.screening-button-icon: use(href="#svg-images-icon")
+                | #{content.imagesButtonText}
+                svg.screening-chevron: use(href="#svg-chevron-right-icon")
+            | {{/imageURL}}
 
     #no-screenings-template 
         .screenings-info!=content.noScreeningsInfoText 

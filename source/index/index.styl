@@ -23,6 +23,11 @@
     grid-template-columns: 1fr
     grid-template-rows: header-height auto footer-height
 
+#real-body.no-footer
+    grid-template-rows: header-height auto 0
+
 @media miniscreen
     #real-body
         grid-template-rows: smaller-header-height auto smaller-footer-height
+    #real-body.no-footer
+        grid-template-rows: smaller-header-height auto 0

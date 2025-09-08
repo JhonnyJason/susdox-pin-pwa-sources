@@ -73,5 +73,11 @@ else if containsCRIOS and containsSafari then env.browser = "chrome"
 else if containsSafari then env.browser = "safari"
 else env.browser = "other"
 
+# dectect testing
+if window.location.href.indexOf("-dev.") > 0
+    env.os = "android"
+    env.isMobile = true
+    env.isDesktop = false
+
 ############################################################
 # console.log(env)
